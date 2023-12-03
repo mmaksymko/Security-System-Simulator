@@ -5,5 +5,6 @@ public enum EventType {
     FLOODING,
     GAS_LEAK,
     MOTION,
-    OPENED_WINDOW
+    OPENED_WINDOW,
+    OPENED_DOOR
 }

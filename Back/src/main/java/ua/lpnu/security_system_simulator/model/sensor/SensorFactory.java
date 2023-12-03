@@ -12,6 +12,7 @@ public class SensorFactory {
             case GAS_LEAK -> new GasLeakSensor(coverageArea);
             case MOTION -> new MotionSensor(coverageArea);
             case OPENED_WINDOW -> new OpenedWindowSensor(coverageArea);
+            case OPENED_DOOR -> new OpenedDoorSensor(coverageArea);
             case null -> null;
         };
     }

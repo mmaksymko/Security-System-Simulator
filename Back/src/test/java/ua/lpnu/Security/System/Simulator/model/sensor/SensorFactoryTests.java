@@ -38,6 +38,15 @@ public class SensorFactoryTests {
         Assertions.assertEquals(new OpenedWindowSensor(Integer.MAX_VALUE-1), sensorFactory.createSensor(EventType.OPENED_WINDOW, Integer.MAX_VALUE-1));
         Assertions.assertEquals(new OpenedWindowSensor(1), sensorFactory.createSensor(EventType.OPENED_WINDOW, 1));
     }
+
+    @Test
+    public void sensorFactoryReturnsCorrectOpenedDoorSensor(){
+        Assertions.assertEquals(new OpenedDoorSensor(15), sensorFactory.createSensor(EventType.OPENED_DOOR, 15));
+        Assertions.assertEquals(new OpenedDoorSensor(Integer.MAX_VALUE), sensorFactory.createSensor(EventType.OPENED_DOOR, Integer.MAX_VALUE));
+        Assertions.assertEquals(new OpenedDoorSensor(Integer.MAX_VALUE-1), sensorFactory.createSensor(EventType.OPENED_DOOR, Integer.MAX_VALUE-1));
+        Assertions.assertEquals(new OpenedDoorSensor(1), sensorFactory.createSensor(EventType.OPENED_DOOR, 1));
+    }
+
     @Test
     public void sensorFactoryReturnsCorrectGasLeakSensor(){
         Assertions.assertEquals(new GasLeakSensor(15), sensorFactory.createSensor(EventType.GAS_LEAK, 15));

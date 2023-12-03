@@ -26,6 +26,12 @@ public class SensorsTests {
         Assertions.assertEquals(Integer.MAX_VALUE, new OpenedWindowSensor(Integer.MAX_VALUE).getCoverageArea());
         Assertions.assertEquals(Integer.MAX_VALUE - 1, new OpenedWindowSensor(Integer.MAX_VALUE - 1).getCoverageArea());
     }
+    @Test
+    public void openedDoorWithCorrectParametersCreatedCorrectly() {
+        Assertions.assertEquals(1, new OpenedDoorSensor(1).getCoverageArea());
+        Assertions.assertEquals(Integer.MAX_VALUE, new OpenedDoorSensor(Integer.MAX_VALUE).getCoverageArea());
+        Assertions.assertEquals(Integer.MAX_VALUE - 1, new OpenedDoorSensor(Integer.MAX_VALUE - 1).getCoverageArea());
+    }
 
     @Test
     public void gasLeakWithCorrectParametersCreatedCorrectly() {
@@ -64,7 +70,13 @@ public class SensorsTests {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedWindowSensor(Integer.MIN_VALUE + 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedWindowSensor(Integer.MIN_VALUE));
     }
-
+    @Test
+    public void creatingOpenedDoorWithIncorrectParametersThrowsIllegalArgumentException() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedDoorSensor(0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedDoorSensor(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedDoorSensor(Integer.MIN_VALUE + 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedDoorSensor(Integer.MIN_VALUE));
+    }
     @Test
     public void creatingGasLeakWithIncorrectParametersThrowsIllegalArgumentException() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new GasLeakSensor(0));
@@ -103,6 +115,13 @@ public class SensorsTests {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedWindowSensor(1).setCoverageArea(Integer.MIN_VALUE));
     }
     @Test
+    public void settingOpenedDoorSensorCoverageAreaWithIncorrectParametersThrowsIllegalArgumentException() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedDoorSensor(1).setCoverageArea(0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedDoorSensor(1).setCoverageArea(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedDoorSensor(1).setCoverageArea(Integer.MIN_VALUE+1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new OpenedDoorSensor(1).setCoverageArea(Integer.MIN_VALUE));
+    }
+    @Test
     public void settingGasLeakSensorCoverageAreaWithIncorrectParametersThrowsIllegalArgumentException() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new GasLeakSensor(1).setCoverageArea(0));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new GasLeakSensor(1).setCoverageArea(-1));
@@ -128,6 +147,10 @@ public class SensorsTests {
     @Test
     public void openedWindowSensorReturnsCorrectEventType(){
         Assertions.assertEquals(EventType.OPENED_WINDOW, new OpenedWindowSensor(1).getType());
+    }
+    @Test
+    public void openedDoorSensorReturnsCorrectEventType(){
+        Assertions.assertEquals(EventType.OPENED_DOOR, new OpenedDoorSensor(1).getType());
     }
     @Test
     public void gasLeakSensorReturnsCorrectEventType(){
