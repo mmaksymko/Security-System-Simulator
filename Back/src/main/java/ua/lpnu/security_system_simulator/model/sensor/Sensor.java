@@ -4,12 +4,15 @@ package ua.lpnu.security_system_simulator.model.sensor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.lpnu.security_system_simulator.model.event.EventType;
+import ua.lpnu.security_system_simulator.model.sensor.observer.Observer;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class Sensor {
 
     private int coverageArea;
+    private ArrayList<Observer> observers;
 
     public abstract void triggerEvent();
     public abstract EventType getType();
