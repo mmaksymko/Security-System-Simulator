@@ -5,6 +5,8 @@ import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 public class Room implements BuildingComponent {
     private final RoomType roomType;
     private final int roomNumber;
@@ -96,5 +98,18 @@ public class Room implements BuildingComponent {
     @Override
     public String toString(){
         return "Room №" + roomNumber + " with " + sensorCount() + " sensors";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return roomNumber == room.roomNumber && area == room.area && windows == room.windows && doors == room.doors && roomType == room.roomType && Objects.equals(sensors, room.sensors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roomType, roomNumber, area, windows, doors, sensors);
     }
 }

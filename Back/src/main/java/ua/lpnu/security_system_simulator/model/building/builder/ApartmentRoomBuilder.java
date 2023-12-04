@@ -9,6 +9,8 @@ import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.lang.Math.round;
+
 public class ApartmentRoomBuilder implements Builder{
     private RoomType roomType;
     private int roomNumber;
@@ -75,7 +77,11 @@ public class ApartmentRoomBuilder implements Builder{
 
     @Override
     public void addSensor(Sensor sensor) {
-        for(int i = 0; i < area / sensor.getCoverageArea(); ++i){
+        int totalNumberOfSensors = Math.round((float) area / sensor.getCoverageArea());
+        if(totalNumberOfSensors == 0){
+            totalNumberOfSensors = 1;
+        }
+        for(int i = 0; i < totalNumberOfSensors; ++i){
             this.sensors.add(sensor);
         }
     }
