@@ -85,7 +85,7 @@ public class Room implements BuildingComponent {
     }
 
     public void setDoors(int doors) throws IllegalArgumentException {
-        if (windows <= 0){
+        if (doors <= 0){
             throw new IllegalArgumentException("Invalid doors quantity");
         }
         this.doors = doors;
