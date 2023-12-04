@@ -62,7 +62,12 @@ public class SensorFactoryTests {
         Assertions.assertEquals(new MotionSensor(1), sensorFactory.createSensor(EventType.MOTION, 1));
     }
     @Test
-    public void sensorFactoryReturnsNullWhenParamIsNull(){
-        Assertions.assertNull(sensorFactory.createSensor(null, 15));
+    public void sensorFactoryReturnsNullWhenEventTypeIsNull(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> sensorFactory.createSensor(null, 15));
+    }
+
+    @Test
+    public void sensorFactoryReturnsNullWhenCoverageAreaIsNegative(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> sensorFactory.createSensor(EventType.FIRE, -15));
     }
 }
