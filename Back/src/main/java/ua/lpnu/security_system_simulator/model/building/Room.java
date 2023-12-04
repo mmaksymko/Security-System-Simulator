@@ -4,29 +4,27 @@ import ua.lpnu.security_system_simulator.model.event.EventType;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 public class Room implements BuildingComponent {
-    private int roomNumber;
-    private int area;
-    private int windows;
-    private int doors;
-    private List<Sensor> sensors;
-    public Room(){
-        windows = 0;
-        doors = 0;
-    }
+    private final RoomType roomType;
+    private final int roomNumber;
+    private final int area;
+    private final int windows;
+    private final int doors;
+    private final List<Sensor> sensors;
 
-    public Room(int roomNumber, int area, int windows, int doors) {
+
+
+    public Room(RoomType roomType, int roomNumber, int area, int windows, int doors, List<Sensor> sensors) {
         if (roomNumber < 0 || area <= 0 || windows < 0 || doors < 0){
             throw new IllegalArgumentException("Invalid room parameters");
         }
-
+        this.roomType = roomType;
         this.roomNumber = roomNumber;
         this.area = area;
         this.windows = windows;
         this.doors = doors;
-        sensors = new LinkedList<>();
+        this.sensors = sensors;
     }
 
     @Override
@@ -63,26 +61,6 @@ public class Room implements BuildingComponent {
 
     public int getDoors() {
         return doors;
-    }
-
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public void setArea(int area) {
-        this.area = area;
-    }
-
-    public void addWindows(int windows) {
-        this.windows += windows;
-    }
-
-    public void addDoors(int doors) {
-        this.doors += doors;
-    }
-
-    public void setSensors(List<Sensor> sensors) {
-        this.sensors = sensors;
     }
 
     private boolean validateSensorCount(Sensor sensor) {
