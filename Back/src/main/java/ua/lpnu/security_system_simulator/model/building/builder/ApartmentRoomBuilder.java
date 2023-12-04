@@ -45,13 +45,13 @@ public class ApartmentRoomBuilder implements Builder{
     public void setWindows(int numberOfWindows) throws Exception{
         int minWindowCount = area / 18;
         int maxWindowCount = area / 10;
-        if(numberOfWindows < minWindowCount && numberOfWindows > maxWindowCount){
+        if(area == 0){
+            throw new NullPointerException("An area must be set first");
+        }
+        if(numberOfWindows < minWindowCount || numberOfWindows > maxWindowCount){
             throw new IllegalArgumentException("Number of windows must be in bounds of ["
                     + minWindowCount + "; "
                     + maxWindowCount + "].");
-        }
-        if(area == 0){
-            throw new NullPointerException("An area must be set first");
         }
         this.windows = numberOfWindows;
         for(int i = 0; i < numberOfWindows; ++i){
@@ -81,8 +81,10 @@ public class ApartmentRoomBuilder implements Builder{
     }
 
     @Override
-    public Room getResult() {
-        //TODO exceptions for absent door
+    public Room getResult() throws Exception{
+        if(doors <= 0){
+            throw new Exception("Cannot get room without a door");
+        }
         return new Room(roomType, roomNumber, area, windows, doors, sensors);
     }
 }

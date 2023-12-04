@@ -4,6 +4,7 @@ import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
+//TODO manual room builder????
 public interface Builder {
     public void setRoomType(RoomType roomType);
     public void setArea(int area) throws Exception;
@@ -11,5 +12,5 @@ public interface Builder {
     public void setWindows(int numberOfWindows) throws Exception;
     public void setDoors(int numberOfDoors) throws Exception;
     public void addSensor(Sensor sensor) throws Exception;
-    public Room getResult();
+    public Room getResult() throws Exception;
 }
