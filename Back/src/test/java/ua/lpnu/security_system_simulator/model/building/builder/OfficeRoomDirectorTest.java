@@ -37,7 +37,7 @@ class OfficeRoomDirectorTest {
         expectedSensors.add(new MotionSensor(10));
         expectedSensors.add(new MotionSensor(10));
         Room expected = new Room(RoomType.OFFICE_ROOM, 10, 60, 6, 2, expectedSensors);
-        OfficeRoomDirector director = new OfficeRoomDirector();
+        RoomDirector director = new RoomDirector();
         OfficeRoomBuilder builder = new OfficeRoomBuilder();
         director.constructBigOfficeRoom(builder);
         Room actual = builder.getResult();
@@ -52,7 +52,7 @@ class OfficeRoomDirectorTest {
         expectedSensors.add(new GasLeakSensor(20));
         expectedSensors.add(new MotionSensor(10));
         Room expected = new Room(RoomType.OFFICE_ROOM, 11, 10, 0, 1, expectedSensors);
-        OfficeRoomDirector director = new OfficeRoomDirector();
+        RoomDirector director = new RoomDirector();
         OfficeRoomBuilder builder = new OfficeRoomBuilder();
         director.constructSmallOfficeRoom(builder);
         Room actual = builder.getResult();
@@ -72,7 +72,7 @@ class OfficeRoomDirectorTest {
         expectedSensors.add(new MotionSensor(10));
         expectedSensors.add(new MotionSensor(10));
         Room expected = new Room(RoomType.OFFICE_RESTROOM, 12, 30, 0, 1, expectedSensors);
-        OfficeRoomDirector director = new OfficeRoomDirector();
+        RoomDirector director = new RoomDirector();
         OfficeRoomBuilder builder = new OfficeRoomBuilder();
         director.constructOfficeRestroom(builder);
         Room actual = builder.getResult();
@@ -95,7 +95,7 @@ class OfficeRoomDirectorTest {
         expectedSensors.add(new MotionSensor(10));
         expectedSensors.add(new MotionSensor(10));
         Room expected = new Room(RoomType.KITCHEN, 13, 30, 3, 1, expectedSensors);
-        OfficeRoomDirector director = new OfficeRoomDirector();
+        RoomDirector director = new RoomDirector();
         OfficeRoomBuilder builder = new OfficeRoomBuilder();
         director.constructOfficeKitchen(builder);
         Room actual = builder.getResult();
