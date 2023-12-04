@@ -12,7 +12,6 @@ public class OpenableEvent extends Event{
         var sensors = getLocation().getAllSensorsOfType(getEventType());
         if (random.nextDouble(0, 1) < (double) sensors.size() / super.getLocation().getWindows()){
             sensors.get(random.nextInt(0,sensors.size())).triggerEvent();
-
         }
     }
 }
