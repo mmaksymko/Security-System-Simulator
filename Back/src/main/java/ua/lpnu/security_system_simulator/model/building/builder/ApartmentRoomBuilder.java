@@ -2,19 +2,21 @@ package ua.lpnu.security_system_simulator.model.building.builder;
 
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
+import ua.lpnu.security_system_simulator.model.sensor.OpenedDoorSensor;
+import ua.lpnu.security_system_simulator.model.sensor.OpenedWindowSensor;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class RoomBuilder implements Builder{
+public class ApartmentRoomBuilder implements Builder{
     private RoomType roomType;
     private int roomNumber;
     private int area;
     private int windows;
     private int doors;
     private List<Sensor> sensors;
-    RoomBuilder(){
+    ApartmentRoomBuilder(){
         sensors = new LinkedList<>();
     }
 
@@ -41,13 +43,20 @@ public class RoomBuilder implements Builder{
 
     @Override
     public void setWindows(int numberOfWindows) throws Exception{
-        if(numberOfWindows < 0){
-            throw new IllegalArgumentException("Number of windows cannot be less than 0.");
+        int minWindowCount = area / 18;
+        int maxWindowCount = area / 10;
+        if(numberOfWindows < minWindowCount && numberOfWindows > maxWindowCount){
+            throw new IllegalArgumentException("Number of windows must be in bounds of ["
+                    + minWindowCount + "; "
+                    + maxWindowCount + "].");
         }
         if(area == 0){
             throw new NullPointerException("An area must be set first");
         }
         this.windows = numberOfWindows;
+        for(int i = 0; i < numberOfWindows; ++i){
+            sensors.add(new OpenedWindowSensor(2));
+        }
     }
 
     @Override
@@ -59,11 +68,16 @@ public class RoomBuilder implements Builder{
             throw new NullPointerException("An area must be set first");
         }
         this.doors = numberOfDoors;
+        for(int i = 0; i < numberOfDoors; ++i){
+            sensors.add(new OpenedDoorSensor(2));
+        }
     }
 
     @Override
     public void addSensor(Sensor sensor) {
-        this.sensors.add(sensor);
+        for(int i = 0; i < area / sensor.getCoverageArea(); ++i){
+            this.sensors.add(sensor);
+        }
     }
 
     @Override
