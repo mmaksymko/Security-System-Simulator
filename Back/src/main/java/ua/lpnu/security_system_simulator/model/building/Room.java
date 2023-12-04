@@ -63,7 +63,7 @@ public class Room implements BuildingComponent {
     }
 
     public void setRoomNumber(int roomNumber) throws IllegalArgumentException {
-        if (area < 0){
+        if (roomNumber < 0){
             throw new IllegalArgumentException("Invalid room number");
         }
         this.roomNumber = roomNumber;
