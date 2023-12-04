@@ -1,6 +1,7 @@
 package ua.lpnu.security_system_simulator.model.building.build;
 
 import ua.lpnu.security_system_simulator.model.building.Room;
+import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 public class ApartmentRoomBuilder implements RoomBuilder {
     private Room result;
@@ -10,23 +11,23 @@ public class ApartmentRoomBuilder implements RoomBuilder {
     }
     @Override
     public void setArea(int area) {
-        result.se
+        result.setArea(area);
     }
     @Override
-    public void setRoomNumber(int area) {
-
+    public void setRoomNumber(int roomNumber) {
+        result.setRoomNumber(roomNumber);
     }
     @Override
-    public void addWindow() {
-
+    public void addWindow(int numberOfWindows) {
+        result.addWindows(numberOfWindows);
     }
     @Override
-    public void addDoor() {
-
+    public void addDoor(int numberOfDoors) {
+        result.addDoors(numberOfDoors);
     }
     @Override
-    public void addSensor() {
-
+    public void addSensor(Sensor sensor) {
+        result.addSensor(sensor);
     }
     @Override
     public Room getResult() {

@@ -12,6 +12,10 @@ public class Room implements BuildingComponent {
     private int windows;
     private int doors;
     private List<Sensor> sensors;
+    public Room(){
+        windows = 0;
+        doors = 0;
+    }
 
     public Room(int roomNumber, int area, int windows, int doors) {
         if (roomNumber < 0 || area <= 0 || windows < 0 || doors < 0){
@@ -69,12 +73,12 @@ public class Room implements BuildingComponent {
         this.area = area;
     }
 
-    public void setWindows(int windows) {
-        this.windows = windows;
+    public void addWindows(int windows) {
+        this.windows += windows;
     }
 
-    public void setDoors(int doors) {
-        this.doors = doors;
+    public void addDoors(int doors) {
+        this.doors += doors;
     }
 
     public void setSensors(List<Sensor> sensors) {
