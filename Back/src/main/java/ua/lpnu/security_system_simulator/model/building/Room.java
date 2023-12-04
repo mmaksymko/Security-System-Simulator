@@ -6,15 +6,12 @@ import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 public class Room implements BuildingComponent {
-
-    private final int roomNumber;
-    private final int area;
-    private final int windows;
-    private final int doors;
-
-    private final List<Sensor> sensors;
+    private int roomNumber;
+    private int area;
+    private int windows;
+    private int doors;
+    private List<Sensor> sensors;
 
     public Room(int roomNumber, int area, int windows, int doors) {
         if (roomNumber < 0 || area <= 0 || windows < 0 || doors < 0){
@@ -62,6 +59,26 @@ public class Room implements BuildingComponent {
 
     public int getDoors() {
         return doors;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
+    }
+
+    public void setWindows(int windows) {
+        this.windows = windows;
+    }
+
+    public void setDoors(int doors) {
+        this.doors = doors;
+    }
+
+    public void setSensors(List<Sensor> sensors) {
+        this.sensors = sensors;
     }
 
     private boolean validateSensorCount(Sensor sensor) {
