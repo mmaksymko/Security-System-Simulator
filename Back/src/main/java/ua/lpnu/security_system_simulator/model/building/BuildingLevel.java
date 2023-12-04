@@ -1,16 +1,20 @@
 package ua.lpnu.security_system_simulator.model.building;
 
-import java.util.ArrayList;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
-// @Component
+@Document
 public class BuildingLevel implements BuildingComponent {
 
-    private final List<BuildingComponent> components;
+    private List<BuildingComponent> components;
 
     public BuildingLevel() {
-        this.components = new ArrayList<>();
+        this(new LinkedList<>());
+    }
+    public BuildingLevel(List<BuildingComponent> components) {
+        this.components = components;
     }
 
     @Override
