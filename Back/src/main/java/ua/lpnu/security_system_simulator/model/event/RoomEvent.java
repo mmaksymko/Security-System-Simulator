@@ -11,14 +11,14 @@ public class RoomEvent extends Event {
 
     @Override
     public void start() {
-        var sensors = location.getAllSensorsOfType(eventType);
+        var sensors = getLocation().getAllSensorsOfType(getEventType());
 
-        if(random.nextDouble(0,1) < (double) getCoverageArea() / location.getArea()){
+        if(random.nextDouble(0,1) < (double) getCoverageArea() / getLocation().getArea()){
             sensors.get(random.nextInt(0,sensors.size())).triggerEvent();
         }
     }
 
     public int getCoverageArea(){
-        return Math.min(location.getAllSensorsOfType(eventType).stream().mapToInt(Sensor::getCoverageArea).sum(), location.getArea());
+        return Math.min(getLocation().getAllSensorsOfType(getEventType()).stream().mapToInt(Sensor::getCoverageArea).sum(), getLocation().getArea());
     }
 }

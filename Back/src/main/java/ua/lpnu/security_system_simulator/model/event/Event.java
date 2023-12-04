@@ -5,10 +5,10 @@ import ua.lpnu.security_system_simulator.model.building.Room;
 import java.util.Random;
 
 public abstract class Event {
-    protected Room location;
-    protected DangerLevel dangerLevel;
-    protected final EventType eventType;
-    protected Random random;
+    private Room location;
+    private DangerLevel dangerLevel;
+    private final EventType eventType;
+    protected final Random random;
 
     public Event(EventType eventType, Room location, DangerLevel dangerLevel) {
         this.eventType = eventType;

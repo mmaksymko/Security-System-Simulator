@@ -9,7 +9,7 @@ public class OpenableEvent extends Event{
 
     @Override
     public void start() {
-        var sensors = location.getAllSensorsOfType(eventType);
+        var sensors = getLocation().getAllSensorsOfType(getEventType());
         if (random.nextDouble(0, 1) < (double) sensors.size() / super.getLocation().getWindows()){
             sensors.get(random.nextInt(0,sensors.size())).triggerEvent();
 
