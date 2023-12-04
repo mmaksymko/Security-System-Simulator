@@ -3,6 +3,7 @@ package ua.lpnu.Security.System.Simulator.model.building;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ua.lpnu.security_system_simulator.model.building.Room;
+import ua.lpnu.security_system_simulator.model.building.RoomType;
 import ua.lpnu.security_system_simulator.model.event.EventType;
 import ua.lpnu.security_system_simulator.model.sensor.*;
 
@@ -12,18 +13,18 @@ import java.util.List;
 public class RoomTests {
     @Test
     public void constructionWithInvalidParameters_ThrowsIllegalArgumentException(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Room(-1,1,1,1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Room(0,0,0,0));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Room(1,1,-1,1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Room(1,1,1,-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Room(RoomType.APARTMENT_ROOM,-1,1,1,1, new ArrayList<Sensor>()));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Room(RoomType.APARTMENT_ROOM,0,0,0,0, new ArrayList<Sensor>()));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Room(RoomType.OFFICE_ROOM,1,1,-1,1,new ArrayList<Sensor>()));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Room(RoomType.OFFICE_ROOM,1,1,1,-1,new ArrayList<Sensor>()));
     }
 
     @Test
     public void constructionWithValidParameters_ReturnsRoom(){
-        Room room1 = new Room(0,1,0,0);
-        Room room2 = new Room(10,10,10,10);
-        Room room3 = new Room(Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE);
-        Room room4 = new Room(Integer.MAX_VALUE-1,Integer.MAX_VALUE-1,Integer.MAX_VALUE-1,Integer.MAX_VALUE-1);
+        Room room1 = new Room(RoomType.OFFICE_ROOM,0,1,0,0,new ArrayList<Sensor>());
+        Room room2 = new Room(RoomType.OFFICE_ROOM,10,10,10,10, new ArrayList<Sensor>());
+        Room room3 = new Room(RoomType.APARTMENT_ROOM,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE, new ArrayList<Sensor>());
+        Room room4 = new Room(RoomType.APARTMENT_ROOM,Integer.MAX_VALUE-1,Integer.MAX_VALUE-1,Integer.MAX_VALUE-1,Integer.MAX_VALUE-1, new ArrayList<Sensor>());
 
         Assertions.assertEquals(0, room1.getRoomNumber());
         Assertions.assertEquals(1, room1.getArea());
@@ -48,31 +49,31 @@ public class RoomTests {
 
     @Test
     public void addComponent_ThrowsUnsupportedOperationException(){
-        Room room = new Room(10,10,10,10);
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> room.addComponent(new Room(1,10,10,10)));
+        Room room = new Room(RoomType.APARTMENT_ROOM,10,10,10,10,new ArrayList<Sensor>());
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> room.addComponent(new Room(RoomType.APARTMENT_ROOM,1,10,10,10, new ArrayList<Sensor>())));
     }
 
     @Test
     public void removeComponent_ThrowsUnsupportedOperationException(){
-        Room room = new Room(10,10,10,10);
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> room.removeComponent(new Room(1,10,10,10)));
+        Room room = new Room(RoomType.OFFICE_RESTROOM,10,10,10,10, new ArrayList<Sensor>());
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> room.removeComponent(new Room(RoomType.OFFICE_ROOM,1,10,10,10, new ArrayList<Sensor>())));
     }
 
     @Test
     public void getComponents_ReturnsEmptyList(){
-        Room room = new Room(10,10,10,10);
+        Room room = new Room(RoomType.APARTMENT_ROOM,10,10,10,10, new ArrayList<Sensor>());
         Assertions.assertEquals(new ArrayList<>(), room.getComponents());
     }
 
     @Test
     public void getNumberOfComponents_Returns1(){
-        Room room = new Room(10,10,10,10);
+        Room room = new Room(RoomType.APARTMENT_ROOM,10,10,10,10, new ArrayList<Sensor>());
         Assertions.assertEquals(1, room.getNumberOfComponents());
     }
 
     @Test
     public void addingNotOpenableSensorForRoomWithNoOpenables_DoesNotThrow(){
-        Room room = new Room(10,10,0,0);
+        Room room = new Room(RoomType.OFFICE_ROOM,10,10,0,0, new ArrayList<Sensor>());
         Assertions.assertDoesNotThrow(() -> room.addSensor(new FireSensor(15)));
         Assertions.assertDoesNotThrow(() -> room.addSensor(new FloodingSensor(15)));
         Assertions.assertDoesNotThrow(() -> room.addSensor(new FloodingSensor(15)));
@@ -86,7 +87,7 @@ public class RoomTests {
 
     @Test
     public void addingNotOpenableSensorForRoomWithMaximumOpenables_DoesNotThrow(){
-        Room room = new Room(10,10,2,2);
+        Room room = new Room(RoomType.OFFICE_ROOM,10,10,2,2, new ArrayList<Sensor>());
         room.addSensor(new OpenedDoorSensor(15));
         room.addSensor(new OpenedDoorSensor(15));
         room.addSensor(new OpenedWindowSensor(10));
@@ -105,20 +106,20 @@ public class RoomTests {
 
     @Test
     public void addingOpenableSensorForRoomWithNoOpenables_ThrowsIllegalArgumentException(){
-        Room room = new Room(10,10,0,0);
+        Room room = new Room(RoomType.KITCHEN,10,10,0,0, new ArrayList<Sensor>());
         Assertions.assertThrows(IllegalArgumentException.class, () -> room.addSensor(new OpenedDoorSensor(15)));
         Assertions.assertThrows(IllegalArgumentException.class, () -> room.addSensor(new OpenedWindowSensor(10)));
     }
 
     @Test
     public void addingDoorSensorForRoomWithNoDoorsAndEnoughWindows_ThrowsIllegalArgumentException(){
-        Room room = new Room(10,10,10,0);
+        Room room = new Room(RoomType.APARTMENT_ROOM,10,10,10,0, new ArrayList<Sensor>());
         Assertions.assertThrows(IllegalArgumentException.class, () -> room.addSensor(new OpenedDoorSensor(15)));
     }
 
     @Test
     public void addingWindowSensorsForRoomWithNoDoorsAndNotMaximumWindows_DoesNotThrow(){
-        Room room = new Room(10,10,10,0);
+        Room room = new Room(RoomType.APARTMENT_ROOM,10,10,10,0, new ArrayList<Sensor>());
         for (int i = 0; i!=10; ++i){
             Assertions.assertDoesNotThrow(() -> room.addSensor(new OpenedWindowSensor(15)));
         }
@@ -126,7 +127,7 @@ public class RoomTests {
 
     @Test
     public void addingWindowSensorForRoomWithNoDoorsAndMaximumWindows_ThrowsIllegalArgumentException(){
-        Room room = new Room(10,10,10,0);
+        Room room = new Room(RoomType.OFFICE_ROOM,10,10,10,0,new ArrayList<Sensor>());
         for (int i = 0; i!=10; ++i){
             room.addSensor(new OpenedWindowSensor(15));
         }
@@ -135,13 +136,13 @@ public class RoomTests {
 
     @Test
     public void addingWindowSensorForRoomWithNoWindowsAndEnoughDoors_ThrowsIllegalArgumentException(){
-        Room room = new Room(10,10,0,10);
+        Room room = new Room(RoomType.OFFICE_ROOM,10,10,0,10, new ArrayList<Sensor>());
         Assertions.assertThrows(IllegalArgumentException.class, () -> room.addSensor(new OpenedWindowSensor(15)));
     }
 
     @Test
     public void addingDoorSensorsForRoomWithNoWindowsAndNotMaximumDoors_DoesNotThrow(){
-        Room room = new Room(10,10,0,10);
+        Room room = new Room(RoomType.APARTMENT_ROOM,10,10,0,10,new ArrayList<Sensor>());
         for (int i = 0; i!=10; ++i){
             Assertions.assertDoesNotThrow(() -> room.addSensor(new OpenedDoorSensor(15)));
         }
@@ -149,7 +150,7 @@ public class RoomTests {
 
     @Test
     public void addingDoorSensorForRoomWithNoWindowsAndMaximumDoors_ThrowsIllegalArgumentException(){
-        Room room = new Room(10,10,0,10);
+        Room room = new Room(RoomType.APARTMENT_ROOM,10,10,0,10,new ArrayList<Sensor>());
         for (int i = 0; i!=10; ++i){
             room.addSensor(new OpenedDoorSensor(15));
         }
@@ -158,7 +159,7 @@ public class RoomTests {
 
     @Test
     public void addSensor_AddsSensor(){
-        Room room = new Room(10,10,10,10);
+        Room room = new Room(RoomType.OFFICE_ROOM,10,10,10,10,new ArrayList<Sensor>());
 
         room.addSensor(new FireSensor(10));
         room.addSensor(new FireSensor(20));
@@ -170,7 +171,7 @@ public class RoomTests {
 
     @Test
     public void removeSensor_RemovesSensor(){
-        Room room = new Room(10,10,10,10);
+        Room room = new Room(RoomType.OFFICE_ROOM,10,10,10,10,new ArrayList<Sensor>());
 
         var sensor1 = new FireSensor(10);
         var sensor2 = new FireSensor(20);
@@ -190,7 +191,7 @@ public class RoomTests {
 
     @Test
     public void getAllSensorsOfType_ReturnsListOfAllSensorsOfType() {
-        Room room = new Room(10,10,10,10);
+        Room room = new Room(RoomType.APARTMENT_ROOM,10,10,10,10,new ArrayList<Sensor>());
 
         room.addSensor(new FireSensor(10));
         room.addSensor(new FireSensor(20));

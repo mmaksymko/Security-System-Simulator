@@ -26,7 +26,7 @@ public class RoomBuilder implements Builder{
     @Override
     public void setArea(int area) throws Exception{
         if(area <= 0){
-            throw new Exception("Area must be greater than 0.");
+            throw new IllegalArgumentException("Area must be greater than 0.");
         }
         this.area = area;
     }
@@ -34,7 +34,7 @@ public class RoomBuilder implements Builder{
     @Override
     public void setRoomNumber(int roomNumber) throws Exception{
         if(roomNumber <= 0){
-            throw new Exception("Room number must be greater than 0.");
+            throw new IllegalArgumentException("Room number must be greater than 0.");
         }
         this.roomNumber = roomNumber;
     }
@@ -42,7 +42,10 @@ public class RoomBuilder implements Builder{
     @Override
     public void setWindows(int numberOfWindows) throws Exception{
         if(numberOfWindows < 0){
-            throw new Exception("Number of windows cannot be less than 0.");
+            throw new IllegalArgumentException("Number of windows cannot be less than 0.");
+        }
+        if(area == 0){
+            throw new NullPointerException("An area must be set first");
         }
         this.windows = numberOfWindows;
     }
@@ -50,7 +53,10 @@ public class RoomBuilder implements Builder{
     @Override
     public void setDoors(int numberOfDoors) throws Exception{
         if(numberOfDoors < 1){
-            throw new Exception("There must be at least one door.");
+            throw new IllegalArgumentException("There must be at least one door.");
+        }
+        if(area == 0){
+            throw new NullPointerException("An area must be set first");
         }
         this.doors = numberOfDoors;
     }
@@ -62,6 +68,7 @@ public class RoomBuilder implements Builder{
 
     @Override
     public Room getResult() {
+        //TODO exceptions for absent door
         return new Room(roomType, roomNumber, area, windows, doors, sensors);
     }
 }

@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.building.Room;
+import ua.lpnu.security_system_simulator.model.building.RoomType;
+import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -46,15 +48,15 @@ public class BuildingIteratorTests {
 
         var level1 = new BuildingLevel();
         var level2 = new BuildingLevel();
-        var level2_sublevel1 = new Room(2, 2, 5, 1);
-        var level2_sublevel2 = new Room(4, 2, 5, 1);
+        var level2_sublevel1 = new Room(RoomType.APARTMENT_ROOM,2, 2, 5, 1, new ArrayList<Sensor>());
+        var level2_sublevel2 = new Room(RoomType.OFFICE_ROOM, 4, 2, 5, 1, new ArrayList<Sensor>());
         level2.addComponent(level2_sublevel1);
         level2.addComponent(level2_sublevel2);
         var level3 = new BuildingLevel();
-        var level4 = new Room(5, 2, 5, 1);
-        var level5 = new Room(1, 2, 5, 6);
+        var level4 = new Room(RoomType.APARTMENT_BATHROOM, 5, 2, 5, 1, new ArrayList<Sensor>());
+        var level5 = new Room(RoomType.KITCHEN, 1, 2, 5, 6, new ArrayList<Sensor>());
         var level6  = new BuildingLevel();
-        var level6_sublevel1 = new Room(7, 700, 5, 1);
+        var level6_sublevel1 = new Room(RoomType.APARTMENT_ROOM,7, 700, 5, 1, new ArrayList<Sensor>());
         level6.addComponent(level6_sublevel1);
 
         List<BuildingComponent> list = new LinkedList<>(List.of(
@@ -77,15 +79,15 @@ public class BuildingIteratorTests {
 
         var level1 = new BuildingLevel();
         var level2 = new BuildingLevel();
-        var level2_sublevel1 = new Room(2, 2, 5, 1);
-        var level2_sublevel2 = new Room(4, 2, 5, 1);
+        var level2_sublevel1 = new Room(RoomType.OFFICE_ROOM, 2, 2, 5, 1, new ArrayList<Sensor>());
+        var level2_sublevel2 = new Room(RoomType.OFFICE_ROOM,4, 2, 5, 1, new ArrayList<Sensor>());
         level2.addComponent(level2_sublevel1);
         level2.addComponent(level2_sublevel2);
         var level3 = new BuildingLevel();
-        var level4 = new Room(5, 2, 5, 1);
-        var level5 = new Room(1, 2, 5, 6);
+        var level4 = new Room(RoomType.KITCHEN, 5, 2, 5, 1, new ArrayList<Sensor>());
+        var level5 = new Room(RoomType.KITCHEN, 1, 2, 5, 6, new ArrayList<Sensor>());
         var level6  = new BuildingLevel();
-        var level6_sublevel1 = new Room(7, 700, 5, 1);
+        var level6_sublevel1 = new Room(RoomType.OFFICE_ROOM,7, 700, 5, 1,new ArrayList<Sensor>());
         level6.addComponent(level6_sublevel1);
 
         List<BuildingComponent> list = new LinkedList<>(List.of(
