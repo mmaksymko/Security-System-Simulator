@@ -2,6 +2,7 @@ package ua.lpnu.security_system_simulator.model.building.builder;
 
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
+import ua.lpnu.security_system_simulator.model.sensor.OpenedDoorSensor;
 import ua.lpnu.security_system_simulator.model.sensor.OpenedWindowSensor;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
@@ -68,13 +69,19 @@ public class OfficeRoomBuilder implements Builder{
         }
         this.doors = numberOfDoors;
         for(int i = 0; i < numberOfDoors; ++i){
-            sensors.add(new OpenedWindowSensor(5));
+            sensors.add(new OpenedDoorSensor(5));
         }
     }
 
     @Override
     public void addSensor(Sensor sensor) {
-        this.sensors.add(sensor);
+        int totalNumberOfSensors = Math.round((float) area / sensor.getCoverageArea());
+        if(totalNumberOfSensors == 0){
+            totalNumberOfSensors = 1;
+        }
+        for(int i = 0; i < totalNumberOfSensors; ++i){
+            this.sensors.add(sensor);
+        }
     }
 
     @Override
