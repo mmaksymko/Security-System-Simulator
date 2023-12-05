@@ -1,4 +1,4 @@
-package ua.lpnu.security_system_simulator.model.building.builder;
+package ua.lpnu.security_system_simulator.model.building.roomBuilder;
 
 import org.junit.jupiter.api.Test;
 

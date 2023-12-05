@@ -1,4 +1,4 @@
-package ua.lpnu.security_system_simulator.model.building.builder;
+package ua.lpnu.security_system_simulator.model.building.roomBuilder;
 
 import ua.lpnu.security_system_simulator.model.building.RoomType;
 import ua.lpnu.security_system_simulator.model.sensor.FireSensor;
