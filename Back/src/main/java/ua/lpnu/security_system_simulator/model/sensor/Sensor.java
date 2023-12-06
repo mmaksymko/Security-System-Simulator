@@ -20,7 +20,7 @@ public abstract class Sensor {
         this.eventType = eventType;
     }
 
-    public Sensor(int coverageArea) throws IllegalArgumentException{
+    public Sensor(int coverageArea, EventType eventType) throws IllegalArgumentException{
         if (coverageArea <= 0){
             throw new IllegalArgumentException("Coverage area can't be negative or 0");
         }
