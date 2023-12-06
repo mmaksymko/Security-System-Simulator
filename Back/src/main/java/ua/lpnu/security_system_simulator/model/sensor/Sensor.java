@@ -9,10 +9,16 @@ import java.util.Objects;
 
 public abstract class Sensor {
 
+    private EventType eventType;
     private int coverageArea;
 
     public abstract void triggerEvent();
-    public abstract EventType getType();
+    public EventType getType() {
+        return eventType;
+    }
+    public void setType(EventType eventType) {
+        this.eventType = eventType;
+    }
 
     public Sensor(int coverageArea) throws IllegalArgumentException{
         if (coverageArea <= 0){
@@ -20,6 +26,7 @@ public abstract class Sensor {
         }
 
         this.coverageArea = coverageArea;
+        this.eventType = eventType;
     }
 
     public void setCoverageArea(int coverageArea) throws IllegalArgumentException{
