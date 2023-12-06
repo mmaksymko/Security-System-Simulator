@@ -1,12 +1,12 @@
 package ua.lpnu.security_system_simulator.model.sensor;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import ua.lpnu.security_system_simulator.config.SensorDeserializer;
 import ua.lpnu.security_system_simulator.model.event.EventType;
 
 import java.util.Objects;
 
+@JsonDeserialize(using = SensorDeserializer.class)
 public abstract class Sensor {
 
     private EventType eventType;
