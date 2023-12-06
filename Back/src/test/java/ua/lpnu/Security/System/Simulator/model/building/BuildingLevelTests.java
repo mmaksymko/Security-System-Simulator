@@ -14,7 +14,7 @@ public class BuildingLevelTests {
     private final BuildingLevel level;
 
     public BuildingLevelTests() {
-        level = new BuildingLevel();
+        level = new BuildingLevel("level");
     }
 
     @Test
@@ -58,8 +58,8 @@ public class BuildingLevelTests {
 
     private List<BuildingComponent> getListOfComponents(){
         return new LinkedList<>(List.of(
-                new BuildingLevel(),
-                new BuildingLevel(),
+                new BuildingLevel("Level 1"),
+                new BuildingLevel("Level 2"),
                 new Room(5, 2, 5, 1),
                 new Room(1, 2, 5, 6)));
     }
