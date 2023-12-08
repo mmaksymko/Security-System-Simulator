@@ -4,31 +4,29 @@ import ua.lpnu.security_system_simulator.model.event.EventType;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Room implements BuildingComponent {
-    private int roomNumber;
-    private int area;
-    private int windows;
-    private int doors;
-    private List<Sensor> sensors;
+    private final RoomType roomType;
+    private final int roomNumber;
+    private final int area;
+    private final int windows;
+    private final int doors;
+    private final List<Sensor> sensors;
 
-    public Room(){
-        this.sensors = new LinkedList<>();
-    }
 
-    public Room(int roomNumber, int area, int windows, int doors) throws IllegalArgumentException {
-        if (roomNumber < 0 || area <= 0 || windows < 0 || doors <= 0){
+
+    public Room(RoomType roomType, int roomNumber, int area, int windows, int doors, List<Sensor> sensors) {
+        if (roomNumber < 0 || area <= 0 || windows < 0 || doors < 0){
             throw new IllegalArgumentException("Invalid room parameters");
         }
-
+        this.roomType = roomType;
         this.roomNumber = roomNumber;
         this.area = area;
         this.windows = windows;
         this.doors = doors;
-        sensors = new LinkedList<>();
+        this.sensors = sensors;
     }
 
     @Override
@@ -67,43 +65,6 @@ public class Room implements BuildingComponent {
         return doors;
     }
 
-    public void setRoomNumber(int roomNumber) throws IllegalArgumentException {
-        if (roomNumber < 0){
-            throw new IllegalArgumentException("Invalid room number");
-        }
-        this.roomNumber = roomNumber;
-    }
-
-    public void setArea(int area) throws IllegalArgumentException {
-        if (area <= 0){
-            throw new IllegalArgumentException("Invalid area");
-        }
-
-        this.area = area;
-    }
-
-    public void setWindows(int windows) throws IllegalArgumentException {
-        if (windows < 0){
-            throw new IllegalArgumentException("Invalid windows quantity");
-        }
-        this.windows = windows;
-    }
-
-    public void setDoors(int doors) throws IllegalArgumentException {
-        if (doors <= 0){
-            throw new IllegalArgumentException("Invalid doors quantity");
-        }
-        this.doors = doors;
-    }
-
-    public List<Sensor> getSensors() {
-        return Collections.unmodifiableList(sensors);
-    }
-
-    public void setSensors(List<Sensor> sensors) {
-        this.sensors = sensors;
-    }
-
     private boolean validateSensorCount(Sensor sensor) {
         EventType type = sensor.getType();
 
@@ -138,4 +99,19 @@ public class Room implements BuildingComponent {
     public String toString(){
         return "Room №" + roomNumber + " with " + sensorCount() + " sensors";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return roomNumber == room.roomNumber && area == room.area && windows == room.windows && doors == room.doors && roomType == room.roomType && Objects.equals(sensors, room.sensors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roomType, roomNumber, area, windows, doors, sensors);
+    }
 }
+
+
