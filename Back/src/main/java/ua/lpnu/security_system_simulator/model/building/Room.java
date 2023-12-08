@@ -1,23 +1,21 @@
 package ua.lpnu.security_system_simulator.model.building;
 
+import org.springframework.lang.NonNull;
 import ua.lpnu.security_system_simulator.model.event.EventType;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 public class Room implements BuildingComponent {
+    private int roomNumber;
+    private int area;
+    private int windows;
+    private int doors;
+    private List<Sensor> sensors;
 
-    private final int roomNumber;
-    private final int area;
-    private final int windows;
-    private final int doors;
-
-    private final List<Sensor> sensors;
-
-    public Room(int roomNumber, int area, int windows, int doors) {
-        if (roomNumber < 0 || area <= 0 || windows < 0 || doors < 0){
+    public Room(int roomNumber, int area, int windows, int doors) throws IllegalArgumentException {
+        if (roomNumber < 0 || area <= 0 || windows < 0 || doors <= 0){
             throw new IllegalArgumentException("Invalid room parameters");
         }
 
@@ -62,6 +60,39 @@ public class Room implements BuildingComponent {
 
     public int getDoors() {
         return doors;
+    }
+
+    public void setRoomNumber(int roomNumber) throws IllegalArgumentException {
+        if (roomNumber < 0){
+            throw new IllegalArgumentException("Invalid room number");
+        }
+        this.roomNumber = roomNumber;
+    }
+
+    public void setArea(int area) throws IllegalArgumentException {
+        if (area <= 0){
+            throw new IllegalArgumentException("Invalid area");
+        }
+
+        this.area = area;
+    }
+
+    public void setWindows(int windows) throws IllegalArgumentException {
+        if (windows < 0){
+            throw new IllegalArgumentException("Invalid windows quantity");
+        }
+        this.windows = windows;
+    }
+
+    public void setDoors(int doors) throws IllegalArgumentException {
+        if (doors <= 0){
+            throw new IllegalArgumentException("Invalid doors quantity");
+        }
+        this.doors = doors;
+    }
+
+    public void setSensors(List<Sensor> sensors) {
+        this.sensors = sensors;
     }
 
     private boolean validateSensorCount(Sensor sensor) {
