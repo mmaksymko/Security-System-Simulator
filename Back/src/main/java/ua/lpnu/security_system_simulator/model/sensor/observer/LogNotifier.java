@@ -6,6 +6,12 @@ import java.util.List;
 
 public class LogNotifier implements Observer{
     private List<Event> events;
+    public LogNotifier(List<Event> events){
+        this.events = events;
+    }
+    public LogNotifier(LogNotifier logNotifier){
+        this.events = logNotifier.events;
+    }
 
     @Override
     public void update(Event event) {

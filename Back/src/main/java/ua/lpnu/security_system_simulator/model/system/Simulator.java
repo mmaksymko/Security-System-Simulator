@@ -1,9 +1,6 @@
 package ua.lpnu.security_system_simulator.model.system;
 
-import ua.lpnu.security_system_simulator.model.event.Event;
-import ua.lpnu.security_system_simulator.model.event.EventFactory;
-import ua.lpnu.security_system_simulator.model.event.EventType;
-import ua.lpnu.security_system_simulator.model.event.RoomEvent;
+import ua.lpnu.security_system_simulator.model.sensor.observer.LogNotifier;
 
 public class Simulator {
     private SecuritySystem securitySystem;
