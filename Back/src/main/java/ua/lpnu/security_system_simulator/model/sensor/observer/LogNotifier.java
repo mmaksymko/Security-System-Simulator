@@ -2,10 +2,17 @@ package ua.lpnu.security_system_simulator.model.sensor.observer;
 
 import ua.lpnu.security_system_simulator.model.event.Event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LogNotifier implements Observer{
     private List<Event> events;
+    public LogNotifier(List<Event> events){
+        this.events = events;
+    }
+    public LogNotifier(LogNotifier logNotifier){
+        this.events = new ArrayList<>(logNotifier.events);
+    }
 
     @Override
     public void update(Event event) {
