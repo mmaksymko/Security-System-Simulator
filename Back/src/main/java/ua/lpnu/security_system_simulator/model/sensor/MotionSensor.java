@@ -4,16 +4,11 @@ import ua.lpnu.security_system_simulator.model.event.EventType;
 
 public class MotionSensor extends Sensor {
     public MotionSensor(int coverageArea){
-        super(coverageArea);
+        super(coverageArea, EventType.MOTION);
     }
 
     @Override
     public void triggerEvent() {
         // NOT IMPLEMENTED YET
-    }
-
-    @Override
-    public EventType getType() {
-        return EventType.MOTION;
     }
 }

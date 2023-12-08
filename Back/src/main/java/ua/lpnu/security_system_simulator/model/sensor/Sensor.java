@@ -1,25 +1,32 @@
 package ua.lpnu.security_system_simulator.model.sensor;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import ua.lpnu.security_system_simulator.config.SensorDeserializer;
 import ua.lpnu.security_system_simulator.model.event.EventType;
 
 import java.util.Objects;
 
+@JsonDeserialize(using = SensorDeserializer.class)
 public abstract class Sensor {
 
+    private EventType eventType;
     private int coverageArea;
 
     public abstract void triggerEvent();
-    public abstract EventType getType();
+    public EventType getType() {
+        return eventType;
+    }
+    public void setType(EventType eventType) {
+        this.eventType = eventType;
+    }
 
-    public Sensor(int coverageArea) throws IllegalArgumentException{
+    public Sensor(int coverageArea, EventType eventType) throws IllegalArgumentException{
         if (coverageArea <= 0){
             throw new IllegalArgumentException("Coverage area can't be negative or 0");
         }
 
         this.coverageArea = coverageArea;
+        this.eventType = eventType;
     }
 
     public void setCoverageArea(int coverageArea) throws IllegalArgumentException{
