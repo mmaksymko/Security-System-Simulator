@@ -3,7 +3,9 @@ package ua.lpnu.security_system_simulator.model.sensor;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import ua.lpnu.security_system_simulator.config.SensorDeserializer;
 import ua.lpnu.security_system_simulator.model.event.EventType;
+import ua.lpnu.security_system_simulator.model.sensor.observer.Observer;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 @JsonDeserialize(using = SensorDeserializer.class)
@@ -11,6 +13,7 @@ public abstract class Sensor {
 
     private EventType eventType;
     private int coverageArea;
+    private ArrayList<Observer> observers;
 
     public abstract void triggerEvent();
     public EventType getType() {
