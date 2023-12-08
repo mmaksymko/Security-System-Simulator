@@ -1,18 +1,23 @@
 package ua.lpnu.security_system_simulator.model.building;
 
-import org.springframework.lang.NonNull;
 import ua.lpnu.security_system_simulator.model.event.EventType;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
 public class Room implements BuildingComponent {
     private int roomNumber;
     private int area;
     private int windows;
     private int doors;
     private List<Sensor> sensors;
+
+    public Room(){
+        this.sensors = new LinkedList<>();
+    }
 
     public Room(int roomNumber, int area, int windows, int doors) throws IllegalArgumentException {
         if (roomNumber < 0 || area <= 0 || windows < 0 || doors <= 0){
@@ -89,6 +94,10 @@ public class Room implements BuildingComponent {
             throw new IllegalArgumentException("Invalid doors quantity");
         }
         this.doors = doors;
+    }
+
+    public List<Sensor> getSensors() {
+        return Collections.unmodifiableList(sensors);
     }
 
     public void setSensors(List<Sensor> sensors) {

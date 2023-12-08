@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @JsonDeserialize(using = BuildingLevelDeserializer.class)
+@Document(collection="buildings")
 public class BuildingLevel implements BuildingComponent {
     @Id
     private String id;
