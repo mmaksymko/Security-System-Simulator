@@ -1,0 +1,42 @@
+.logTableContainer {
+    height: 100%;
+}
+  
+.logTable {
+    background-color: white;
+    height: 100%;
+    border-collapse: collapse;
+}
+.columnFloor {
+    width: 60px;
+    border-right: 1px solid #ddd;
+
+}
+.columnRoom {
+    width: 60px;
+    border-right: 1px solid #ddd;
+
+}
+.columnSensor {
+    width: 100px;
+    border-right: 1px solid #ddd;
+
+}
+.columnTime {
+    width: 190px;
+}
+.logTable th,
+.logTable td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+.logTable tr > :last-child {
+    border-right: none;
+}
+
+.logTable th {
+  background-color: white;
+}
