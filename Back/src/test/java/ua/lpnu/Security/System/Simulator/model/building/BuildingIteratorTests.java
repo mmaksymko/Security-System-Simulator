@@ -14,13 +14,13 @@ public class BuildingIteratorTests {
 
     @Test
     public void depthFirstNextOnChildlessLevel_ReturnsItself(){
-        var level = new BuildingLevel();
+        var level = new BuildingLevel("Floor");
         var iterator = level.depthFirstSearch().iterator();
         Assertions.assertEquals(iterator.next(), level);
     }
     @Test
     public void depthFirstHasNextOnChildlessLevelAfterItself_ReturnsFalse(){
-        var level = new BuildingLevel();
+        var level = new BuildingLevel("Floor");
         var iterator = level.depthFirstSearch().iterator();
         iterator.next();
         Assertions.assertFalse(iterator.hasNext());
@@ -28,13 +28,13 @@ public class BuildingIteratorTests {
 
     @Test
     public void breadthFirstNextOnChildlessLevel_ReturnsItself(){
-        var level = new BuildingLevel();
+        var level = new BuildingLevel("Floor");
         var iterator = level.breadthFirstSearch().iterator();
         Assertions.assertEquals(iterator.next(), level);
     }
     @Test
     public void breadthFirstHasNextOnChildlessLevelAfterItself_ReturnsFalse(){
-       var level = new BuildingLevel();
+       var level = new BuildingLevel("Floor");
        var iterator = level.breadthFirstSearch().iterator();
        iterator.next();
        Assertions.assertFalse(iterator.hasNext());
@@ -42,18 +42,18 @@ public class BuildingIteratorTests {
 
     @Test
     public void depthFirstIteratingOnMultipleLevels_IteratesInCorrectOrder(){
-        var testedLevel = new BuildingLevel();
+        var testedLevel = new BuildingLevel("Building");
 
-        var level1 = new BuildingLevel();
-        var level2 = new BuildingLevel();
+        var level1 = new BuildingLevel("Floor 1");
+        var level2 = new BuildingLevel("Floor 2");
         var level2_sublevel1 = new Room(2, 2, 5, 1);
         var level2_sublevel2 = new Room(4, 2, 5, 1);
         level2.addComponent(level2_sublevel1);
         level2.addComponent(level2_sublevel2);
-        var level3 = new BuildingLevel();
+        var level3 = new BuildingLevel("Floor3");
         var level4 = new Room(5, 2, 5, 1);
         var level5 = new Room(1, 2, 5, 6);
-        var level6  = new BuildingLevel();
+        var level6  = new BuildingLevel("Floor4");
         var level6_sublevel1 = new Room(7, 700, 5, 1);
         level6.addComponent(level6_sublevel1);
 
@@ -73,18 +73,18 @@ public class BuildingIteratorTests {
 
     @Test
     public void breadthFirstIteratingOnMultipleLevels_IteratesInCorrectOrder(){
-        var testedLevel = new BuildingLevel();
+        var testedLevel = new BuildingLevel("Building");
 
-        var level1 = new BuildingLevel();
-        var level2 = new BuildingLevel();
+        var level1 = new BuildingLevel("Floor 1");
+        var level2 = new BuildingLevel("Floor 2");
         var level2_sublevel1 = new Room(2, 2, 5, 1);
         var level2_sublevel2 = new Room(4, 2, 5, 1);
         level2.addComponent(level2_sublevel1);
         level2.addComponent(level2_sublevel2);
-        var level3 = new BuildingLevel();
+        var level3 = new BuildingLevel("Floor 3");
         var level4 = new Room(5, 2, 5, 1);
         var level5 = new Room(1, 2, 5, 6);
-        var level6  = new BuildingLevel();
+        var level6  = new BuildingLevel("Floor 4");
         var level6_sublevel1 = new Room(7, 700, 5, 1);
         level6.addComponent(level6_sublevel1);
 

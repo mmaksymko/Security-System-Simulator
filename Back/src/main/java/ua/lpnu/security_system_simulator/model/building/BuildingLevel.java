@@ -9,11 +9,15 @@ import java.util.List;
 public class BuildingLevel implements BuildingComponent {
 
     private List<BuildingComponent> components;
-
+    private String name;
     public BuildingLevel() {
-        this(new LinkedList<>());
+        this("");
     }
-    public BuildingLevel(List<BuildingComponent> components) {
+    public BuildingLevel(String name) {
+        this(name, new LinkedList<>());
+    }
+    public BuildingLevel(String name, List<BuildingComponent> components) {
+        this.name = name;
         this.components = components;
     }
 
@@ -35,6 +39,14 @@ public class BuildingLevel implements BuildingComponent {
     @Override
     public int getNumberOfComponents() {
         return components.size();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
