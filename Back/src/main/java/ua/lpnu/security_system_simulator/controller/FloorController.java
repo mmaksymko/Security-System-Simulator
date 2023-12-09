@@ -1,18 +1,15 @@
 package ua.lpnu.security_system_simulator.controller;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.repository.BuildingRepository;
 
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.StreamSupport;
 
 @RestController
@@ -92,6 +89,8 @@ public class FloorController {
             building.getComponents().add(buildingLevel);
             repository.save(building);
             return new ResponseEntity<>(building, HttpStatus.OK);
+        } catch (DuplicateKeyException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -112,6 +111,8 @@ public class FloorController {
                 }
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (DuplicateKeyException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -136,6 +137,8 @@ public class FloorController {
                             .findFirst()
                             .orElse(null);
             return updateFloor(building, result, buildingLevel);
+        } catch (DuplicateKeyException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

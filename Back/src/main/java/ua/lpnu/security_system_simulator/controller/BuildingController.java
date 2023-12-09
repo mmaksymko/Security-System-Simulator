@@ -1,5 +1,6 @@
 package ua.lpnu.security_system_simulator.controller;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,13 @@ public class BuildingController {
 
             repository.save(buildingLevel);
             return new ResponseEntity<>(buildingLevel, HttpStatus.OK);
+        } catch (DuplicateKeyException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e){
+            System.out.println(e);
+            System.out.println(e.getMessage());
+            System.out.println(e.getClass());
+            System.out.println(e.getCause());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -70,6 +77,8 @@ public class BuildingController {
             buildingLevel.setId(id);
             repository.save(buildingLevel);
             return new ResponseEntity<>(buildingLevel, HttpStatus.OK);
+        } catch (DuplicateKeyException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
