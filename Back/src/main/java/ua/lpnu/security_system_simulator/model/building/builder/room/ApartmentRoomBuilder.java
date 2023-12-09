@@ -1,4 +1,4 @@
-package ua.lpnu.security_system_simulator.model.building.roomBuilder;
+package ua.lpnu.security_system_simulator.model.building.builder.room;
 
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
@@ -7,7 +7,6 @@ import ua.lpnu.security_system_simulator.model.sensor.OpenedWindowSensor;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ApartmentRoomBuilder implements Builder{
@@ -101,7 +100,7 @@ public class ApartmentRoomBuilder implements Builder{
     }
 
     @Override
-    public Room getResult() throws IllegalArgumentException{
+    public Room build() throws IllegalArgumentException{
         if(doors <= 0){
             throw new IllegalArgumentException("Cannot get room without a door");
         }

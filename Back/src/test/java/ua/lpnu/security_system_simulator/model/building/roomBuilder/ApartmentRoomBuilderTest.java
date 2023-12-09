@@ -1,6 +1,7 @@
 package ua.lpnu.security_system_simulator.model.building.roomBuilder;
 
 import org.junit.jupiter.api.Test;
+import ua.lpnu.security_system_simulator.model.building.builder.room.ApartmentRoomBuilder;
 
 import static org.junit.jupiter.api.Assertions.*;
 

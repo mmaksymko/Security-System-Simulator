@@ -1,6 +1,7 @@
-package ua.lpnu.security_system_simulator.model.building;
+package ua.lpnu.security_system_simulator.model.building.builder.room;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ua.lpnu.security_system_simulator.model.building.BuildingIterator;
 
 import java.util.List;
 

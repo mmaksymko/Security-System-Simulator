@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import ua.lpnu.security_system_simulator.config.BuildingLevelDeserializer;
+import ua.lpnu.security_system_simulator.model.building.builder.room.BuildingComponent;
 
 import java.util.Collections;
 import java.util.Date;

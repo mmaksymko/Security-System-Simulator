@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.lpnu.security_system_simulator.model.building.builder.room.BuildingComponent;
 import ua.lpnu.security_system_simulator.model.event.Event;
 import ua.lpnu.security_system_simulator.model.event.EventTarget;
 import ua.lpnu.security_system_simulator.model.event.EventType;

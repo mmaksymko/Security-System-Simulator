@@ -2,7 +2,7 @@ package ua.lpnu.Security.System.Simulator.model.building;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
+import ua.lpnu.security_system_simulator.model.building.builder.room.BuildingComponent;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;

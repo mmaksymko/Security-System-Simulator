@@ -1,4 +1,4 @@
-package ua.lpnu.security_system_simulator.model.building.roomBuilder;
+package ua.lpnu.security_system_simulator.model.building.builder.room;
 
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
@@ -7,7 +7,6 @@ import ua.lpnu.security_system_simulator.model.sensor.OpenedWindowSensor;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class OfficeRoomBuilder implements Builder{
@@ -91,7 +90,7 @@ public class OfficeRoomBuilder implements Builder{
     }
 
     @Override
-    public Room getResult() throws IllegalArgumentException{
+    public Room build() throws IllegalArgumentException{
         return new Room(roomType, roomNumber, width, length, windows, doors, sensors, new ArrayList<>());
     }
 }

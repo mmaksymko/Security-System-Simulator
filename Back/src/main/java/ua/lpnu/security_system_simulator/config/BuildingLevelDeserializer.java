@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.lpnu.security_system_simulator.model.building.*;
+import ua.lpnu.security_system_simulator.model.building.builder.room.BuildingComponent;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -3,6 +3,8 @@ package ua.lpnu.security_system_simulator.model.building.roomBuilder;
 import org.junit.jupiter.api.Test;
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
+import ua.lpnu.security_system_simulator.model.building.builder.room.OfficeRoomBuilder;
+import ua.lpnu.security_system_simulator.model.building.builder.room.RoomDirector;
 import ua.lpnu.security_system_simulator.model.sensor.*;
 
 import java.util.ArrayList;

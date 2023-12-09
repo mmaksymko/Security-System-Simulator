@@ -1,4 +1,4 @@
-package ua.lpnu.security_system_simulator.model.building.roomBuilder;
+package ua.lpnu.security_system_simulator.model.building.builder.room;
 
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
@@ -14,5 +14,5 @@ public interface Builder {
     void setDoors(int numberOfDoors) throws IllegalArgumentException;
     void addSensor(Sensor sensor) throws IllegalArgumentException;
     int getArea();
-    Room getResult() throws IllegalArgumentException;
+    Room build() throws IllegalArgumentException;
 }
