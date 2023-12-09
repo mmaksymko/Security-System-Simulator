@@ -16,22 +16,31 @@ function ConfigureBuilding() {
     numRoomsPerFloor,
     setNumRoomsPerFloor,
   } = useBuildingContext();
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOfficeBuildingClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     console.log("office button clicked");
     const selectedType = event.currentTarget.innerText;
     setBuildingType("office");
   };
+  const handleResidentalBuildingClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    console.log("residental button clicked");
+    const selectedType = event.currentTarget.innerText;
+    setBuildingType("residental");
+  };
   const handleNumFloorsChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = parseInt(event.target.value, 10) || 0; // Convert to integer, default to 0 if NaN
+    const value = parseInt(event.target.value, 10) || 0;
     setNumFloors(value);
   };
 
   const handleNumRoomsPerFloorChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = parseInt(event.target.value, 10) || 0; // Convert to integer, default to 0 if NaN
+    const value = parseInt(event.target.value, 10) || 0;
     setNumRoomsPerFloor(value);
   };
   return (
@@ -42,7 +51,7 @@ function ConfigureBuilding() {
           <div className={styles.buildingPropertyContainer}>
             <h2 className={styles.h2}>Choose type of the building</h2>
             <div className={styles.buildingPropertyButtons}>
-              <BuildingTypeButton onClick={handleClick}>
+              <BuildingTypeButton onClick={handleOfficeBuildingClick}>
                 <img
                   src="../public/office-building_1f3e2.png"
                   width={"30px"}
@@ -57,7 +66,7 @@ function ConfigureBuilding() {
                   Office building
                 </p>
               </BuildingTypeButton>
-              <BuildingTypeButton onClick={handleClick}>
+              <BuildingTypeButton onClick={handleResidentalBuildingClick}>
                 <img
                   src="../public/house_1f3e0.png"
                   width={"30px"}
