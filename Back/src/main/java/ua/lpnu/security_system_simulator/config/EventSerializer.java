@@ -20,10 +20,8 @@ public class EventSerializer extends StdSerializer<Event> {
     @Override
     public void serialize(Event event, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException{
         jsonGenerator.writeStartObject();
-//        var context = jsonGenerator.getOutputContext();
-//        while(!((context = context.getParent()).getCurrentValue() instanceof EventTarget));
-//            jsonGenerator.writeObjectField("location", context.getCurrentValue());
             jsonGenerator.writeStringField("eventType", event.getEventType().toString());
+            jsonGenerator.writeObjectField("happenedAt", event.getHappenedAt());
             jsonGenerator.writeStringField("dangerLevel", event.getDangerLevel().toString());
         jsonGenerator.writeEndObject();
     }
