@@ -9,7 +9,7 @@ import ua.lpnu.security_system_simulator.model.building.builder.room.RoomBuilder
 import ua.lpnu.security_system_simulator.model.building.builder.room.RoomDirector;
 
 public class OfficeBuildingBuilder implements BuildingBuilder {
-    BuildingLevel result;
+    private BuildingLevel result;
     public OfficeBuildingBuilder(){
         result = new BuildingLevel("default office building");
     }
@@ -58,5 +58,15 @@ public class OfficeBuildingBuilder implements BuildingBuilder {
                 builder.reset();
             }
         }
+    }
+
+    @Override
+    public BuildingLevel build() {
+        return result;
+    }
+
+    @Override
+    public void reset() {
+        result = new BuildingLevel("default office building");
     }
 }

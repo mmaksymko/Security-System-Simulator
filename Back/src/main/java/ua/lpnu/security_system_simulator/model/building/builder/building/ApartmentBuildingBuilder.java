@@ -8,7 +8,7 @@ import ua.lpnu.security_system_simulator.model.building.builder.room.ApartmentRo
 import ua.lpnu.security_system_simulator.model.building.builder.room.RoomDirector;
 
 public class ApartmentBuildingBuilder implements BuildingBuilder {
-    BuildingLevel result;
+    private BuildingLevel result;
     public ApartmentBuildingBuilder(){
         result = new BuildingLevel("default apartment building");
     }
