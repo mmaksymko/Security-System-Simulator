@@ -3,6 +3,7 @@ package ua.lpnu.security_system_simulator.model.building;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,6 +21,7 @@ public class BuildingLevel implements BuildingComponent {
     @Id
     private String id;
     private List<BuildingComponent> components;
+    @Indexed(unique=true)
     private String name;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt;
