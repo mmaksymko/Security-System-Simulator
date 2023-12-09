@@ -27,12 +27,12 @@ public class EventFactoryTests {
 
     @Test
     public void whenEventTypeIsNull_ReturnsNull(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> eventFactory.createEvent(null, new Room(RoomType.OFFICE_ROOM,10,10,10,10,new ArrayList<Sensor>(),new ArrayList<>()), DangerLevel.HIGH));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> eventFactory.createEvent(null, new Room(RoomType.OFFICE_ROOM,10,10,10,10,new ArrayList<>(),new ArrayList<>()), DangerLevel.HIGH));
     }
 
     @Test
     public void whenDangerLevelIsNull_ReturnsNull(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> eventFactory.createEvent(EventType.FIRE, new Room(RoomType.APARTMENT_ROOM,10,10,10,10,new ArrayList<Sensor>(),new ArrayList<>()), null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> eventFactory.createEvent(EventType.FIRE, new Room(RoomType.APARTMENT_ROOM,10,10,10,10,new ArrayList<>(),new ArrayList<>()), null));
     }
 
     @Test

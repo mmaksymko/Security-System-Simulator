@@ -1,7 +1,6 @@
 package ua.lpnu.security_system_simulator.model.event;
 
 import org.springframework.stereotype.Component;
-import ua.lpnu.security_system_simulator.model.building.Room;
 
 import java.security.InvalidParameterException;
 
