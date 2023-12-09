@@ -10,7 +10,8 @@ public class RoomDirector {
     public int roomNumber;
     public void constructApartmentRoom(Builder builder) throws Exception{
         builder.setRoomType(RoomType.APARTMENT_ROOM);
-        builder.setArea(26);
+        builder.setWidth(4);
+        builder.setLength(6);
         builder.setWindows(1);
         builder.setDoors(1);
         //TODO room number
@@ -22,7 +23,8 @@ public class RoomDirector {
     }
     public void constructApartmentBathroom(Builder builder)throws Exception{
         builder.setRoomType(RoomType.APARTMENT_BATHROOM);
-        builder.setArea(15);
+        builder.setWidth(3);
+        builder.setLength(5);
         builder.setDoors(1);
         //TODO room number
         builder.setRoomNumber(11);
@@ -33,7 +35,8 @@ public class RoomDirector {
     }
     public void constructApartmentKitchen(Builder builder) throws Exception{
         builder.setRoomType(RoomType.KITCHEN);
-        builder.setArea(20);
+        builder.setWidth(3);
+        builder.setLength(4);
         builder.setWindows(1);
         builder.setDoors(1);
         //TODO room number
@@ -45,7 +48,8 @@ public class RoomDirector {
     }
     public void constructBigOfficeRoom(Builder builder) throws Exception{
         builder.setRoomType(RoomType.OFFICE_ROOM);
-        builder.setArea(60);
+        builder.setWidth(8);
+        builder.setLength(8);
         builder.setWindows(6);
         builder.setDoors(2);
         //TODO room number
@@ -57,7 +61,8 @@ public class RoomDirector {
     }
     public void constructSmallOfficeRoom(Builder builder) throws Exception{
         builder.setRoomType(RoomType.OFFICE_ROOM);
-        builder.setArea(10);
+        builder.setWidth(3);
+        builder.setLength(3);
         builder.setDoors(1);
         //TODO room number
         builder.setRoomNumber(11);
@@ -68,7 +73,8 @@ public class RoomDirector {
     }
     public void constructOfficeRestroom(Builder builder)throws Exception{
         builder.setRoomType(RoomType.OFFICE_RESTROOM);
-        builder.setArea(30);
+        builder.setWidth(2);
+        builder.setLength(2);
         builder.setDoors(1);
         //TODO room number
         builder.setRoomNumber(12);
@@ -79,7 +85,8 @@ public class RoomDirector {
     }
     public void constructOfficeKitchen(Builder builder) throws Exception{
         builder.setRoomType(RoomType.KITCHEN);
-        builder.setArea(30);
+        builder.setWidth(4);
+        builder.setLength(4);
         builder.setWindows(3);
         builder.setDoors(1);
         //TODO room number

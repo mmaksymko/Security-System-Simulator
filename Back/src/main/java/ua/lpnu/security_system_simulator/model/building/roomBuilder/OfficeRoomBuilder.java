@@ -13,12 +13,13 @@ import java.util.List;
 public class OfficeRoomBuilder implements Builder{
     private RoomType roomType;
     private int roomNumber;
-    private int area;
+    private int width;
+    private int length;
     private int windows;
     private int doors;
     private List<Sensor> sensors;
     OfficeRoomBuilder(){
-        sensors = new LinkedList<>();
+        sensors = new ArrayList<>();
     }
 
     @Override
@@ -27,8 +28,12 @@ public class OfficeRoomBuilder implements Builder{
     }
 
     @Override
-    public void setArea(int area){
-        this.area = area;
+    public void setWidth(int width){
+        this.width = width;
+    }
+    @Override
+    public void setLength(int length){
+        this.length = length;
     }
 
     @Override
@@ -41,10 +46,10 @@ public class OfficeRoomBuilder implements Builder{
 
     @Override
     public void setWindows(int numberOfWindows) throws IllegalArgumentException{
-        int minWindowCount = area / 10;
-        int maxWindowCount = area / 6;
-        if(area == 0){
-            throw new IllegalArgumentException("An area must be set first");
+        int minWindowCount = getArea() / 10;
+        int maxWindowCount = getArea() / 6;
+        if(getArea() == 0){
+            throw new IllegalArgumentException("The area must be set first");
         }
         if(numberOfWindows < minWindowCount || numberOfWindows > maxWindowCount){
             throw new IllegalArgumentException("Number of windows must be in bounds of ["
@@ -59,8 +64,8 @@ public class OfficeRoomBuilder implements Builder{
 
     @Override
     public void setDoors(int numberOfDoors) throws IllegalArgumentException{
-        if(area == 0){
-            throw new NullPointerException("An area must be set first");
+        if(getArea() == 0){
+            throw new NullPointerException("The area must be set first");
         }
         this.doors = numberOfDoors;
         for(int i = 0; i < numberOfDoors; ++i){
@@ -70,7 +75,7 @@ public class OfficeRoomBuilder implements Builder{
 
     @Override
     public void addSensor(Sensor sensor) {
-        int totalNumberOfSensors = Math.round((float) area / sensor.getCoverageArea());
+        int totalNumberOfSensors = Math.round((float) getArea() / sensor.getCoverageArea());
         if(totalNumberOfSensors == 0){
             totalNumberOfSensors = 1;
         }
@@ -80,7 +85,12 @@ public class OfficeRoomBuilder implements Builder{
     }
 
     @Override
+    public int getArea(){
+        return width * length;
+    }
+
+    @Override
     public Room getResult() throws IllegalArgumentException{
-        return new Room(roomType, roomNumber, area, windows, doors, sensors, new ArrayList<>());
+        return new Room(roomType, roomNumber, width, length, windows, doors, sensors, new ArrayList<>());
     }
 }

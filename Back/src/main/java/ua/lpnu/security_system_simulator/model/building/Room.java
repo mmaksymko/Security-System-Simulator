@@ -21,7 +21,8 @@ public class Room implements BuildingComponent, EventTarget {
     private String id;
     private RoomType roomType;
     private int roomNumber;
-    private int area;
+    private int width;
+    private int length;
     private int windows;
     private int doors;
     private List<Sensor> sensors;
@@ -33,13 +34,14 @@ public class Room implements BuildingComponent, EventTarget {
         logs = new ArrayList<>();
     }
 
-    public Room(RoomType roomType, int roomNumber, int area, int windows, int doors, List<Sensor> sensors, List<EventLog> logs) throws IllegalArgumentException {
-        if (roomNumber < 0 || area <= 0 || windows < 0 || doors < 0){
+    public Room(RoomType roomType, int roomNumber, int width, int length, int windows, int doors, List<Sensor> sensors, List<EventLog> logs) throws IllegalArgumentException {
+        if (roomNumber < 0 || width <= 0 || length <=0 || windows < 0 || doors < 0){
             throw new IllegalArgumentException("Invalid room parameters");
         }
         this.roomType = roomType;
         this.roomNumber = roomNumber;
-        this.area = area;
+        this.length = length;
+        this.width = width;
         this.windows = windows;
         this.doors = doors;
         this.sensors = sensors;
@@ -86,14 +88,24 @@ public class Room implements BuildingComponent, EventTarget {
             throw new IllegalArgumentException("Invalid room number");
         }this.roomNumber = roomNumber;
     }
-    public int getArea() {
-        return area;
-    }
-    public void setArea(int area) throws IllegalArgumentException {
-        if (area <= 0){
+    public void setWidth(int width) throws IllegalArgumentException {
+        if (width <= 0){
             throw new IllegalArgumentException("Invalid area");
-        }this.area = area;
+        }
+        this.width = width;
     }
+    public void setLength(int length) throws IllegalArgumentException {
+        if (length <= 0){
+            throw new IllegalArgumentException("Invalid area");
+        }
+        this.length = length;
+    }
+
+    @JsonIgnore
+    public int getArea() {
+        return width * length;
+    }
+
     public int getWindows() {
         return windows;
     }
@@ -132,7 +144,7 @@ public class Room implements BuildingComponent, EventTarget {
         return logs.getLast();
     }
 
-    public void setLogs(List<EventLog> logs) {
+    private void setLogs(List<EventLog> logs) {
         this.logs = logs;
     }
 
@@ -181,14 +193,14 @@ public class Room implements BuildingComponent, EventTarget {
         if (o == null || getClass() != o.getClass())
             return false;
         Room room = (Room) o;
-        return roomNumber == room.roomNumber && area == room.area && windows == room.windows && doors == room.doors && Objects.equals(
+        return roomNumber == room.roomNumber && width == room.width && length == room.length && windows == room.windows && doors == room.doors && Objects.equals(
                 id, room.id) && roomType == room.roomType && Objects.equals(sensors, room.sensors) && Objects.equals(
                 logs, room.logs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, roomType, roomNumber, area, windows, doors, sensors, logs);
+        return Objects.hash(id, roomType, roomNumber, width, length, windows, doors, sensors, logs);
     }
 
     @Override
