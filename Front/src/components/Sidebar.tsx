@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Sidebar.module.css";
 import BuildingInfoItem from "./BuildingInfoItem";
 import EditBtn from "./EditBuildingConfigurationButton";
@@ -8,12 +8,14 @@ interface SidebarProps {
   buildingType: string;
   numFloors: number;
   numRoomsPerFloor: number;
+  onEditButtonClick: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   buildingType,
   numFloors,
   numRoomsPerFloor,
+  onEditButtonClick,
 }) => {
   return (
     <div className={styles.container}>
@@ -33,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <p className={styles.value}>{numRoomsPerFloor}</p>
           </BuildingInfoItem>
         </div>
-        <EditBtn />
+        <EditBtn onClick={onEditButtonClick} />
       </div>
       <Log />
     </div>
