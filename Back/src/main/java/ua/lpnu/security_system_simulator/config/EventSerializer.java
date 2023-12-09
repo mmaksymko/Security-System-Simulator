@@ -18,7 +18,7 @@ public class EventSerializer extends StdSerializer<Event> {
     }
 
     @Override
-    public void serialize(Event event, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException, {
+    public void serialize(Event event, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException{
         jsonGenerator.writeStartObject();
 //        var context = jsonGenerator.getOutputContext();
 //        while(!((context = context.getParent()).getCurrentValue() instanceof EventTarget));
