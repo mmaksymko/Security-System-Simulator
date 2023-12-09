@@ -1,21 +1,24 @@
-// InputField.tsx
-
-import React from "react";
+// InputField.jsx
+import React, { ChangeEvent } from "react";
 import styles from "./InputFile.module.css";
 
 interface InputFieldProps {
   value: number;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: number) => void;
 }
 
 const InputField: React.FC<InputFieldProps> = ({ value, onChange }) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(event.target.value, 10) || 0;
+    onChange(newValue);
+  };
+
   return (
     <input
-      className={styles.input}
-      type="text"
-      placeholder="Enter a number"
+      type="number"
       value={value}
-      onChange={onChange}
+      onChange={handleInputChange}
+      className={styles.input}
     />
   );
 };

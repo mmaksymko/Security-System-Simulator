@@ -16,33 +16,22 @@ function ConfigureBuilding() {
     numRoomsPerFloor,
     setNumRoomsPerFloor,
   } = useBuildingContext();
-  const handleOfficeBuildingClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    console.log("office button clicked");
-    const selectedType = event.currentTarget.innerText;
+  const handleOfficeBuildingClick = () => {
     setBuildingType("office");
   };
-  const handleResidentalBuildingClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    console.log("residental button clicked");
-    const selectedType = event.currentTarget.innerText;
-    setBuildingType("residental");
+
+  const handleResidentialBuildingClick = () => {
+    setBuildingType("residential");
   };
-  const handleNumFloorsChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = parseInt(event.target.value, 10) || 0;
+
+  const handleNumFloorsChange = (value: number) => {
     setNumFloors(value);
   };
 
-  const handleNumRoomsPerFloorChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = parseInt(event.target.value, 10) || 0;
+  const handleNumRoomsPerFloorChange = (value: number) => {
     setNumRoomsPerFloor(value);
   };
+
   return (
     <div className={styles.background}>
       <div className={styles.container}>
@@ -66,7 +55,7 @@ function ConfigureBuilding() {
                   Office building
                 </p>
               </BuildingTypeButton>
-              <BuildingTypeButton onClick={handleResidentalBuildingClick}>
+              <BuildingTypeButton onClick={handleResidentialBuildingClick}>
                 <img
                   src="../public/house_1f3e0.png"
                   width={"30px"}
@@ -86,8 +75,15 @@ function ConfigureBuilding() {
           <div className={styles.buildingPropertyContainer}>
             <h2 className={styles.h2}>Choose number of the floors</h2>
             <div className={styles.buildingPropertyButtons}>
-              <InputField value={numFloors} onChange={handleNumFloorsChange} />
-              <RandomNumberButton />
+              <InputField
+                value={numFloors}
+                onChange={(value) => handleNumFloorsChange(value)}
+              />
+              <RandomNumberButton
+                onGenerate={handleNumFloorsChange}
+                min={1}
+                max={333}
+              />
             </div>
           </div>
           <div className={styles.buildingPropertyContainer}>
@@ -95,9 +91,13 @@ function ConfigureBuilding() {
             <div className={styles.buildingPropertyButtons}>
               <InputField
                 value={numRoomsPerFloor}
-                onChange={handleNumRoomsPerFloorChange}
+                onChange={(value) => handleNumRoomsPerFloorChange(value)}
               />
-              <RandomNumberButton />
+              <RandomNumberButton
+                onGenerate={handleNumRoomsPerFloorChange}
+                min={1}
+                max={33}
+              />
             </div>
           </div>
         </div>
