@@ -2,6 +2,7 @@ package ua.lpnu.security_system_simulator.model.building;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,6 +19,7 @@ public class BuildingLevel implements BuildingComponent {
     private String id;
     private List<BuildingComponent> components;
     private String name;
+
     public BuildingLevel() {
         this("");
     }
@@ -27,6 +29,7 @@ public class BuildingLevel implements BuildingComponent {
     public BuildingLevel(String name, List<BuildingComponent> components) {
         this.name = name;
         this.components = components;
+        this.id = new ObjectId().toString();
     }
 
     @Override
@@ -49,16 +52,11 @@ public class BuildingLevel implements BuildingComponent {
         return components.size();
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public void setId(String id) {
@@ -66,8 +64,12 @@ public class BuildingLevel implements BuildingComponent {
     }
 
     @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
     public String toString() {
         return name + " with " + getNumberOfComponents() + " sublevels";
     }
-
 }
