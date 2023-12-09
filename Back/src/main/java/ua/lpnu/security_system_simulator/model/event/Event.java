@@ -1,25 +1,39 @@
 package ua.lpnu.security_system_simulator.model.event;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.data.annotation.Transient;
+import ua.lpnu.security_system_simulator.config.EventDeserializer;
+import ua.lpnu.security_system_simulator.config.EventSerializer;
 import ua.lpnu.security_system_simulator.model.building.Room;
 
 import java.util.Random;
 
+@JsonSerialize(using = EventSerializer.class)
+@JsonDeserialize(using = EventDeserializer.class)
 public abstract class Event {
-    private Room location;
+    @Transient
+    private EventTarget location;
     private DangerLevel dangerLevel;
-    private final EventType eventType;
+    private EventType eventType;
+    @Transient
     protected final Random random;
 
-    public Event(EventType eventType, Room location, DangerLevel dangerLevel) {
-        this.eventType = eventType;
+    public Event(){
+        this.random = new Random();
+    }
+
+    public Event(EventType eventType, EventTarget location, DangerLevel dangerLevel) {
+        this();
         this.location = location;
         this.dangerLevel = dangerLevel;
-        this.random = new Random();
+        this.eventType = eventType;
+        location.registerEvent(this);
     }
 
     public abstract void start();
 
-    public Room getLocation() {
+    public EventTarget getLocation() {
         return location;
     }
 
@@ -37,5 +51,13 @@ public abstract class Event {
 
     public EventType getEventType() {
         return eventType;
+    }
+
+    public void setLocation(EventTarget location) {
+        this.location = location;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 }
