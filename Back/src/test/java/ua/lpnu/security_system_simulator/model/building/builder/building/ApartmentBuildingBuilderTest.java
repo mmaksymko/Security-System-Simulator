@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class ApartmentBuildingBuilderTest {
     @Test
     public void buildingBuilder(){
-        ApartmentBuildingBuilder builder = new ApartmentBuildingBuilder();
-        builder.seNumberOfFloors(5);
+        OfficeBuildingBuilder builder = new OfficeBuildingBuilder();
         try {
+            builder.seNumberOfFloors(5);
             builder.setNumberOfRoomsPerFloor(12);
         }catch (Exception e){
             e.getMessage();
@@ -18,5 +18,6 @@ class ApartmentBuildingBuilderTest {
         BuildingLevel r = builder.build();
         BuildingLevel res = r;
     }
+
 
 }

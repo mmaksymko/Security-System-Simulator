@@ -24,15 +24,22 @@ public class OfficeBuildingBuilder implements BuildingBuilder {
 
     @Override
     public void setNumberOfRoomsPerFloor(int rooms) throws Exception {
+        if(rooms < 5 || rooms > 20){
+            throw  new IllegalArgumentException("Number of rooms in one floor of apartment building must be in bounds of 5 up to 20");
+        }
+        if(rooms % 5 != 0){
+            throw new IllegalArgumentException("Number of rooms must be multiple of 5");
+        }
         int numberOfBlocks = rooms / 5;
         BuildingIterator iterator = new BuildingIterator(result, true);
+        iterator.next();
         while (iterator.hasNext()){
             BuildingComponent currentBuildingLevel = iterator.next();
             if(currentBuildingLevel instanceof Room){
                 break;
             }
             BuildingLevel currentFloor = (BuildingLevel)currentBuildingLevel;
-            int floorNumber = Integer.parseInt(currentFloor.getName().split(" ")[0]);
+            int floorNumber = Integer.parseInt(currentFloor.getName().split(" ")[1]);
             OfficeRoomBuilder builder = new OfficeRoomBuilder();
             RoomDirector director = new RoomDirector(floorNumber);
 
