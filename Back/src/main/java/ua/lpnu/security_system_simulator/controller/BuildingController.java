@@ -45,6 +45,10 @@ public class BuildingController {
     @PostMapping("/buildings")
     public ResponseEntity<BuildingLevel> createBuilding(@RequestBody BuildingLevel buildingLevel) {
         try {
+            if (!validateBuilding(buildingLevel)){
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
+
             repository.save(buildingLevel);
             return new ResponseEntity<>(buildingLevel, HttpStatus.OK);
         } catch (Exception e){
@@ -55,6 +59,10 @@ public class BuildingController {
     @PutMapping("/buildings/{id}")
     public ResponseEntity<BuildingLevel> updateBuilding(@PathVariable("id") String id, @RequestBody BuildingLevel buildingLevel) {
         try {
+            if (!validateBuilding(buildingLevel)){
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
+
             var result = repository.findById(id);
             if (result.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,5 +83,17 @@ public class BuildingController {
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private boolean validateBuilding(BuildingLevel building) {
+        if (building.getNumberOfComponents() >= 200){
+            return false;
+        }
+        for(var component : building.depthFirstSearch()){
+            if (component.getNumberOfComponents()>=20) {
+                return false;
+            }
+        }
+        return true;
     }
 }
