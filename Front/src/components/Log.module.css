@@ -1,0 +1,8 @@
+.logContainer {
+    height: 100%;
+    overflow: hidden;
+}
+.title {
+    font-size: 36px;
+    text-align: left;
+}
