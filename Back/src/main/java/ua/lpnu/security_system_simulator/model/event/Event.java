@@ -3,10 +3,12 @@ package ua.lpnu.security_system_simulator.model.event;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.annotation.Transient;
+import org.springframework.format.annotation.DateTimeFormat;
 import ua.lpnu.security_system_simulator.config.EventDeserializer;
 import ua.lpnu.security_system_simulator.config.EventSerializer;
 import ua.lpnu.security_system_simulator.model.building.Room;
 
+import java.util.Date;
 import java.util.Random;
 
 @JsonSerialize(using = EventSerializer.class)
@@ -16,19 +18,22 @@ public abstract class Event {
     private EventTarget location;
     private DangerLevel dangerLevel;
     private EventType eventType;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date happenedAt;
     @Transient
     protected final Random random;
 
-    public Event(){
+    Event(){
         this.random = new Random();
     }
 
-    public Event(EventType eventType, EventTarget location, DangerLevel dangerLevel) {
+    Event(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt) {
         this();
         this.location = location;
         this.dangerLevel = dangerLevel;
         this.eventType = eventType;
-        location.registerEvent(this);
+        this.happenedAt = happenedAt;
+        this.location.registerEvent(this);
     }
 
     public abstract void start();
@@ -59,5 +64,13 @@ public abstract class Event {
 
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
+    }
+
+    public Date getHappenedAt() {
+        return happenedAt;
+    }
+
+    private void setHappenedAt(Date happenedAt) {
+        this.happenedAt = happenedAt;
     }
 }
