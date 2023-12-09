@@ -6,11 +6,13 @@ import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 //TODO manual room builder????
 public interface Builder {
-    public void setRoomType(RoomType roomType);
-    public void setArea(int area) throws Exception;
-    public void setRoomNumber(int roomNumber) throws Exception;
-    public void setWindows(int numberOfWindows) throws Exception;
-    public void setDoors(int numberOfDoors) throws Exception;
-    public void addSensor(Sensor sensor) throws Exception;
-    public Room getResult() throws Exception;
+    void setRoomType(RoomType roomType);
+    void setWidth(int width) throws IllegalArgumentException;
+    void setLength(int length) throws IllegalArgumentException;
+    void setRoomNumber(int roomNumber) throws IllegalArgumentException;
+    void setWindows(int numberOfWindows) throws IllegalArgumentException;
+    void setDoors(int numberOfDoors) throws IllegalArgumentException;
+    void addSensor(Sensor sensor) throws IllegalArgumentException;
+    int getArea();
+    Room getResult() throws IllegalArgumentException;
 }

@@ -13,12 +13,13 @@ import java.util.List;
 public class ApartmentRoomBuilder implements Builder{
     private RoomType roomType;
     private int roomNumber;
-    private int area;
+    private int width;
+    private int length;
     private int windows;
     private int doors;
     private List<Sensor> sensors;
     ApartmentRoomBuilder(){
-        sensors = new LinkedList<>();
+        sensors = new ArrayList<>();
     }
 
     @Override
@@ -27,15 +28,23 @@ public class ApartmentRoomBuilder implements Builder{
     }
 
     @Override
-    public void setArea(int area) throws Exception{
-        if(area <= 0){
-            throw new IllegalArgumentException("Area must be greater than 0.");
+    public void setWidth(int width) throws IllegalArgumentException{
+        if(width <= 0){
+            throw new IllegalArgumentException("The area must be greater than 0.");
         }
-        this.area = area;
+        this.width = width;
     }
 
     @Override
-    public void setRoomNumber(int roomNumber) throws Exception{
+    public void setLength(int length) throws IllegalArgumentException{
+        if(length <= 0){
+            throw new IllegalArgumentException("The area must be greater than 0.");
+        }
+        this.length = length;
+    }
+
+    @Override
+    public void setRoomNumber(int roomNumber) throws IllegalArgumentException{
         if(roomNumber <= 0){
             throw new IllegalArgumentException("Room number must be greater than 0.");
         }
@@ -43,11 +52,11 @@ public class ApartmentRoomBuilder implements Builder{
     }
 
     @Override
-    public void setWindows(int numberOfWindows) throws Exception{
-        int minWindowCount = area / 18;
-        int maxWindowCount = area / 10;
-        if(area == 0){
-            throw new NullPointerException("An area must be set first");
+    public void setWindows(int numberOfWindows) throws IllegalArgumentException{
+        int minWindowCount = getArea() / 18;
+        int maxWindowCount = getArea() / 10;
+        if(getArea() == 0){
+            throw new IllegalArgumentException("An area must be set first");
         }
         if(numberOfWindows < minWindowCount || numberOfWindows > maxWindowCount){
             throw new IllegalArgumentException("Number of windows must be in bounds of ["
@@ -61,12 +70,12 @@ public class ApartmentRoomBuilder implements Builder{
     }
 
     @Override
-    public void setDoors(int numberOfDoors) throws Exception{
+    public void setDoors(int numberOfDoors) throws IllegalArgumentException{
         if(numberOfDoors < 1){
             throw new IllegalArgumentException("There must be at least one door.");
         }
-        if(area == 0){
-            throw new NullPointerException("An area must be set first");
+        if(getArea() == 0){
+            throw new IllegalArgumentException("An area must be set first");
         }
         this.doors = numberOfDoors;
         for(int i = 0; i < numberOfDoors; ++i){
@@ -76,7 +85,7 @@ public class ApartmentRoomBuilder implements Builder{
 
     @Override
     public void addSensor(Sensor sensor) {
-        int totalNumberOfSensors = Math.round((float) area / sensor.getCoverageArea());
+        int totalNumberOfSensors = Math.round((float) getArea() / sensor.getCoverageArea());
         if(totalNumberOfSensors == 0){
             totalNumberOfSensors = 1;
         }
@@ -86,10 +95,15 @@ public class ApartmentRoomBuilder implements Builder{
     }
 
     @Override
-    public Room getResult() throws Exception{
+    public int getArea(){
+        return width * length;
+    }
+
+    @Override
+    public Room getResult() throws IllegalArgumentException{
         if(doors <= 0){
-            throw new Exception("Cannot get room without a door");
+            throw new IllegalArgumentException("Cannot get room without a door");
         }
-        return new Room(roomType, roomNumber, area, windows, doors, sensors, new ArrayList<>());
+        return new Room(roomType, roomNumber, width, length, windows, doors, sensors, new ArrayList<>());
     }
 }
