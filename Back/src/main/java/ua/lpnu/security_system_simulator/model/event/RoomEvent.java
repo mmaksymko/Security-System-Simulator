@@ -3,14 +3,16 @@ package ua.lpnu.security_system_simulator.model.event;
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
+import java.util.Date;
+
 public class RoomEvent extends Event {
 
     RoomEvent() {
         super();
     }
 
-    RoomEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel) {
-        super(eventType, location, dangerLevel);
+    RoomEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt) {
+        super(eventType, location, dangerLevel, happenedAt);
     }
 
     @Override

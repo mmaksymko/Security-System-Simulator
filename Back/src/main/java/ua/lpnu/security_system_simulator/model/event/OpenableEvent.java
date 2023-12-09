@@ -2,14 +2,16 @@ package ua.lpnu.security_system_simulator.model.event;
 
 import ua.lpnu.security_system_simulator.model.building.Room;
 
+import java.util.Date;
+
 public class OpenableEvent extends Event{
 
     OpenableEvent(){
         super();
     }
 
-    OpenableEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel){
-        super(eventType, location, dangerLevel);
+    OpenableEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt){
+        super(eventType, location, dangerLevel,happenedAt);
     }
 
     @Override
