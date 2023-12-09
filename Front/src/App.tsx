@@ -1,15 +1,20 @@
-import ConfigureBuilding from "./pages/ConfigureBuilding";
-import Simulation from "./pages/SimulationPage";
+// App.js
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import React from 'react'
+import { BuildingProvider } from "./BuildingContext";
+import ConfigureBuilding from "./pages/ConfigureBuilding";
+import SimulationPage from "./pages/SimulationPage";
+
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<ConfigureBuilding />}></Route>
-        <Route path="simulation" element={<Simulation />}></Route>
-      </Routes>
+      <BuildingProvider>
+        <Routes>
+          <Route path="/" element={<ConfigureBuilding />} />
+          <Route path="/simulation" element={<SimulationPage />} />
+        </Routes>
+      </BuildingProvider>
     </Router>
   );
 }
