@@ -1,4 +1,12 @@
-function EditBuildingConfigurationButton() {
+import React from "react";
+
+interface EditBuildingConfigurationButtonProps {
+  onClick: () => void;
+}
+
+const EditBuildingConfigurationButton: React.FC<
+  EditBuildingConfigurationButtonProps
+> = ({ onClick }) => {
   return (
     <button
       style={{
@@ -15,11 +23,17 @@ function EditBuildingConfigurationButton() {
         padding: "8px 16px",
         width: "100px",
       }}
+      onClick={onClick} // Add onClick prop here
     >
       <p>Edit</p>
-      <img src="../public/edit.png" width={"24px"} height={"24px"}></img>
+      <img
+        src="../public/edit.png"
+        width={"24px"}
+        height={"24px"}
+        alt="Edit icon"
+      />
     </button>
   );
-}
+};
 
 export default EditBuildingConfigurationButton;
