@@ -1,5 +1,7 @@
 package ua.lpnu.security_system_simulator.model.building;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 public interface BuildingComponent {
@@ -10,7 +12,11 @@ public interface BuildingComponent {
 
     List<BuildingComponent> getComponents();
 
+    @JsonIgnore
     int getNumberOfComponents();
+
+    String getId();
+
     default Iterable<BuildingComponent> breadthFirstSearch() {
         return () -> new BuildingIterator(this, true);
     }
