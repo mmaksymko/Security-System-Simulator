@@ -27,15 +27,12 @@ public class OfficeRoomBuilder implements Builder{
     }
 
     @Override
-    public void setArea(int area) throws Exception{
-        if(area <= 0){
-            throw new IllegalArgumentException("Area must be greater than 0.");
-        }
+    public void setArea(int area){
         this.area = area;
     }
 
     @Override
-    public void setRoomNumber(int roomNumber) throws Exception{
+    public void setRoomNumber(int roomNumber){
         if(roomNumber <= 0){
             throw new IllegalArgumentException("Room number must be greater than 0.");
         }
@@ -43,11 +40,11 @@ public class OfficeRoomBuilder implements Builder{
     }
 
     @Override
-    public void setWindows(int numberOfWindows) throws Exception{
+    public void setWindows(int numberOfWindows) throws IllegalArgumentException{
         int minWindowCount = area / 10;
         int maxWindowCount = area / 6;
         if(area == 0){
-            throw new NullPointerException("An area must be set first");
+            throw new IllegalArgumentException("An area must be set first");
         }
         if(numberOfWindows < minWindowCount || numberOfWindows > maxWindowCount){
             throw new IllegalArgumentException("Number of windows must be in bounds of ["
@@ -61,10 +58,7 @@ public class OfficeRoomBuilder implements Builder{
     }
 
     @Override
-    public void setDoors(int numberOfDoors) throws Exception{
-        if(numberOfDoors < 1){
-            throw new IllegalArgumentException("There must be at least one door.");
-        }
+    public void setDoors(int numberOfDoors) throws IllegalArgumentException{
         if(area == 0){
             throw new NullPointerException("An area must be set first");
         }
@@ -86,10 +80,7 @@ public class OfficeRoomBuilder implements Builder{
     }
 
     @Override
-    public Room getResult() throws Exception{
-        if(doors <= 0){
-            throw new Exception("Cannot get room without a door");
-        }
+    public Room getResult() throws IllegalArgumentException{
         return new Room(roomType, roomNumber, area, windows, doors, sensors, new ArrayList<>());
     }
 }
