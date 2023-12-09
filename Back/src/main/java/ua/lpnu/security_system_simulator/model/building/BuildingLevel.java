@@ -80,7 +80,7 @@ public class BuildingLevel implements BuildingComponent {
         this.createdAt = createdAt;
     }
 
-    private void setComponents(List<BuildingComponent> components) {
+    public void setComponents(List<BuildingComponent> components) {
         this.components = components;
     }
 
