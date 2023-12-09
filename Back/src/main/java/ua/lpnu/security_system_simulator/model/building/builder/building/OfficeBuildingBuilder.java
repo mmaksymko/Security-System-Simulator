@@ -16,6 +16,9 @@ public class OfficeBuildingBuilder implements BuildingBuilder {
 
     @Override
     public void seNumberOfFloors(int floors) {
+        if(floors < 1 || floors > 200){
+            throw new IllegalArgumentException("Number of floors must be in bounds of 1 up to 200");
+        }
         for(int i = 1; i <= floors; ++i){
             BuildingLevel newFloor = new BuildingLevel("floor " + i);
             result.addComponent(newFloor);
