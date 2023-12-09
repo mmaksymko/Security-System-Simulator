@@ -1,4 +1,4 @@
-package ua.lpnu.security_system_simulator.model.building.roomBuilder;
+package ua.lpnu.security_system_simulator.model.building.builder.room;
 
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
@@ -7,10 +7,9 @@ import ua.lpnu.security_system_simulator.model.sensor.OpenedWindowSensor;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class OfficeRoomBuilder implements Builder{
+public class OfficeRoomBuilder implements RoomBuilder {
     private RoomType roomType;
     private int roomNumber;
     private int width;
@@ -18,7 +17,7 @@ public class OfficeRoomBuilder implements Builder{
     private int windows;
     private int doors;
     private List<Sensor> sensors;
-    OfficeRoomBuilder(){
+    public OfficeRoomBuilder(){
         sensors = new ArrayList<>();
     }
 
@@ -46,8 +45,9 @@ public class OfficeRoomBuilder implements Builder{
 
     @Override
     public void setWindows(int numberOfWindows) throws IllegalArgumentException{
-        int minWindowCount = getArea() / 10;
-        int maxWindowCount = getArea() / 6;
+        float floatArea = Integer.valueOf(getArea()).floatValue();
+        int minWindowCount = Float.valueOf(floatArea / 2).intValue();
+        int maxWindowCount = getArea();
         if(getArea() == 0){
             throw new IllegalArgumentException("The area must be set first");
         }
@@ -58,7 +58,7 @@ public class OfficeRoomBuilder implements Builder{
         }
         this.windows = numberOfWindows;
         for(int i = 0; i < numberOfWindows; ++i){
-            sensors.add(new OpenedWindowSensor(5));
+            sensors.add(new OpenedWindowSensor(1));
         }
     }
 
@@ -69,7 +69,7 @@ public class OfficeRoomBuilder implements Builder{
         }
         this.doors = numberOfDoors;
         for(int i = 0; i < numberOfDoors; ++i){
-            sensors.add(new OpenedDoorSensor(5));
+            sensors.add(new OpenedDoorSensor(1));
         }
     }
 
@@ -90,7 +90,16 @@ public class OfficeRoomBuilder implements Builder{
     }
 
     @Override
-    public Room getResult() throws IllegalArgumentException{
+    public Room build() throws IllegalArgumentException{
         return new Room(roomType, roomNumber, width, length, windows, doors, sensors, new ArrayList<>());
+    }
+    @Override
+    public void reset() {
+        this.roomNumber = 0;
+        this.length = 0;
+        this.doors = 0;
+        this.width = 0;
+        this.sensors = new ArrayList<>();
+        this.windows = 0;
     }
 }
