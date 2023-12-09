@@ -3,12 +3,14 @@ package ua.lpnu.security_system_simulator.model.building;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import org.bson.types.ObjectId;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import ua.lpnu.security_system_simulator.config.BuildingLevelDeserializer;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +21,8 @@ public class BuildingLevel implements BuildingComponent {
     private String id;
     private List<BuildingComponent> components;
     private String name;
-
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date createdAt;
     public BuildingLevel() {
         this("");
     }
@@ -30,6 +33,7 @@ public class BuildingLevel implements BuildingComponent {
         this.name = name;
         this.components = components;
         this.id = new ObjectId().toString();
+        this.createdAt = new Date();
     }
 
     @Override
@@ -66,6 +70,18 @@ public class BuildingLevel implements BuildingComponent {
     @Override
     public String getId() {
         return id;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    private void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    private void setComponents(List<BuildingComponent> components) {
+        this.components = components;
     }
 
     @Override
