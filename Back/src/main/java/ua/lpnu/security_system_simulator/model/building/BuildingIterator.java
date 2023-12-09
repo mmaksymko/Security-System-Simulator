@@ -1,7 +1,5 @@
 package ua.lpnu.security_system_simulator.model.building;
 
-import ua.lpnu.security_system_simulator.model.building.builder.room.BuildingComponent;
-
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Iterator;

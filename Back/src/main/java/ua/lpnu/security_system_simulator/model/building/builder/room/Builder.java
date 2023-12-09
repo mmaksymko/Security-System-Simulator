@@ -15,4 +15,5 @@ public interface Builder {
     void addSensor(Sensor sensor) throws IllegalArgumentException;
     int getArea();
     Room build() throws IllegalArgumentException;
+    void reset();
 }

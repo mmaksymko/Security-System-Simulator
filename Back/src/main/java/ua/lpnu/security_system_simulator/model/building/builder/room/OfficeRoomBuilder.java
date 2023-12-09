@@ -17,7 +17,7 @@ public class OfficeRoomBuilder implements Builder{
     private int windows;
     private int doors;
     private List<Sensor> sensors;
-    OfficeRoomBuilder(){
+    public OfficeRoomBuilder(){
         sensors = new ArrayList<>();
     }
 
@@ -92,5 +92,14 @@ public class OfficeRoomBuilder implements Builder{
     @Override
     public Room build() throws IllegalArgumentException{
         return new Room(roomType, roomNumber, width, length, windows, doors, sensors, new ArrayList<>());
+    }
+    @Override
+    public void reset() {
+        this.roomNumber = 0;
+        this.length = 0;
+        this.doors = 0;
+        this.width = 0;
+        this.sensors = new ArrayList<>();
+        this.windows = 0;
     }
 }

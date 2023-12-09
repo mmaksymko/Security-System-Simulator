@@ -17,7 +17,7 @@ public class ApartmentRoomBuilder implements Builder{
     private int windows;
     private int doors;
     private List<Sensor> sensors;
-    ApartmentRoomBuilder(){
+    public ApartmentRoomBuilder(){
         sensors = new ArrayList<>();
     }
 
@@ -104,6 +104,18 @@ public class ApartmentRoomBuilder implements Builder{
         if(doors <= 0){
             throw new IllegalArgumentException("Cannot get room without a door");
         }
-        return new Room(roomType, roomNumber, width, length, windows, doors, sensors, new ArrayList<>());
+        Room result = new Room(roomType, roomNumber, width, length, windows, doors, sensors, new ArrayList<>());
+        this.reset();
+        return  result;
+    }
+
+    @Override
+    public void reset() {
+        this.roomNumber = 0;
+        this.length = 0;
+        this.doors = 0;
+        this.width = 0;
+        this.sensors = new ArrayList<>();
+        this.windows = 0;
     }
 }
