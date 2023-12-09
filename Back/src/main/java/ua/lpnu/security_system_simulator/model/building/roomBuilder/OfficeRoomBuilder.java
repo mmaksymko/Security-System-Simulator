@@ -46,8 +46,9 @@ public class OfficeRoomBuilder implements Builder{
 
     @Override
     public void setWindows(int numberOfWindows) throws IllegalArgumentException{
-        int minWindowCount = getArea() / 10;
-        int maxWindowCount = getArea() / 6;
+        float floatArea = Integer.valueOf(getArea()).floatValue();
+        int minWindowCount = Float.valueOf(floatArea / 2).intValue();
+        int maxWindowCount = getArea();
         if(getArea() == 0){
             throw new IllegalArgumentException("The area must be set first");
         }
@@ -58,7 +59,7 @@ public class OfficeRoomBuilder implements Builder{
         }
         this.windows = numberOfWindows;
         for(int i = 0; i < numberOfWindows; ++i){
-            sensors.add(new OpenedWindowSensor(5));
+            sensors.add(new OpenedWindowSensor(1));
         }
     }
 
@@ -69,7 +70,7 @@ public class OfficeRoomBuilder implements Builder{
         }
         this.doors = numberOfDoors;
         for(int i = 0; i < numberOfDoors; ++i){
-            sensors.add(new OpenedDoorSensor(5));
+            sensors.add(new OpenedDoorSensor(1));
         }
     }
 

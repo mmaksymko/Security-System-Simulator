@@ -8,43 +8,56 @@ import ua.lpnu.security_system_simulator.model.sensor.MotionSensor;
 
 public class RoomDirector {
     public int roomNumber;
-    public void constructApartmentRoom(Builder builder) throws Exception{
+    public void constructBigApartmentRoom(Builder builder) throws Exception{
         builder.setRoomType(RoomType.APARTMENT_ROOM);
-        builder.setWidth(4);
-        builder.setLength(6);
+        builder.setWidth(2);
+        builder.setLength(2);
+        builder.setWindows(2);
+        builder.setDoors(1);
+        //TODO room number
+        builder.setRoomNumber(10);
+        builder.addSensor(new FireSensor(2));
+        builder.addSensor(new FloodingSensor(2));
+        builder.addSensor(new GasLeakSensor(2));
+        builder.addSensor(new MotionSensor(1));
+    }
+    public void constructSmallApartmentRoom(Builder builder) throws Exception{
+        builder.setRoomType(RoomType.APARTMENT_ROOM);
+        builder.setWidth(1);
+        builder.setLength(2);
         builder.setWindows(1);
         builder.setDoors(1);
         //TODO room number
         builder.setRoomNumber(10);
-        builder.addSensor(new FireSensor(20));
-        builder.addSensor(new FloodingSensor(20));
-        builder.addSensor(new GasLeakSensor(20));
-        builder.addSensor(new MotionSensor(10));
+        builder.addSensor(new FireSensor(2));
+        builder.addSensor(new FloodingSensor(2));
+        builder.addSensor(new GasLeakSensor(2));
+        builder.addSensor(new MotionSensor(1));
     }
     public void constructApartmentBathroom(Builder builder)throws Exception{
         builder.setRoomType(RoomType.APARTMENT_BATHROOM);
-        builder.setWidth(3);
-        builder.setLength(5);
+        builder.setWidth(1);
+        builder.setLength(1);
         builder.setDoors(1);
         //TODO room number
         builder.setRoomNumber(11);
-        builder.addSensor(new FireSensor(20));
-        builder.addSensor(new FloodingSensor(20));
-        builder.addSensor(new GasLeakSensor(20));
-        builder.addSensor(new MotionSensor(10));
+        builder.addSensor(new FireSensor(2));
+        builder.addSensor(new FloodingSensor(2));
+        builder.addSensor(new GasLeakSensor(2));
+        builder.addSensor(new MotionSensor(1));
     }
     public void constructApartmentKitchen(Builder builder) throws Exception{
         builder.setRoomType(RoomType.KITCHEN);
-        builder.setWidth(3);
-        builder.setLength(4);
+        builder.setWidth(2);
+        builder.setLength(1);
         builder.setWindows(1);
         builder.setDoors(1);
         //TODO room number
         builder.setRoomNumber(12);
-        builder.addSensor(new FireSensor(20));
-        builder.addSensor(new FloodingSensor(20));
-        builder.addSensor(new GasLeakSensor(20));
-        builder.addSensor(new MotionSensor(10));
+        builder.addSensor(new FireSensor(2));
+        builder.addSensor(new FloodingSensor(2));
+        builder.addSensor(new GasLeakSensor(2));
+        builder.addSensor(new MotionSensor(1));
     }
     public void constructBigOfficeRoom(Builder builder) throws Exception{
         builder.setRoomType(RoomType.OFFICE_ROOM);
@@ -54,10 +67,10 @@ public class RoomDirector {
         builder.setDoors(2);
         //TODO room number
         builder.setRoomNumber(10);
-        builder.addSensor(new FireSensor(20));
-        builder.addSensor(new FloodingSensor(20));
-        builder.addSensor(new GasLeakSensor(20));
-        builder.addSensor(new MotionSensor(10));
+        builder.addSensor(new FireSensor(2));
+        builder.addSensor(new FloodingSensor(2));
+        builder.addSensor(new GasLeakSensor(2));
+        builder.addSensor(new MotionSensor(1));
     }
     public void constructSmallOfficeRoom(Builder builder) throws Exception{
         builder.setRoomType(RoomType.OFFICE_ROOM);
@@ -66,10 +79,10 @@ public class RoomDirector {
         builder.setDoors(1);
         //TODO room number
         builder.setRoomNumber(11);
-        builder.addSensor(new FireSensor(20));
-        builder.addSensor(new FloodingSensor(20));
-        builder.addSensor(new GasLeakSensor(20));
-        builder.addSensor(new MotionSensor(10));
+        builder.addSensor(new FireSensor(2));
+        builder.addSensor(new FloodingSensor(2));
+        builder.addSensor(new GasLeakSensor(2));
+        builder.addSensor(new MotionSensor(1));
     }
     public void constructOfficeRestroom(Builder builder)throws Exception{
         builder.setRoomType(RoomType.OFFICE_RESTROOM);
@@ -78,10 +91,10 @@ public class RoomDirector {
         builder.setDoors(1);
         //TODO room number
         builder.setRoomNumber(12);
-        builder.addSensor(new FireSensor(20));
-        builder.addSensor(new FloodingSensor(20));
-        builder.addSensor(new GasLeakSensor(20));
-        builder.addSensor(new MotionSensor(10));
+        builder.addSensor(new FireSensor(2));
+        builder.addSensor(new FloodingSensor(2));
+        builder.addSensor(new GasLeakSensor(2));
+        builder.addSensor(new MotionSensor(1));
     }
     public void constructOfficeKitchen(Builder builder) throws Exception{
         builder.setRoomType(RoomType.KITCHEN);
@@ -91,9 +104,9 @@ public class RoomDirector {
         builder.setDoors(1);
         //TODO room number
         builder.setRoomNumber(13);
-        builder.addSensor(new FireSensor(20));
-        builder.addSensor(new FloodingSensor(20));
-        builder.addSensor(new GasLeakSensor(20));
-        builder.addSensor(new MotionSensor(10));
+        builder.addSensor(new FireSensor(2));
+        builder.addSensor(new FloodingSensor(2));
+        builder.addSensor(new GasLeakSensor(2));
+        builder.addSensor(new MotionSensor(1));
     }
 }
