@@ -6,6 +6,7 @@ import ua.lpnu.security_system_simulator.model.sensor.OpenedDoorSensor;
 import ua.lpnu.security_system_simulator.model.sensor.OpenedWindowSensor;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -89,6 +90,6 @@ public class OfficeRoomBuilder implements Builder{
         if(doors <= 0){
             throw new Exception("Cannot get room without a door");
         }
-        return new Room(roomType, roomNumber, area, windows, doors, sensors);
+        return new Room(roomType, roomNumber, area, windows, doors, sensors, new ArrayList<>());
     }
 }

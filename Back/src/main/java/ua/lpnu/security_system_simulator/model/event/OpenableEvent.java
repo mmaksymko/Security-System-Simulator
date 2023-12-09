@@ -3,14 +3,20 @@ package ua.lpnu.security_system_simulator.model.event;
 import ua.lpnu.security_system_simulator.model.building.Room;
 
 public class OpenableEvent extends Event{
-    OpenableEvent(EventType eventType, Room room, DangerLevel dangerLevel){
-        super(eventType, room, dangerLevel);
+
+    OpenableEvent(){
+        super();
+    }
+
+    OpenableEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel){
+        super(eventType, location, dangerLevel);
     }
 
     @Override
     public void start() {
-        var sensors = getLocation().getAllSensorsOfType(getEventType());
-        if (random.nextDouble(0, 1) < (double) sensors.size() / super.getLocation().getWindows()){
+        Room room = (Room) getLocation();
+        var sensors = room.getAllSensorsOfType(getEventType());
+        if (random.nextDouble(0, 1) < (double) sensors.size() / room.getWindows()){
             sensors.get(random.nextInt(0,sensors.size())).triggerEvent();
         }
     }
