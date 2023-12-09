@@ -5,7 +5,7 @@ import ua.lpnu.security_system_simulator.model.building.RoomType;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 //TODO manual room builder????
-public interface Builder {
+public interface RoomBuilder {
     void setRoomType(RoomType roomType);
     void setWidth(int width) throws IllegalArgumentException;
     void setLength(int length) throws IllegalArgumentException;

@@ -4,13 +4,14 @@ import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
 import ua.lpnu.security_system_simulator.model.building.BuildingIterator;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.building.Room;
-import ua.lpnu.security_system_simulator.model.building.builder.room.ApartmentRoomBuilder;
+import ua.lpnu.security_system_simulator.model.building.builder.room.OfficeRoomBuilder;
+import ua.lpnu.security_system_simulator.model.building.builder.room.RoomBuilder;
 import ua.lpnu.security_system_simulator.model.building.builder.room.RoomDirector;
 
-public class ApartmentBuildingBuilder implements BuildingBuilder {
+public class OfficeBuildingBuilder implements BuildingBuilder {
     BuildingLevel result;
-    public ApartmentBuildingBuilder(){
-        result = new BuildingLevel("default apartment building");
+    public OfficeBuildingBuilder(){
+        result = new BuildingLevel("default office building");
     }
 
     @Override
@@ -22,8 +23,8 @@ public class ApartmentBuildingBuilder implements BuildingBuilder {
     }
 
     @Override
-    public void setNumberOfRoomsPerFloor(int rooms) throws Exception{
-        int numberOfBlocks = rooms / 4;
+    public void setNumberOfRoomsPerFloor(int rooms) throws Exception {
+        int numberOfBlocks = rooms / 5;
         BuildingIterator iterator = new BuildingIterator(result, true);
         while (iterator.hasNext()){
             BuildingComponent currentBuildingLevel = iterator.next();
@@ -32,36 +33,30 @@ public class ApartmentBuildingBuilder implements BuildingBuilder {
             }
             BuildingLevel currentFloor = (BuildingLevel)currentBuildingLevel;
             int floorNumber = Integer.parseInt(currentFloor.getName().split(" ")[0]);
-            ApartmentRoomBuilder builder = new ApartmentRoomBuilder();
+            OfficeRoomBuilder builder = new OfficeRoomBuilder();
             RoomDirector director = new RoomDirector(floorNumber);
 
             for(int i = 0; i < numberOfBlocks; ++i){
-                director.constructApartmentBathroom(builder);
+                director.constructBigOfficeRoom(builder);
                 currentFloor.addComponent(builder.build());
                 builder.reset();
 
-                director.constructApartmentKitchen(builder);
+                director.constructOfficeKitchen(builder);
                 currentFloor.addComponent(builder.build());
                 builder.reset();
 
-                director.constructApartmentRoom(builder);
+                director.constructSmallOfficeRoom(builder);
                 currentFloor.addComponent(builder.build());
                 builder.reset();
 
-                director.constructApartmentRoom(builder);
+                director.constructSmallOfficeRoom(builder);
+                currentFloor.addComponent(builder.build());
+                builder.reset();
+
+                director.constructOfficeRestroom(builder);
                 currentFloor.addComponent(builder.build());
                 builder.reset();
             }
         }
-    }
-
-    @Override
-    public BuildingLevel build() {
-        return result;
-    }
-
-    @Override
-    public void reset() {
-        result = new BuildingLevel("default apartment building");
     }
 }

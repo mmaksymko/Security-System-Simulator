@@ -1,11 +1,11 @@
 package ua.lpnu.security_system_simulator.model.building.builder.building;
 
-import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
+import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 
 //TODO building builder
-public interface Builder {
+public interface BuildingBuilder {
     public void seNumberOfFloors(int floors);
     public void setNumberOfRoomsPerFloor(int rooms) throws Exception;
-    public BuildingComponent build();
+    public BuildingLevel build();
     void reset();
 }

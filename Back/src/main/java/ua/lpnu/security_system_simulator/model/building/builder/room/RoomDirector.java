@@ -11,7 +11,7 @@ public class RoomDirector {
     public RoomDirector(int floor){
         this.roomNumberCounter = floor * 100;
     }
-    public void constructApartmentRoom(Builder builder) throws Exception{
+    public void constructApartmentRoom(RoomBuilder builder) throws Exception{
         builder.setRoomType(RoomType.APARTMENT_ROOM);
         builder.setWidth(2);
         builder.setLength(2);
@@ -23,7 +23,7 @@ public class RoomDirector {
         builder.addSensor(new GasLeakSensor(2));
         builder.addSensor(new MotionSensor(1));
     }
-    public void constructApartmentBathroom(Builder builder)throws Exception{
+    public void constructApartmentBathroom(RoomBuilder builder)throws Exception{
         builder.setRoomType(RoomType.APARTMENT_BATHROOM);
         builder.setWidth(1);
         builder.setLength(1);
@@ -34,7 +34,7 @@ public class RoomDirector {
         builder.addSensor(new GasLeakSensor(2));
         builder.addSensor(new MotionSensor(1));
     }
-    public void constructApartmentKitchen(Builder builder) throws Exception{
+    public void constructApartmentKitchen(RoomBuilder builder) throws Exception{
         builder.setRoomType(RoomType.KITCHEN);
         builder.setWidth(3);
         builder.setLength(1);
@@ -46,7 +46,7 @@ public class RoomDirector {
         builder.addSensor(new GasLeakSensor(2));
         builder.addSensor(new MotionSensor(1));
     }
-    public void constructBigOfficeRoom(Builder builder) throws Exception{
+    public void constructBigOfficeRoom(RoomBuilder builder) throws Exception{
         builder.setRoomType(RoomType.OFFICE_ROOM);
         builder.setWidth(3);
         builder.setLength(2);
@@ -58,7 +58,7 @@ public class RoomDirector {
         builder.addSensor(new GasLeakSensor(2));
         builder.addSensor(new MotionSensor(1));
     }
-    public void constructSmallOfficeRoom(Builder builder) throws Exception{
+    public void constructSmallOfficeRoom(RoomBuilder builder) throws Exception{
         builder.setRoomType(RoomType.OFFICE_ROOM);
         builder.setWidth(1);
         builder.setLength(1);
@@ -69,7 +69,7 @@ public class RoomDirector {
         builder.addSensor(new GasLeakSensor(2));
         builder.addSensor(new MotionSensor(1));
     }
-    public void constructOfficeRestroom(Builder builder)throws Exception{
+    public void constructOfficeRestroom(RoomBuilder builder)throws Exception{
         builder.setRoomType(RoomType.OFFICE_RESTROOM);
         builder.setWidth(2);
         builder.setLength(1);
@@ -80,7 +80,7 @@ public class RoomDirector {
         builder.addSensor(new GasLeakSensor(2));
         builder.addSensor(new MotionSensor(1));
     }
-    public void constructOfficeKitchen(Builder builder) throws Exception{
+    public void constructOfficeKitchen(RoomBuilder builder) throws Exception{
         builder.setRoomType(RoomType.KITCHEN);
         builder.setWidth(1);
         builder.setLength(2);

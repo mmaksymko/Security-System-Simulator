@@ -9,7 +9,7 @@ import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfficeRoomBuilder implements Builder{
+public class OfficeRoomBuilder implements RoomBuilder {
     private RoomType roomType;
     private int roomNumber;
     private int width;
