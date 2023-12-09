@@ -5,6 +5,7 @@ import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
 import ua.lpnu.security_system_simulator.model.sensor.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +22,7 @@ class ApartmentRoomDirectorTest {
         expectedSensors.add(new MotionSensor(10));
         expectedSensors.add(new MotionSensor(10));
         expectedSensors.add(new MotionSensor(10));
-        Room expected = new Room(RoomType.APARTMENT_ROOM, 10, 26, 1, 1, expectedSensors);
+        Room expected = new Room(RoomType.APARTMENT_ROOM, 10, 26, 1, 1, expectedSensors, new ArrayList<>());
         RoomDirector director = new RoomDirector();
         ApartmentRoomBuilder builder = new ApartmentRoomBuilder();
         director.constructApartmentRoom(builder);
@@ -38,7 +39,7 @@ class ApartmentRoomDirectorTest {
         expectedSensors.add(new GasLeakSensor(20));
         expectedSensors.add(new MotionSensor(10));
         expectedSensors.add(new MotionSensor(10));
-        Room expected = new Room(RoomType.APARTMENT_BATHROOM, 11, 15, 0, 1, expectedSensors);
+        Room expected = new Room(RoomType.APARTMENT_BATHROOM, 11, 15, 0, 1, expectedSensors, new ArrayList<>());
         RoomDirector director = new RoomDirector();
         ApartmentRoomBuilder builder = new ApartmentRoomBuilder();
         director.constructApartmentBathroom(builder);
@@ -55,7 +56,7 @@ class ApartmentRoomDirectorTest {
         expectedSensors.add(new GasLeakSensor(20));
         expectedSensors.add(new MotionSensor(10));
         expectedSensors.add(new MotionSensor(10));
-        Room expected = new Room(RoomType.KITCHEN, 12, 20, 1, 1, expectedSensors);
+        Room expected = new Room(RoomType.KITCHEN, 12, 20, 1, 1, expectedSensors, new ArrayList<>());
         RoomDirector director = new RoomDirector();
         ApartmentRoomBuilder builder = new ApartmentRoomBuilder();
         director.constructApartmentKitchen(builder);

@@ -27,23 +27,24 @@ public class RoomEventTests {
 
     @Test
     public void getCoverageArea_Returns0_WhenNoSensorsInRoom() {
-        var event = (RoomEvent) eventFactory.createEvent(EventType.FLOODING, new Room(RoomType.OFFICE_ROOM,10,50,10,10,new ArrayList<Sensor>()), DangerLevel.HIGH);
+        var event = (RoomEvent) eventFactory.createEvent(EventType.FLOODING, new Room(RoomType.OFFICE_ROOM,10,50,10,10,new ArrayList<Sensor>(),new ArrayList<>()), DangerLevel.HIGH);
         Assertions.assertEquals(event.getCoverageArea(), 0);
     }
 
     @Test
     public void getCoverageArea_Returns0_WhenNoSensorsOfEventTypeInRoom() {
-        var event = (RoomEvent) eventFactory.createEvent(EventType.FLOODING, new Room(RoomType.OFFICE_ROOM,10,50,10,10,new ArrayList<Sensor>()), DangerLevel.HIGH);
-        event.getLocation().addSensor(sensorFactory.createSensor(EventType.FIRE, 10));
-        event.getLocation().addSensor(sensorFactory.createSensor(EventType.OPENED_WINDOW, 16));
-        event.getLocation().addSensor(sensorFactory.createSensor(EventType.OPENED_DOOR, 20));
+        var event = (RoomEvent) eventFactory.createEvent(EventType.FLOODING, new Room(RoomType.OFFICE_ROOM,10,50,10,10,new ArrayList<Sensor>(),new ArrayList<>()), DangerLevel.HIGH);
+        Room room = (Room) event.getLocation();
+        room.addSensor(sensorFactory.createSensor(EventType.FIRE, 10));
+        room.addSensor(sensorFactory.createSensor(EventType.OPENED_WINDOW, 16));
+        room.addSensor(sensorFactory.createSensor(EventType.OPENED_DOOR, 20));
         Assertions.assertEquals(event.getCoverageArea(), 0);
     }
 
 
     @Test
     public void getCoverageAreaForNotFullyCoveredRoom_ReturnsCorrectlyCalculatedInt(){
-        Room room = new Room(RoomType.APARTMENT_ROOM,4,80, 6, 10,new ArrayList<Sensor>());
+        Room room = new Room(RoomType.APARTMENT_ROOM,4,80, 6, 10,new ArrayList<Sensor>(),new ArrayList<>());
         room.addSensor(sensorFactory.createSensor(EventType.FLOODING, 11));
         room.addSensor(sensorFactory.createSensor(EventType.FLOODING, 12));
         room.addSensor(sensorFactory.createSensor(EventType.FLOODING, 7));
@@ -55,7 +56,7 @@ public class RoomEventTests {
 
     @Test
     public void getRoomAreaForFullyCoveredRoom_ReturnsCorrectlyCalculatedInt(){
-        Room room = new Room(RoomType.OFFICE_ROOM,4,80, 6, 10,new ArrayList<Sensor>());
+        Room room = new Room(RoomType.OFFICE_ROOM,4,80, 6, 10,new ArrayList<Sensor>(),new ArrayList<>());
         room.addSensor(sensorFactory.createSensor(EventType.FLOODING, 11));
         room.addSensor(sensorFactory.createSensor(EventType.FLOODING, 12));
         room.addSensor(sensorFactory.createSensor(EventType.FLOODING, 7));
