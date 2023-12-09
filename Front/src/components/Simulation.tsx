@@ -1,3 +1,6 @@
+import ChangeFloorButton from "./ChangeFloorButton";
+import SimulationLogic from "./Rooms/SimulationLogic";
+import styles from "./InputFile.module.css";
 import React, { useState } from "react";
 import ChangeFloorButton from "./ChangeFloorButton";
 import StartSimulationButton from "./StartSimulationButton";
@@ -32,7 +35,7 @@ function Simulation() {
         <ContinueSimulationButton onClick={handleContinueClick} />
       )}
       <div className={styles.simulation} onClick={handleStopClick}>
-        <p>Floor plan and simulation here</p>
+        <SimulationLogic />
       </div>
       {simulationState === "continue" && (
         <p className={styles.message}>

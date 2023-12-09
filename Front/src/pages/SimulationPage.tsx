@@ -2,11 +2,11 @@ import React from "react";
 import styles from "./SimulationPage.module.css";
 import Sidebar from "../components/Sidebar";
 import Simulation from "../components/Simulation";
+import "../components/Rooms/RoomsStyle.css"
 import { useBuildingContext } from "../BuildingContext";
 
 const SimulationPage: React.FC = () => {
   const { buildingType, numFloors, numRoomsPerFloor } = useBuildingContext();
-
   return (
     <div className={styles.container}>
       <Sidebar
@@ -14,7 +14,9 @@ const SimulationPage: React.FC = () => {
         numFloors={numFloors}
         numRoomsPerFloor={numRoomsPerFloor}
       />
-      <Simulation />
+      <div id="floorPlan" className="App">
+        <Simulation />
+      </div>
     </div>
   );
 };

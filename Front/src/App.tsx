@@ -5,6 +5,7 @@ import { BuildingProvider } from "./BuildingContext";
 import ConfigureBuilding from "./pages/ConfigureBuilding";
 import SimulationPage from "./pages/SimulationPage";
 
+
 function App() {
   return (
     <Router>
