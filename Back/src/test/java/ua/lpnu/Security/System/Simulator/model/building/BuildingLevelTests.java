@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.building.Room;
+import ua.lpnu.security_system_simulator.model.building.RoomType;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -60,7 +61,7 @@ public class BuildingLevelTests {
         return new LinkedList<>(List.of(
                 new BuildingLevel("Level 1"),
                 new BuildingLevel("Level 2"),
-                new Room(5, 2, 5, 1),
-                new Room(1, 2, 5, 6)));
+                new Room(RoomType.APARTMENT_ROOM, 5, 2, 5, 1, new ArrayList<>(), new ArrayList<>()),
+                new Room(RoomType.APARTMENT_ROOM, 1, 2, 5, 6, new ArrayList<>(), new ArrayList<>())));
     }
 }

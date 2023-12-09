@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.building.Room;
+import ua.lpnu.security_system_simulator.model.building.RoomType;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -46,15 +47,15 @@ public class BuildingIteratorTests {
 
         var level1 = new BuildingLevel("Floor 1");
         var level2 = new BuildingLevel("Floor 2");
-        var level2_sublevel1 = new Room(2, 2, 5, 1);
-        var level2_sublevel2 = new Room(4, 2, 5, 1);
+        var level2_sublevel1 = new Room(RoomType.APARTMENT_ROOM, 2, 2, 5, 1, new ArrayList<>(), new ArrayList<>());
+        var level2_sublevel2 = new Room(RoomType.APARTMENT_ROOM, 4, 2, 5, 1, new ArrayList<>(), new ArrayList<>());
         level2.addComponent(level2_sublevel1);
         level2.addComponent(level2_sublevel2);
         var level3 = new BuildingLevel("Floor3");
-        var level4 = new Room(5, 2, 5, 1);
-        var level5 = new Room(1, 2, 5, 6);
+        var level4 = new Room(RoomType.APARTMENT_ROOM, 5, 2, 5, 1, new ArrayList<>(), new ArrayList<>());
+        var level5 = new Room(RoomType.APARTMENT_ROOM, 1, 2, 5, 6, new ArrayList<>(), new ArrayList<>());
         var level6  = new BuildingLevel("Floor4");
-        var level6_sublevel1 = new Room(7, 700, 5, 1);
+        var level6_sublevel1 = new Room(RoomType.APARTMENT_ROOM, 7, 700, 5, 1, new ArrayList<>(), new ArrayList<>());
         level6.addComponent(level6_sublevel1);
 
         List<BuildingComponent> list = new LinkedList<>(List.of(
@@ -77,15 +78,15 @@ public class BuildingIteratorTests {
 
         var level1 = new BuildingLevel("Floor 1");
         var level2 = new BuildingLevel("Floor 2");
-        var level2_sublevel1 = new Room(2, 2, 5, 1);
-        var level2_sublevel2 = new Room(4, 2, 5, 1);
+        var level2_sublevel1 = new Room(RoomType.APARTMENT_ROOM, 2, 2, 5, 1, new ArrayList<>(), new ArrayList<>());
+        var level2_sublevel2 = new Room(RoomType.APARTMENT_ROOM, 4, 2, 5, 1, new ArrayList<>(), new ArrayList<>());
         level2.addComponent(level2_sublevel1);
         level2.addComponent(level2_sublevel2);
         var level3 = new BuildingLevel("Floor 3");
-        var level4 = new Room(5, 2, 5, 1);
-        var level5 = new Room(1, 2, 5, 6);
+        var level4 = new Room(RoomType.APARTMENT_ROOM, 5, 2, 5, 1, new ArrayList<>(), new ArrayList<>());
+        var level5 = new Room(RoomType.APARTMENT_ROOM, 1, 2, 5, 6, new ArrayList<>(), new ArrayList<>());
         var level6  = new BuildingLevel("Floor 4");
-        var level6_sublevel1 = new Room(7, 700, 5, 1);
+        var level6_sublevel1 = new Room(RoomType.APARTMENT_ROOM, 7, 700, 5, 1, new ArrayList<>(), new ArrayList<>());
         level6.addComponent(level6_sublevel1);
 
         List<BuildingComponent> list = new LinkedList<>(List.of(
