@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./SimulationPage.module.css";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Simulation from "../components/Simulation/Simulation";
-import "../components/Rooms/RoomsStyle.css";
+import "../components/Rooms/RoomsStyle.scss";
 import { useBuildingContext } from "../BuildingContext";
 import EditPopup from "../components/EditBuildingPopup/EditPopup";
 
