@@ -1,5 +1,6 @@
 package ua.lpnu.security_system_simulator.controller;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +46,19 @@ public class BuildingController {
     @PostMapping("/buildings")
     public ResponseEntity<BuildingLevel> createBuilding(@RequestBody BuildingLevel buildingLevel) {
         try {
+            if (!validateBuilding(buildingLevel)){
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
+
             repository.save(buildingLevel);
             return new ResponseEntity<>(buildingLevel, HttpStatus.OK);
+        } catch (DuplicateKeyException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e){
+            System.out.println(e);
+            System.out.println(e.getMessage());
+            System.out.println(e.getClass());
+            System.out.println(e.getCause());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -55,6 +66,10 @@ public class BuildingController {
     @PutMapping("/buildings/{id}")
     public ResponseEntity<BuildingLevel> updateBuilding(@PathVariable("id") String id, @RequestBody BuildingLevel buildingLevel) {
         try {
+            if (!validateBuilding(buildingLevel)){
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
+
             var result = repository.findById(id);
             if (result.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,6 +77,8 @@ public class BuildingController {
             buildingLevel.setId(id);
             repository.save(buildingLevel);
             return new ResponseEntity<>(buildingLevel, HttpStatus.OK);
+        } catch (DuplicateKeyException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -75,5 +92,17 @@ public class BuildingController {
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private boolean validateBuilding(BuildingLevel building) {
+        if (building.getNumberOfComponents() >= 200){
+            return false;
+        }
+        for(var component : building.depthFirstSearch()){
+            if (component.getNumberOfComponents()>=20) {
+                return false;
+            }
+        }
+        return true;
     }
 }

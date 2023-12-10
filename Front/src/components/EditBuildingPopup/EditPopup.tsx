@@ -1,35 +1,38 @@
-import { Link } from "react-router-dom";
+import styles from "./EditPopup.module.css";
+import InputField from "../InputField/InputField";
+import BuildingTypeButton from "../BuildingTypeButton/BuildingTypeButton";
+import { useBuildingContext } from "../../BuildingContext";
+import RandomNumberButton from "../RandomNumberButton";
+import SubmitButton from "../SubmitButton";
+import InputFieldText from "../InputField/InputFieldText";
 import { useState } from "react";
-import styles from "./ConfigureBuilding.module.css";
-import BuildingTypeButton from "../components/BuildingTypeButton/BuildingTypeButton";
-import GenerateBuildingButton from "../components/GenerateBuildingButton";
-import RandomNumberButton from "../components/RandomNumberButton";
-import InputField from "../components/InputField/InputField";
-import InputFieldText from "../components/InputField/InputFieldText";
-import { useBuildingContext } from "../BuildingContext";
 
-function ConfigureBuilding() {
+interface EditPopupProps {
+  onClose: () => void;
+}
+const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
   const {
     buildingType,
     setBuildingType,
-    buildingName,
-    setBuildingName,
     numFloors,
     setNumFloors,
     numRoomsPerFloor,
     setNumRoomsPerFloor,
   } = useBuildingContext();
-
   const [activeType, setActiveType] = useState("");
 
   const handleBuildingTypeClick = (type: string) => {
     setActiveType(type);
     setBuildingType(type);
   };
-
-  const handleNameChange = (value: string) => {
-    setBuildingName(value);
+  const handleOfficeBuildingClick = () => {
+    setBuildingType("office");
   };
+
+  const handleResidentialBuildingClick = () => {
+    setBuildingType("residential");
+  };
+
   const handleNumFloorsChange = (value: number) => {
     setNumFloors(value);
   };
@@ -37,15 +40,21 @@ function ConfigureBuilding() {
   const handleNumRoomsPerFloorChange = (value: number) => {
     setNumRoomsPerFloor(value);
   };
-
   return (
-    <div className={styles.background}>
-      <div className={styles.container}>
-        <h1 className={styles.h1}>Configure your building</h1>
+    <div className={styles.background} onClick={onClose}>
+      <div className={styles.container} onClick={(e) => e.stopPropagation()}>
+        <h1>Edit your building</h1>
+        <img
+          src="../public/close.png"
+          height={"24px"}
+          width={"24px"}
+          className={styles.close}
+          onClick={onClose}
+        />
         <div className={styles.propertiesContainer}>
           <div className={styles.propertiesContainer}>
             <div className={styles.buildingPropertyContainer}>
-              <h2 className={styles.h2}>Choose type of the building</h2>
+              <h2 className={styles.h2}>Choose new type of the building</h2>
               <div className={styles.buildingTypeButtons}>
                 <div className={styles.firstRowButtons}>
                   <BuildingTypeButton
@@ -106,16 +115,7 @@ function ConfigureBuilding() {
               </div>
             </div>
             <div className={styles.buildingPropertyContainer}>
-              <h2 className={styles.h2}>Choose a name for the building</h2>
-              <div className={styles.buildingPropertyButtons}>
-                <InputFieldText
-                  value={buildingName}
-                  onChange={(value) => handleNameChange(value)}
-                />
-              </div>
-            </div>
-            <div className={styles.buildingPropertyContainer}>
-              <h2 className={styles.h2}>Choose number of the floors</h2>
+              <h2 className={styles.h2}>Choose new number of the floors</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputField
                   value={numFloors}
@@ -124,16 +124,15 @@ function ConfigureBuilding() {
                 <RandomNumberButton
                   onGenerate={handleNumFloorsChange}
                   min={1}
-                  max={102}
+                  max={333}
                 />
               </div>
             </div>
           </div>
-
           {(buildingType === "office" || buildingType === "residential") && (
             <div className={styles.buildingPropertyContainer}>
               <h2 className={styles.h2}>
-                Choose number of the rooms per floor
+                Choose new number of the rooms per floor
               </h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputField
@@ -149,13 +148,10 @@ function ConfigureBuilding() {
             </div>
           )}
         </div>
-
-        <Link to="/simulation">
-          <GenerateBuildingButton />
-        </Link>
+        <SubmitButton onClick={onClose} />
       </div>
     </div>
   );
-}
+};
 
-export default ConfigureBuilding;
+export default EditPopup;

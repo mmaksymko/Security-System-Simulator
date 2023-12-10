@@ -373,6 +373,5 @@ const SimulationLogic = () => {
           {generateBedrooms()}
         </div>
     );
-  };
-  
-  export default SimulationLogic;
+
+export default SimulationLogic;

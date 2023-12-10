@@ -1,4 +1,4 @@
-package ua.lpnu.security_system_simulator.model.building.roomBuilder;
+package ua.lpnu.security_system_simulator.model.building.builder.room;
 
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.RoomType;
@@ -7,10 +7,9 @@ import ua.lpnu.security_system_simulator.model.sensor.OpenedWindowSensor;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class ApartmentRoomBuilder implements Builder{
+public class ApartmentRoomBuilder implements RoomBuilder {
     private RoomType roomType;
     private int roomNumber;
     private int width;
@@ -18,7 +17,7 @@ public class ApartmentRoomBuilder implements Builder{
     private int windows;
     private int doors;
     private List<Sensor> sensors;
-    ApartmentRoomBuilder(){
+    public ApartmentRoomBuilder(){
         sensors = new ArrayList<>();
     }
 
@@ -53,8 +52,9 @@ public class ApartmentRoomBuilder implements Builder{
 
     @Override
     public void setWindows(int numberOfWindows) throws IllegalArgumentException{
-        int minWindowCount = getArea() / 18;
-        int maxWindowCount = getArea() / 10;
+        float floatArea = Integer.valueOf(getArea()).floatValue();
+        int minWindowCount = Float.valueOf(floatArea / 3).intValue();
+        int maxWindowCount = Float.valueOf(floatArea / 2).intValue();
         if(getArea() == 0){
             throw new IllegalArgumentException("An area must be set first");
         }
@@ -65,7 +65,7 @@ public class ApartmentRoomBuilder implements Builder{
         }
         this.windows = numberOfWindows;
         for(int i = 0; i < numberOfWindows; ++i){
-            sensors.add(new OpenedWindowSensor(2));
+            sensors.add(new OpenedWindowSensor(1));
         }
     }
 
@@ -79,7 +79,7 @@ public class ApartmentRoomBuilder implements Builder{
         }
         this.doors = numberOfDoors;
         for(int i = 0; i < numberOfDoors; ++i){
-            sensors.add(new OpenedDoorSensor(2));
+            sensors.add(new OpenedDoorSensor(1));
         }
     }
 
@@ -100,10 +100,22 @@ public class ApartmentRoomBuilder implements Builder{
     }
 
     @Override
-    public Room getResult() throws IllegalArgumentException{
+    public Room build() throws IllegalArgumentException{
         if(doors <= 0){
             throw new IllegalArgumentException("Cannot get room without a door");
         }
-        return new Room(roomType, roomNumber, width, length, windows, doors, sensors, new ArrayList<>());
+        Room result = new Room(roomType, roomNumber, width, length, windows, doors, sensors, new ArrayList<>());
+        this.reset();
+        return  result;
+    }
+
+    @Override
+    public void reset() {
+        this.roomNumber = 0;
+        this.length = 0;
+        this.doors = 0;
+        this.width = 0;
+        this.sensors = new ArrayList<>();
+        this.windows = 0;
     }
 }

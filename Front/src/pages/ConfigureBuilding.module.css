@@ -22,12 +22,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 48px;
+  gap: 32px;
 }
 .propertiesContainer {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
 }
 h1 {
   color: #000;
@@ -40,7 +40,23 @@ h1 {
   flex-direction: column;
   gap: 16px;
 }
+.buildingTypeButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.buildingTypeButtons > :nth-child(2) {
+  width: 222px;
+}
 .buildingPropertyButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 16px;
+}
+.firstRowButtons {
   display: flex;
   flex-direction: row;
   justify-content: center;
