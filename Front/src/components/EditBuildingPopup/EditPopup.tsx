@@ -14,6 +14,8 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
   const {
     buildingType,
     setBuildingType,
+    buildingName,
+    setBuildingName,
     numFloors,
     setNumFloors,
     numRoomsPerFloor,
@@ -25,16 +27,12 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
     setActiveType(type);
     setBuildingType(type);
   };
-  const handleOfficeBuildingClick = () => {
-    setBuildingType("office");
-  };
-
-  const handleResidentialBuildingClick = () => {
-    setBuildingType("residential");
-  };
 
   const handleNumFloorsChange = (value: number) => {
     setNumFloors(value);
+  };
+  const handleNameChange = (value: string) => {
+    setBuildingName(value);
   };
 
   const handleNumRoomsPerFloorChange = (value: number) => {
@@ -112,6 +110,15 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
                     Custom building
                   </p>
                 </BuildingTypeButton>
+              </div>
+            </div>
+            <div className={styles.duildingPropertyContainer}>
+              <h2 className={styles.h2}>Choose new name for the building</h2>
+              <div className={styles.buildingPropertyButtons}>
+                <InputFieldText
+                  value={buildingName}
+                  onChange={(value) => handleNameChange(value)}
+                />
               </div>
             </div>
             <div className={styles.buildingPropertyContainer}>
