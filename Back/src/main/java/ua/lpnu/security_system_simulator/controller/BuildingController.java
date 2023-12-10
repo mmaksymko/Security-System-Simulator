@@ -1,7 +1,11 @@
 package ua.lpnu.security_system_simulator.controller;
 
+import netscape.javascript.JSObject;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
+@CrossOrigin
 public class BuildingController {
     BuildingRepository repository;
 
@@ -58,10 +63,6 @@ public class BuildingController {
         } catch (DuplicateKeyException e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e){
-            System.out.println(e);
-            System.out.println(e.getMessage());
-            System.out.println(e.getClass());
-            System.out.println(e.getCause());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -96,28 +97,32 @@ public class BuildingController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/buildings/apartment")
-    public  ResponseEntity<BuildingLevel> generateApartmentBuilding(@RequestParam(name = "floors") int floors, @RequestParam(name = "rooms") int rooms){
+    @PostMapping("/buildings/residential")
+    public  ResponseEntity<BuildingLevel> generateApartmentBuilding(HttpEntity<String> httpEntity){
         try {
+            JSONObject json = new JSONObject(httpEntity.getBody());
             ApartmentBuildingBuilder builder = new ApartmentBuildingBuilder();
-            builder.seNumberOfFloors(floors);
-            builder.setNumberOfRoomsPerFloor(rooms);
-            return new ResponseEntity<>(builder.build(), HttpStatus.OK);
+            builder.seNumberOfFloors(Integer.parseInt(json.get("floors").toString()));
+            builder.setNumberOfRoomsPerFloor(Integer.parseInt(json.get("rooms").toString()));
+            BuildingLevel result = builder.build();
+            repository.save(result)
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }catch (Exception e){
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/buildings/office")
-    public  ResponseEntity<BuildingLevel> generateOfficeBuilding(@RequestParam(name = "floors") int floors, @RequestParam(name = "rooms") int rooms){
+    public  ResponseEntity<BuildingLevel> generateOfficeBuilding(HttpEntity<String> httpEntity){
         try {
+            JSONObject json = new JSONObject(httpEntity.getBody());
             OfficeBuildingBuilder builder = new OfficeBuildingBuilder();
-            builder.seNumberOfFloors(floors);
-            builder.setNumberOfRoomsPerFloor(rooms);
-            return new ResponseEntity<>(builder.build(), HttpStatus.OK);
+            builder.seNumberOfFloors(Integer.parseInt(json.get("floors").toString()));
+            builder.setNumberOfRoomsPerFloor(Integer.parseInt(json.get("rooms").toString()));
+            BuildingLevel result = builder.build();
+            repository.save(result);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }catch (Exception e){
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
