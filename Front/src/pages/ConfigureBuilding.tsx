@@ -19,6 +19,14 @@ function ConfigureBuilding() {
     numRoomsPerFloor,
     setNumRoomsPerFloor,
   } = useBuildingContext();
+
+  const [activeType, setActiveType] = useState("");
+
+  const handleBuildingTypeClick = (type: string) => {
+    setActiveType(type);
+    setBuildingType(type);
+  };
+
   const handleOfficeBuildingClick = () => {
     setBuildingType("office");
   };
@@ -50,7 +58,10 @@ function ConfigureBuilding() {
             <h2 className={styles.h2}>Choose type of the building</h2>
             <div className={styles.buildingTypeButtons}>
               <div className={styles.firstRowButtons}>
-                <BuildingTypeButton onClick={handleOfficeBuildingClick}>
+                <BuildingTypeButton
+                  onClick={() => handleBuildingTypeClick("office")}
+                  active={activeType === "office"}
+                >
                   <img
                     src="../public/office-building_1f3e2.png"
                     width={"30px"}
@@ -65,7 +76,10 @@ function ConfigureBuilding() {
                     Office building
                   </p>
                 </BuildingTypeButton>
-                <BuildingTypeButton onClick={handleResidentialBuildingClick}>
+                <BuildingTypeButton
+                  onClick={() => handleBuildingTypeClick("residential")}
+                  active={activeType === "residential"}
+                >
                   <img
                     src="../public/house_1f3e0.png"
                     width={"30px"}
@@ -81,7 +95,10 @@ function ConfigureBuilding() {
                   </p>
                 </BuildingTypeButton>
               </div>
-              <BuildingTypeButton onClick={handleCustomBuildingClick}>
+              <BuildingTypeButton
+                onClick={() => handleBuildingTypeClick("custom")}
+                active={activeType === "custom"}
+              >
                 <img
                   src="../public/wrench.png"
                   width={"30px"}
