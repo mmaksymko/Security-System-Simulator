@@ -10,6 +10,7 @@ public class RoomDirector {
     public int roomNumberCounter;
     public RoomDirector(int floor){
         this.roomNumberCounter = floor * 100;
+        roomNumberCounter++;
     }
     public void constructApartmentRoom(RoomBuilder builder) throws Exception{
         builder.setRoomType(RoomType.APARTMENT_ROOM);
