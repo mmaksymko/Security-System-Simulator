@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./SimulationPage.module.css";
 import Sidebar from "../components/Sidebar";
 import Simulation from "../components/Simulation";
-import "../components/Rooms/RoomsStyle.css";
+import "../components/Rooms/RoomsStyle.scss";
 import { useBuildingContext } from "../BuildingContext";
 
 const SimulationPage: React.FC = () => {
