@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styles from "./Sidebar.module.css";
-import BuildingInfoItem from "./BuildingInfoItem";
-import EditBtn from "./EditBuildingConfigurationButton";
-import Log from "./Log";
+import BuildingInfoItem from "../BuildingInfoItem";
+import EditBtn from "../EditBuildingConfigurationButton";
+import Log from "../Log/Log";
 
 interface SidebarProps {
   buildingType: string;

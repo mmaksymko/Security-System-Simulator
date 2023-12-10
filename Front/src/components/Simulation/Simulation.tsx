@@ -1,9 +1,9 @@
-import ChangeFloorButton from "./ChangeFloorButton";
-import SimulationLogic from "./Rooms/SimulationLogic";
+import ChangeFloorButton from "../ChangeFloorButton/ChangeFloorButton";
+import SimulationLogic from "../Rooms/SimulationLogic";
 import styles from "./Simulation.module.css";
 import { useState } from "react";
-import StartSimulationButton from "./StartSimulationButton";
-import ContinueSimulationButton from "./ContinueSimulationButton";
+import StartSimulationButton from "../StartSimulationButton";
+import ContinueSimulationButton from "../ContinueSimulationButton";
 
 function Simulation() {
   const [simulationState, setSimulationState] = useState("start");
