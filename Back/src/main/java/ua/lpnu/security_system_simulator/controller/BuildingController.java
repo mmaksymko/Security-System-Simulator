@@ -6,9 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
+import ua.lpnu.security_system_simulator.model.building.builder.building.ApartmentBuildingBuilder;
+import ua.lpnu.security_system_simulator.model.building.builder.building.OfficeBuildingBuilder;
 import ua.lpnu.security_system_simulator.repository.BuildingRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class BuildingController {
@@ -93,6 +96,19 @@ public class BuildingController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PostMapping("/buildings/apartment")
+    public  ResponseEntity<BuildingLevel> postGenerateBuilding(@RequestParam(name = "floors") int floors, @RequestParam(name = "rooms") int rooms){
+        try {
+            ApartmentBuildingBuilder builder = new ApartmentBuildingBuilder();
+            builder.seNumberOfFloors(floors);
+            builder.setNumberOfRoomsPerFloor(rooms);
+            return new ResponseEntity<>(builder.build(), HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     private boolean validateBuilding(BuildingLevel building) {
         if (building.getNumberOfComponents() >= 200){
