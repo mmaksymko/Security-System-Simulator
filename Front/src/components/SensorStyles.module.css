@@ -1,0 +1,22 @@
+.selectedSensorsContainer {
+  background-color: #2A80E6;
+  border-radius: 8px; 
+  padding: 8px; 
+  display: flex;
+  flex-wrap: wrap; 
+}
+
+.selectedSensor {
+  margin: 4px;
+  padding: 8px;
+  color: #fff;
+  background-color: #2A80E6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.removeSensor {
+  cursor: pointer;
+  margin-left: 8px;
+}
