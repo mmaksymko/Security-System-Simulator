@@ -97,7 +97,7 @@ public class BuildingController {
         }
     }
     @PostMapping("/buildings/apartment")
-    public  ResponseEntity<BuildingLevel> postGenerateBuilding(@RequestParam(name = "floors") int floors, @RequestParam(name = "rooms") int rooms){
+    public  ResponseEntity<BuildingLevel> generateApartmentBuilding(@RequestParam(name = "floors") int floors, @RequestParam(name = "rooms") int rooms){
         try {
             ApartmentBuildingBuilder builder = new ApartmentBuildingBuilder();
             builder.seNumberOfFloors(floors);
@@ -109,6 +109,18 @@ public class BuildingController {
         }
     }
 
+    @PostMapping("/buildings/office")
+    public  ResponseEntity<BuildingLevel> generateOfficeBuilding(@RequestParam(name = "floors") int floors, @RequestParam(name = "rooms") int rooms){
+        try {
+            OfficeBuildingBuilder builder = new OfficeBuildingBuilder();
+            builder.seNumberOfFloors(floors);
+            builder.setNumberOfRoomsPerFloor(rooms);
+            return new ResponseEntity<>(builder.build(), HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     private boolean validateBuilding(BuildingLevel building) {
         if (building.getNumberOfComponents() >= 200){
