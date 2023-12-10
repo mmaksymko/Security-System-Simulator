@@ -4,10 +4,10 @@ import "./RoomsStyle.scss";
   roomType : string
   width : number
   height : number
-  //label : string
+  label : string
  }
 
-function Bedroom({roomType: bedType, width, height} : Props) {
+function Bedroom({roomType: bedType, width, height, label} : Props) {
   const style = {
     gridColumn: `span ${width}`,
     gridRow: `span ${height}`,
@@ -15,6 +15,7 @@ function Bedroom({roomType: bedType, width, height} : Props) {
 
   return <div className="Components Bedroom" id={`${bedType}`} style={style} >
       <div className="Door" />
+      <div className="Label">{label}</div>
   </div>;
 }
 

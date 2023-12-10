@@ -358,7 +358,8 @@ const SimulationLogic = () => {
       for (let i = 0; i < numOfRooms; i++) {
         bedrooms.push(<Bedroom key={i} roomType={jSonObj.components[i].roomType} 
                                         width={jSonObj.components[i].roomWidht} 
-                                        height={jSonObj.components[i].roomHeight} />);
+                                        height={jSonObj.components[i].roomHeight}
+                                        label={jSonObj.components[i].roomType + jSonObj.components[i].roomNumber} />);
                                         // windows={jSonObj.components[i].windows} />);
                                         // doors={jSonObj.components[i].doors} />
                                        
