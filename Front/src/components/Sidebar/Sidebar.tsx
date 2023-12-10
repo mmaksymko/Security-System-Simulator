@@ -6,6 +6,7 @@ import Log from "../Log/Log";
 
 interface SidebarProps {
   buildingType: string;
+  buildingName: string;
   numFloors: number;
   numRoomsPerFloor: number;
   onEditButtonClick: () => void;
@@ -13,6 +14,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({
   buildingType,
+  buildingName,
   numFloors,
   numRoomsPerFloor,
   onEditButtonClick,
@@ -22,6 +24,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className={styles.configurationContainer}>
         <h1 className={styles.title}>Configuration of the building</h1>
         <div className={styles.buildingInfo}>
+          <BuildingInfoItem>
+            <p className={styles.property}>Name of the building:</p>
+            <p className={styles.value}>{buildingName}</p>
+          </BuildingInfoItem>
           <BuildingInfoItem>
             <p className={styles.property}>Type of the building:</p>
             <p className={styles.value}>{buildingType}</p>
