@@ -1,6 +1,6 @@
 import styles from "./EditPopup.module.css";
-import InputField from "../InputField";
-import BuildingTypeButton from "../BuildingTypeButton";
+import InputField from "../InputField/InputField";
+import BuildingTypeButton from "../BuildingTypeButton/BuildingTypeButton";
 import { useBuildingContext } from "../../BuildingContext";
 import RandomNumberButton from "../RandomNumberButton";
 import SubmitButton from "../SubmitButton";

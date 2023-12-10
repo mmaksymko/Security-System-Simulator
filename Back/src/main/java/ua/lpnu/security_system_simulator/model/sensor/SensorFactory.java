@@ -15,6 +15,7 @@ public class SensorFactory {
             case MOTION -> new MotionSensor(coverageArea);
             case OPENED_WINDOW -> new OpenedWindowSensor(coverageArea);
             case OPENED_DOOR -> new OpenedDoorSensor(coverageArea);
+            case OPENED_DOOR -> new OpenedDoorSensor(coverageArea);
             case null -> throw new InvalidParameterException("Some Parameters Are Null");
         };
     }
