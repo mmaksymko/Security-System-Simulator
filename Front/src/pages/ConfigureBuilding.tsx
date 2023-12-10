@@ -19,17 +19,14 @@ function ConfigureBuilding() {
     numRoomsPerFloor,
     setNumRoomsPerFloor,
   } = useBuildingContext();
-  const handleOfficeBuildingClick = () => {
-    setBuildingType("office");
+
+  const [activeType, setActiveType] = useState("");
+
+  const handleBuildingTypeClick = (type: string) => {
+    setActiveType(type);
+    setBuildingType(type);
   };
 
-  const handleResidentialBuildingClick = () => {
-    setBuildingType("residential");
-  };
-
-  const handleCustomBuildingClick = () => {
-    setBuildingType("custom");
-  };
   const handleNameChange = (value: string) => {
     setBuildingName(value);
   };
@@ -46,13 +43,54 @@ function ConfigureBuilding() {
       <div className={styles.container}>
         <h1 className={styles.h1}>Configure your building</h1>
         <div className={styles.propertiesContainer}>
-          <div className={styles.buildingPropertyContainer}>
-            <h2 className={styles.h2}>Choose type of the building</h2>
-            <div className={styles.buildingTypeButtons}>
-              <div className={styles.firstRowButtons}>
-                <BuildingTypeButton onClick={handleOfficeBuildingClick}>
+          <div className={styles.propertiesContainer}>
+            <div className={styles.buildingPropertyContainer}>
+              <h2 className={styles.h2}>Choose type of the building</h2>
+              <div className={styles.buildingTypeButtons}>
+                <div className={styles.firstRowButtons}>
+                  <BuildingTypeButton
+                    onClick={() => handleBuildingTypeClick("office")}
+                    active={activeType === "office"}
+                  >
+                    <img
+                      src="../public/office-building_1f3e2.png"
+                      width={"30px"}
+                      height={"30px"}
+                    ></img>
+                    <p
+                      style={{
+                        margin: "0px",
+                        alignSelf: "center",
+                      }}
+                    >
+                      Office building
+                    </p>
+                  </BuildingTypeButton>
+                  <BuildingTypeButton
+                    onClick={() => handleBuildingTypeClick("residential")}
+                    active={activeType === "residential"}
+                  >
+                    <img
+                      src="../public/house_1f3e0.png"
+                      width={"30px"}
+                      height={"30px"}
+                    ></img>
+                    <p
+                      style={{
+                        margin: "0px",
+                        alignSelf: "center",
+                      }}
+                    >
+                      Residential building
+                    </p>
+                  </BuildingTypeButton>
+                </div>
+                <BuildingTypeButton
+                  onClick={() => handleBuildingTypeClick("custom")}
+                  active={activeType === "custom"}
+                >
                   <img
-                    src="../public/office-building_1f3e2.png"
+                    src="../public/wrench.png"
                     width={"30px"}
                     height={"30px"}
                   ></img>
@@ -62,79 +100,54 @@ function ConfigureBuilding() {
                       alignSelf: "center",
                     }}
                   >
-                    Office building
-                  </p>
-                </BuildingTypeButton>
-                <BuildingTypeButton onClick={handleResidentialBuildingClick}>
-                  <img
-                    src="../public/house_1f3e0.png"
-                    width={"30px"}
-                    height={"30px"}
-                  ></img>
-                  <p
-                    style={{
-                      margin: "0px",
-                      alignSelf: "center",
-                    }}
-                  >
-                    Residential building
+                    Custom building
                   </p>
                 </BuildingTypeButton>
               </div>
-              <BuildingTypeButton onClick={handleCustomBuildingClick}>
-                <img
-                  src="../public/wrench.png"
-                  width={"30px"}
-                  height={"30px"}
-                ></img>
-                <p
-                  style={{
-                    margin: "0px",
-                    alignSelf: "center",
-                  }}
-                >
-                  Custom building
-                </p>
-              </BuildingTypeButton>
+            </div>
+            <div className={styles.buildingPropertyContainer}>
+              <h2 className={styles.h2}>Choose a name for the building</h2>
+              <div className={styles.buildingPropertyButtons}>
+                <InputFieldText
+                  value={buildingName}
+                  onChange={(value) => handleNameChange(value)}
+                />
+              </div>
+            </div>
+            <div className={styles.buildingPropertyContainer}>
+              <h2 className={styles.h2}>Choose number of the floors</h2>
+              <div className={styles.buildingPropertyButtons}>
+                <InputField
+                  value={numFloors}
+                  onChange={(value) => handleNumFloorsChange(value)}
+                />
+                <RandomNumberButton
+                  onGenerate={handleNumFloorsChange}
+                  min={1}
+                  max={102}
+                />
+              </div>
             </div>
           </div>
-          <div className={styles.buildingPropertyContainer}>
-            <h2 className={styles.h2}>Choose a name for the building</h2>
-            <div className={styles.buildingPropertyButtons}>
-              <InputFieldText
-                value={buildingName}
-                onChange={(value) => handleNameChange(value)}
-              />
+
+          {(buildingType === "office" || buildingType === "residential") && (
+            <div className={styles.buildingPropertyContainer}>
+              <h2 className={styles.h2}>
+                Choose number of the rooms per floor
+              </h2>
+              <div className={styles.buildingPropertyButtons}>
+                <InputField
+                  value={numRoomsPerFloor}
+                  onChange={(value) => handleNumRoomsPerFloorChange(value)}
+                />
+                <RandomNumberButton
+                  onGenerate={handleNumRoomsPerFloorChange}
+                  min={1}
+                  max={33}
+                />
+              </div>
             </div>
-          </div>
-          <div className={styles.buildingPropertyContainer}>
-            <h2 className={styles.h2}>Choose number of the floors</h2>
-            <div className={styles.buildingPropertyButtons}>
-              <InputField
-                value={numFloors}
-                onChange={(value) => handleNumFloorsChange(value)}
-              />
-              <RandomNumberButton
-                onGenerate={handleNumFloorsChange}
-                min={1}
-                max={102}
-              />
-            </div>
-          </div>
-          <div className={styles.buildingPropertyContainer}>
-            <h2 className={styles.h2}>Choose number of the rooms per floor</h2>
-            <div className={styles.buildingPropertyButtons}>
-              <InputField
-                value={numRoomsPerFloor}
-                onChange={(value) => handleNumRoomsPerFloorChange(value)}
-              />
-              <RandomNumberButton
-                onGenerate={handleNumRoomsPerFloorChange}
-                min={1}
-                max={33}
-              />
-            </div>
-          </div>
+          )}
         </div>
 
         <Link to="/simulation">
