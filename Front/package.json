@@ -11,11 +11,13 @@
   "dependencies": {
     "@jake-niemiec/react-planner": "^2.0.1",
     "classnames": "^2.3.2",
+    "node-fetch": "^2.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.6.9",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
