@@ -7,8 +7,8 @@ import Log from "../Log/Log";
 interface LogEntry {
   dangerLevel: string;
   eventType: string;
-  happenedAt: string;
   location: string;
+  happenedAt: string;
   result: boolean;
 }
 

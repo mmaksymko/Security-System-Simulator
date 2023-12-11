@@ -9,33 +9,37 @@
 .logTableContainer {
     height: 100%;
 }
-  
 .logTable {
     background-color: white;
     height: 100%;
-    border-collapse: collapse;
+    max-width: 403px;
 }
-.columnFloor {
-    width: 60px;
-    border-right: 1px solid #ddd;
-
-}
-.columnRoom {
-    width: 60px;
-    border-right: 1px solid #ddd;
-
-}
-.columnSensor {
+.columnDanger {
     width: 100px;
+    border-right: 1px solid #ddd;
+}
+.columnType {
+    width: 40px;
+    border-right: 1px solid #ddd;
+
+}
+.columnLocation {
+    width: 40px;
     border-right: 1px solid #ddd;
 
 }
 .columnTime {
     width: 190px;
+    border-right: 1px solid #ddd;
 }
+.columnTime {
+    width: 190px;
+}
+
 .logTable th,
 .logTable td {
     color: black;
+    font-size: 14px;
   border-bottom: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -45,8 +49,13 @@
 .logTable tr > :last-child {
     border-right: none;
 }
+.logTable td {
+    font-weight: 300;
+    font-size: 12px;
+    padding: 0!important;
+    text-align: center!important;
+}
 
 .logTable th {
   background-color: white;
-  
 }
