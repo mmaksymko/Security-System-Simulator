@@ -94,7 +94,7 @@ const Simulation: React.FC<SimulationProps> = ({
   };
   const handleContinueClick = () => {
     setSimulationState("continue");
-    fetch("http://localhost/8080/simulation/resume");
+    fetch("http://localhost:8080/simulation/resume");
   };
 
   const resetSimulation = () => {
