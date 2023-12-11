@@ -46,11 +46,11 @@ public class LogManager {
                 .toList();
 
         List<List<Event>> resultList = new ArrayList<>();
-        for (int i = 0; i!=listOfLists.get(i).size()-1;++i){
+        for (int i = 0; i!=listOfLists.get(i).size();++i) {
             List<EventLog> toInsert = new ArrayList<>();
-            for (var list : listOfLists){
-                if(!list.get(i).getEvents().isEmpty()){
-                    toInsert.add(list.get(i));
+            for(int j = 0; j!= listOfLists.size(); ++j){
+                if (!listOfLists.get(j).get(i).getEvents().isEmpty()) {
+                    toInsert.add(listOfLists.get(j).get(i));
                 }
             }
             resultList.add(toInsert.stream().map(EventLog::getEvents).flatMap(List::stream).toList());
@@ -59,6 +59,19 @@ public class LogManager {
     }
 
     public List<Event> getLog(BuildingLevel building, int index){
+        var logs = getAllLogs(building);
+
+        List<List<Event>> events = new ArrayList<>();
+
+        for(int i = index; i>=0 && !logs.get(i).isEmpty() && ((logs.get(i).get(0).getEventType() != EventType.SIMULATION_START)
+                || (events.isEmpty() && logs.get(i).get(0).getEventType() == EventType.SIMULATION_START)); --i){
+            events.add(logs.get(i));
+        }
+
+        return events.stream().flatMap(List::stream).toList();
+    }
+
+    public List<Event> getLogSinceStart(BuildingLevel building, int index){
         var logs = getAllLogs(building);
         var indices = indicesOfSimulations(building);
         if(indices.size()<=index){
