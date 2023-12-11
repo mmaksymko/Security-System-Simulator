@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import styles from "./SimulationPage.module.css";
-import Sidebar from "../components/Sidebar";
-import Simulation from "../components/Simulation";
-import "../components/Rooms/RoomsStyle.css";
+import Sidebar from "../components/Sidebar/Sidebar";
+import Simulation from "../components/Simulation/Simulation";
+import "../components/Rooms/RoomsStyle.scss";
 import { useBuildingContext } from "../BuildingContext";
 import EditPopup from "../components/EditBuildingPopup/EditPopup";
 
 const SimulationPage: React.FC = () => {
-  const { buildingType, numFloors, numRoomsPerFloor } = useBuildingContext();
+  const { buildingType, buildingName, numFloors, numRoomsPerFloor } =
+    useBuildingContext();
   const [isEditPopupVisible, setEditPopupVisibility] = useState(false);
   const handleEditButtonClick = () => {
     setEditPopupVisibility(true);
@@ -19,6 +20,7 @@ const SimulationPage: React.FC = () => {
     <div className={styles.container}>
       <Sidebar
         buildingType={buildingType}
+        buildingName={buildingName}
         numFloors={numFloors}
         numRoomsPerFloor={numRoomsPerFloor}
         onEditButtonClick={handleEditButtonClick}
