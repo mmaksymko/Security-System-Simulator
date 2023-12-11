@@ -4,8 +4,8 @@ import styles from "./Log.module.css";
 interface LogEntry {
   dangerLevel: string;
   eventType: string;
-  happenedAt: string;
   location: string;
+  happenedAt: string;
   result: boolean;
 }
 
@@ -24,6 +24,11 @@ const Log: React.FC<LogProps> = ({ logData }) => {
   };
 
   const formatBoolean = (value: boolean) => (value ? "Yes" : "No");
+  const convertToLowerCase = (inputString: string) => {
+    return inputString.toLowerCase();
+  };
+  const reversedLogData = [...logData].reverse();
+
   return (
     <div className={styles.logContainer}>
       <h1 className={styles.title}>Log</h1>
@@ -33,16 +38,16 @@ const Log: React.FC<LogProps> = ({ logData }) => {
             <tr>
               <th className={styles.columnDanger}>Danger level</th>
               <th className={styles.columnType}>Event type</th>
+              <th className={styles.columnLocation}>Location</th>
               <th className={styles.columnTime}>Time</th>
-              <th className={styles.columnRoom}>Location</th>
               <th className={styles.columnResult}>Result</th>
             </tr>
           </thead>
           <tbody>
-            {logData.map((logEntry, index) => (
+            {reversedLogData.map((logEntry, index) => (
               <tr key={index}>
-                <td>{logEntry.dangerLevel}</td>
-                <td>{logEntry.eventType}</td>
+                <td>{convertToLowerCase(logEntry.dangerLevel)}</td>
+                <td>{convertToLowerCase(logEntry.eventType)}</td>
                 <td>{logEntry.location}</td>
                 <td>{formatTime(logEntry.happenedAt)}</td>
                 <td>{formatBoolean(logEntry.result)}</td>

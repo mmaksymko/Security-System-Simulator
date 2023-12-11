@@ -1,4 +1,3 @@
-// LogTable.jsx
 import React from "react";
 import styles from "./LogTable.module.css";
 

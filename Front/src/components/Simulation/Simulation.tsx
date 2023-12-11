@@ -14,8 +14,8 @@ interface Building {
 interface LogEntry {
   dangerLevel: string;
   eventType: string;
-  happenedAt: string;
   location: string;
+  happenedAt: string;
   result: boolean;
 }
 
@@ -71,8 +71,6 @@ const Simulation: React.FC<SimulationProps> = ({
 
     newEventSource.addEventListener("Update", function (event) {
       console.log(event.data);
-      //const logEntry: LogEntry = JSON.parse(event.data);
-      //onLogDataUpdate([...logData, logEntry]);
     });
 
     newEventSource.onerror = function (event) {
