@@ -4,16 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ua.lpnu.security_system_simulator.model.event.Event;
-import ua.lpnu.security_system_simulator.model.event.EventTarget;
-import ua.lpnu.security_system_simulator.model.event.EventType;
+import ua.lpnu.security_system_simulator.model.event.*;
 import ua.lpnu.security_system_simulator.model.sensor.Sensor;
 import ua.lpnu.security_system_simulator.model.system.EventLog;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Document
 public class Room implements BuildingComponent, EventTarget {
@@ -144,8 +139,16 @@ public class Room implements BuildingComponent, EventTarget {
         return logs.getLast();
     }
 
+    public void createNewLog() {
+        logs.add(new EventLog());
+    }
+
     private void setLogs(List<EventLog> logs) {
         this.logs = logs;
+    }
+
+    public void removeLogsFromIndex(int lowBoundary) {
+        logs.subList(lowBoundary, logs.size()).clear();
     }
 
     public void removeSensor(Sensor sensor){
