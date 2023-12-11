@@ -1,8 +1,6 @@
 package ua.lpnu.security_system_simulator.model.system;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.event.DangerLevel;
@@ -13,22 +11,19 @@ import ua.lpnu.security_system_simulator.model.event.EventType;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Component
 public class LogManager {
     public void createNewLog(BuildingLevel building) {
-        StreamSupport.stream(building.depthFirstSearch().spliterator(), false)
-                .filter(component -> component instanceof Room)
-                .map(component -> (Room) component)
-                .sorted(Comparator.comparingInt(Room::getRoomNumber))
-                .forEach(Room::createNewLog);
+       getRooms(building)
+               .sorted(Comparator.comparingInt(Room::getRoomNumber))
+               .forEach(Room::createNewLog);
     }
 
     public void startLog(BuildingLevel building){
-        Room firstRoom = StreamSupport.stream(building.depthFirstSearch().spliterator(), false)
-                .filter(component -> component instanceof Room)
-                .map(component -> (Room) component)
+        Room firstRoom = getRooms(building)
                 .sorted(Comparator.comparingInt(Room::getRoomNumber))
                 .toList()
                 .getFirst();
@@ -40,9 +35,8 @@ public class LogManager {
     }
 
     public List<List<Event>> getAllLogs(BuildingLevel building) {
-        var listOfLists = StreamSupport.stream(building.depthFirstSearch().spliterator(), false)
-                .filter(Room.class::isInstance)
-                .map(component -> ((Room) component).getLogs())
+        var listOfLists = getRooms(building)
+                .map(Room::getLogs)
                 .toList();
 
         List<List<Event>> resultList = new ArrayList<>();
@@ -53,7 +47,13 @@ public class LogManager {
                     toInsert.add(listOfLists.get(j).get(i));
                 }
             }
-            resultList.add(toInsert.stream().map(EventLog::getEvents).flatMap(List::stream).toList());
+            if (!toInsert.isEmpty()) {
+                resultList.add(toInsert.stream().map(EventLog::getEvents).flatMap(List::stream).toList());
+            }
+            else {
+                final var finalI = i;
+                getRooms(building).forEach(room -> room.removeLog(finalI));
+            }
         }
         return resultList;
     }
@@ -85,72 +85,19 @@ public class LogManager {
     }
 
     public BuildingLevel rollbackToIndex(BuildingLevel building, int index){
-        long count = getAllLogs(building).stream().flatMap(List::stream).filter(log -> log.getEventType()==EventType.SIMULATION_START).count();
-
-
-//        new ArrayList<>().stream().mapToInt()
-
-        System.out.println(count);
-//        if (index >= count) {
-//            throw new IllegalArgumentException();
-//        }
-
-        List<Integer> indices = new ArrayList<>();
-        int counter = 0;
-        for (var component : building.depthFirstSearch()){
-            if (component instanceof Room room){
-                for (int i = 0; i!=room.getLogs().size(); ++i){
-                    if(!room.getLogs().isEmpty()) {
-                        if (!room.getLogs().get(i).getEvents().isEmpty() && room.getLogs().get(i).getEvents().get(0)
-                                .getEventType() == EventType.SIMULATION_START) {
-                            indices.add(i);
-                            counter++;
-                            System.out.println(i);
-                        }
-                    }
-                }
-                indices.add(room.getLogs().size());
-            }
+        getAllLogs(building);
+        for (var room : getRooms(building).toList()){
+            room.rollback(index);
         }
-//
-//      //  indices.forEach(System.out::println);
-//
-//        for (var component : building.depthFirstSearch()){
-//            if (component instanceof Room room){
-//                for (int i = 0; i!=room.getLogs().size(); ++i){
-//                    if(!room.getLogs().isEmpty()) {
-//                        if (indices.get(index+1)<=i) {
-//                            System.out.println("m");
-//                            room.removeLogsFromIndex(i);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
-
-//        var logs = StreamSupport.stream(building.depthFirstSearch().spliterator(), false)
-//                .filter(Room.class::isInstance)
-//                .map(component -> ((Room) component).getLogs()).flatMap(List::stream).toList();
-//
-//        List<Integer> indicesOfSimulation = new ArrayList<>();
-//        for (int i = 0; i != logs.size(); ++i){
-//            if (!logs.get(i).getEvents().isEmpty() && logs.get(i).getEvents().get(0).getEventType() == EventType.SIMULATION_START) {
-//                indicesOfSimulation.add(i);
-//            }
-//        }
-//         var realIndex = (index+1 == indicesOfSimulation.size() ? logs.size() : indicesOfSimulation.get(index+1));
-//        System.out.println(logs.size());
-//        System.out.println('-');
-//        indicesOfSimulation.forEach(System.out::println);
-//
-//
-//        for (var log : logs) {
-//            for(int i = log.size()-1; i>=realIndex; --i){
-//                log.remove(index);
-//            }
-//        }
         return building;
+    }
+
+    public int getLogsCount(BuildingLevel building) {
+        return StreamSupport.stream(building.depthFirstSearch().spliterator(), false)
+                .filter(component -> component instanceof Room)
+                .mapToInt(component -> (((Room) component).getLogs().size()))
+                .max()
+                .orElse(0);
     }
 
     private List<Integer> indicesOfSimulations(BuildingLevel building){
@@ -164,11 +111,9 @@ public class LogManager {
         return indices;
     }
 
-    public int getLogsCount(BuildingLevel building) {
+    private Stream<Room> getRooms(BuildingLevel building){
         return StreamSupport.stream(building.depthFirstSearch().spliterator(), false)
-                .filter(component -> component instanceof Room)
-                .mapToInt(component -> (((Room) component).getLogs().size()))
-                .max()
-                .orElse(0);
+                .filter(Room.class::isInstance)
+                .map(Room.class::cast);
     }
 }
