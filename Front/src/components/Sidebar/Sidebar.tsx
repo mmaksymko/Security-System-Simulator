@@ -4,12 +4,22 @@ import BuildingInfoItem from "../BuildingInfoItem";
 import EditBtn from "../EditBuildingConfigurationButton";
 import Log from "../Log/Log";
 
+interface LogEntry {
+  dangerLevel: string;
+  eventType: string;
+  happenedAt: string;
+  location: string;
+  result: boolean;
+}
+
 interface SidebarProps {
   buildingType: string;
   buildingName: string;
   numFloors: number;
   numRoomsPerFloor: number;
   onEditButtonClick: () => void;
+  logData: LogEntry[];
+  setLogData: React.Dispatch<React.SetStateAction<LogEntry[]>>;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -18,6 +28,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   numFloors,
   numRoomsPerFloor,
   onEditButtonClick,
+  logData,
+  setLogData,
 }) => {
   return (
     <div className={styles.container}>
@@ -43,7 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
         <EditBtn onClick={onEditButtonClick} />
       </div>
-      <Log />
+      <Log logData={logData} />
     </div>
   );
 };

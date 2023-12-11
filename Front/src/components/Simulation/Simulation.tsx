@@ -11,7 +11,23 @@ interface Building {
   name: string;
 }
 
-function Simulation() {
+interface LogEntry {
+  dangerLevel: string;
+  eventType: string;
+  happenedAt: string;
+  location: string;
+  result: boolean;
+}
+
+interface SimulationProps {
+  logData: LogEntry[];
+  onLogDataUpdate: (newLogData: LogEntry[]) => void;
+}
+
+const Simulation: React.FC<SimulationProps> = ({
+  logData,
+  onLogDataUpdate,
+}) => {
   const [simulationState, setSimulationState] = useState("start");
   const [eventSource, setEventSource] = useState<EventSource | null>(null);
   const { buildingName, setBuildingName, buildingId, setBuildingId } =
@@ -38,7 +54,7 @@ function Simulation() {
     };
 
     fetchBuildingId();
-  }, [buildingName, setBuildingId]);
+  }, [buildingName, setBuildingId, onLogDataUpdate, logData]);
 
   const handleStartClick = () => {
     setSimulationState("continue");
@@ -49,10 +65,14 @@ function Simulation() {
 
     newEventSource.onmessage = function (event) {
       console.log("Received message: " + event.data);
+      const logEntry: LogEntry = JSON.parse(event.data);
+      onLogDataUpdate([...logData, logEntry]);
     };
 
     newEventSource.addEventListener("Update", function (event) {
       console.log(event.data);
+      //const logEntry: LogEntry = JSON.parse(event.data);
+      //onLogDataUpdate([...logData, logEntry]);
     });
 
     newEventSource.onerror = function (event) {
@@ -105,6 +125,6 @@ function Simulation() {
       )}
     </div>
   );
-}
+};
 
 export default Simulation;
