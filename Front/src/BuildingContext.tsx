@@ -6,8 +6,12 @@ interface BuildingContextProps {
 }
 
 interface BuildingContextValues {
+  buildingId: number;
+  setBuildingId: React.Dispatch<React.SetStateAction<number>>;
   buildingType: string;
   setBuildingType: React.Dispatch<React.SetStateAction<string>>;
+  buildingName: string;
+  setBuildingName: React.Dispatch<React.SetStateAction<string>>;
   numFloors: number;
   setNumFloors: React.Dispatch<React.SetStateAction<number>>;
   numRoomsPerFloor: number;
@@ -19,13 +23,19 @@ const BuildingContext = createContext<BuildingContextValues | undefined>(
 );
 
 export function BuildingProvider({ children }: BuildingContextProps) {
+  const [buildingId, setBuildingId] = useState<number>(0);
   const [buildingType, setBuildingType] = useState<string>("");
+  const [buildingName, setBuildingName] = useState<string>("");
   const [numFloors, setNumFloors] = useState<number>(0);
   const [numRoomsPerFloor, setNumRoomsPerFloor] = useState<number>(0);
 
   const values: BuildingContextValues = {
+    buildingId,
+    setBuildingId,
     buildingType,
     setBuildingType,
+    buildingName,
+    setBuildingName,
     numFloors,
     setNumFloors,
     numRoomsPerFloor,

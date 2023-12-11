@@ -1,0 +1,38 @@
+.switch-container {
+    width: 48px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden; 
+  }
+  
+  .switch-track {
+    width: 100%;
+    height: 100%;
+    background-color: #F4F4F4;
+    border-radius: 12px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease; 
+  }
+  
+  .switch-handle {
+    width: 24px;
+    height: 24px;
+    background-color: #3498db;
+    border-radius: 50%;
+    transition: transform 0.3s ease, background-color 0.3s ease; 
+  }
+  
+  .switch-container.checked .switch-track {
+    background-color: #3498db;
+  }
+  
+  .switch-container.checked .switch-handle {
+    transform: translateX(24px); 
+    background-color: #F4F4F4;
+  }
+  
