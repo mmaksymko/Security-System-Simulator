@@ -10,6 +10,11 @@ import {
 
 const SimulationLogic = () => {
   const [jsonData, setJsonData] = useState<GetBuildingsResponse>();
+  const [floor, setFloor] = useState<number>(() => {
+    const floorNum = localStorage.getItem("floor");
+    return floorNum !== null ? parseInt(floorNum, 10) : 1;
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       const buildingId = localStorage.getItem("buildingId");
@@ -28,26 +33,42 @@ const SimulationLogic = () => {
     };
 
     fetchData();
+
+    const handleStorageChange = () => {
+      const floorNum = localStorage.getItem("floor");
+      if (floorNum !== null) {
+        setFloor(parseInt(floorNum, 10));
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   const generateBedrooms = () => {
     if (!jsonData) {
       return null;
     }
-   
-    const numOfRooms = jsonData.components[0].components.length;
+    const j = floor;
+    if(j >= jsonData.components.length) return;
+
+    const numOfRooms = jsonData.components[j].components.length;
     const bedrooms = [];
 
     for (let i = 0; i < numOfRooms; i++) {
       bedrooms.push(
         <Bedroom
           key={i}
-          roomType={jsonData.components[0].components[i].roomType}
-          width={jsonData.components[0].components[i].width}
-          height={jsonData.components[0].components[i].lenght}
+          roomType={jsonData.components[j].components[i].roomType}
+          width={jsonData.components[j].components[i].width}
+          height={jsonData.components[j].components[i].lenght}
           label={
-            jsonData.components[0].components[i].roomType + " " +
-            jsonData.components[0].components[i].roomNumber
+            jsonData.components[j].components[i].roomType +
+            " " +
+            jsonData.components[j].components[i].roomNumber
           }
         />
       );
