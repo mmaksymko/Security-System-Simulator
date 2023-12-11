@@ -9,6 +9,7 @@ type Sensor = {
     eventType: string;
     happenedAt: string;
     dangerLevel: string;
+    result: boolean;
   };
   
   type Log = {
@@ -81,5 +82,5 @@ type Sensor = {
     console.log('Successfully sent and received data:', data);
   })
   .catch(error => {
-    console.error('Пerror sending POST-request:', error);
+    console.error('Error sending POST-request:', error);
   });

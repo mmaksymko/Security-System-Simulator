@@ -9,6 +9,7 @@ type Sensor = {
     eventType: string;
     happenedAt: string;
     dangerLevel: string;
+    result: boolean;
   };
   
   type Log = {
