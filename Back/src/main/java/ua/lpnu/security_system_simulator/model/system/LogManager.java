@@ -26,7 +26,7 @@ public class LogManager {
         Room firstRoom = getRooms(building)
                 .sorted(Comparator.comparingInt(Room::getRoomNumber))
                 .toList()
-                .getFirst();
+                .get(0);
         if (firstRoom!=null) {
             new EventFactory().createEvent(EventType.SIMULATION_START, firstRoom, DangerLevel.LOW);
         } else {
