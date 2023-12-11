@@ -1,5 +1,7 @@
 import fetch from 'node-fetch';
 
+const buildingId = 123; // Замінити це на реальний id будівлі
+
 type Sensor = {
     coverageArea: string;
     type: string; 
@@ -34,14 +36,15 @@ type Sensor = {
     buildingComponent: BuildingComponent;
   };
 
-  type GetBuildingsResponse = {
-    data: DataType[];  
+  type GetBuildingsLogsResponse = {
+    data: Log[];  
   }
-
-export async function getBuildings() {
+  const apiUrl = 'http://localhost:8080/buildings/${buildingId}/logs';
+  
+export async function getBuildingsLogs() {
   try {
     // 👇️ const response: Response
-    const response = await fetch('http://localhost:8080/buildings', {
+    const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -53,7 +56,7 @@ export async function getBuildings() {
     }
 
     // 👇️ const result: GetUsersResponse
-    const result = (await response.json()) as GetBuildingsResponse;
+    const result = (await response.json()) as GetBuildingsLogsResponse;
 
     console.log('result is: ', JSON.stringify(result));
 
@@ -69,4 +72,4 @@ export async function getBuildings() {
   }
 }
 
-getBuildings();
+getBuildingsLogs();

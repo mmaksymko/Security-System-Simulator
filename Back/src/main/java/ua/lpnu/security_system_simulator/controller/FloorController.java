@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.StreamSupport;
 
 @RestController
+@CrossOrigin
 public class FloorController {
     BuildingRepository repository;
 

@@ -6,3 +6,56 @@
     font-size: 36px;
     text-align: left;
 }
+.logTableContainer {
+    height: 100%;
+}
+.logTable {
+    background-color: white;
+    height: 100%;
+    max-width: 403px;
+}
+.columnDanger {
+    width: 100px;
+    border-right: 1px solid #ddd;
+}
+.columnType {
+    width: 40px;
+    border-right: 1px solid #ddd;
+
+}
+.columnLocation {
+    width: 40px;
+    border-right: 1px solid #ddd;
+
+}
+.columnTime {
+    width: 190px;
+    border-right: 1px solid #ddd;
+}
+.columnTime {
+    width: 190px;
+}
+
+.logTable th,
+.logTable td {
+    color: black;
+    font-size: 14px;
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+.logTable tr > :last-child {
+    border-right: none;
+}
+.logTable td {
+    font-weight: 300;
+    font-size: 12px;
+    padding: 0!important;
+    text-align: center!important;
+}
+
+.logTable th {
+  background-color: white;
+}

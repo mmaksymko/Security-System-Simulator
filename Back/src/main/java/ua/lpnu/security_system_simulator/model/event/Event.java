@@ -20,6 +20,7 @@ public abstract class Event {
     private EventType eventType;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date happenedAt;
+    private boolean result;
     @Transient
     protected final Random random;
 
@@ -27,16 +28,27 @@ public abstract class Event {
         this.random = new Random();
     }
 
-    Event(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt) {
+    Event(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt) throws InterruptedException {
         this();
         this.location = location;
         this.dangerLevel = dangerLevel;
         this.eventType = eventType;
         this.happenedAt = happenedAt;
         this.location.registerEvent(this);
+        this.result = calculateResult();
     }
 
-    public abstract void start();
+    Event(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt, boolean result) {
+        this();
+        this.location = location;
+        this.dangerLevel = dangerLevel;
+        this.eventType = eventType;
+        this.happenedAt = happenedAt;
+        this.location.registerEvent(this);
+        this.result = result;
+    }
+    public abstract boolean calculateResult() throws InterruptedException;
+    public abstract Event start() throws InterruptedException;
 
     public EventTarget getLocation() {
         return location;
@@ -72,5 +84,13 @@ public abstract class Event {
 
     private void setHappenedAt(Date happenedAt) {
         this.happenedAt = happenedAt;
+    }
+
+    public boolean getResult() {
+        return result;
+    }
+
+    public void setResult(boolean result) {
+        this.result = result;
     }
 }

@@ -16,7 +16,7 @@ public class SensorFactory {
             case OPENED_WINDOW -> new OpenedWindowSensor(coverageArea);
             case OPENED_DOOR -> new OpenedDoorSensor(coverageArea);
             case SIMULATION_START -> throw new InvalidParameterException("Such sensor cannot be created");
-            case null -> throw new InvalidParameterException("Some Parameters Are Null");
+            default -> throw new InvalidParameterException("Some Parameters Are Null");
         };
     }
 }
