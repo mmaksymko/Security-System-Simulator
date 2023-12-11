@@ -1,50 +1,46 @@
-import fetch from 'node-fetch';
+export type Sensor = {
+  coverageArea: string;
+  type: string;
+};
 
-type Sensor = {
-    coverageArea: string;
-    type: string; 
-  };
-  
-  type Event = {
-    eventType: string;
-    happenedAt: string;
-    dangerLevel: string;
-    result: boolean;
-  };
-  
-  type Log = {
-    events: Event[];
-  };
-  
-  type Component = {
-    roomType: string;
-    roomNumber: number;
-    windows: number;
-    doors: number;
-    name: string;
-    sensors: Sensor[];
-    logs: Log[];
-  };
-  
-  type BuildingComponent = {
-    components: Component[];
-  };
-  
-  type DataType = {
-    buildingComponent: BuildingComponent;
-  };
+export type Event = {
+  eventType: string;
+  happenedAt: string;
+  dangerLevel: string;
+};
 
-  type GetBuildingsResponse = {
-    data: DataType[];  
-  }
+export type Log = {
+  events: Event[];
+};
+
+export type Room = {
+  roomType: string;
+  roomNumber: number;
+  windows: number;
+  doors: number;
+  width: number;
+  lenght: number;
+  name: string;
+  sensors: Sensor[];
+  logs: Log[];
+};
+
+export type Floor = {
+  components: Room[]; 
+  name :  string;
+};
+
+export type GetBuildingsResponse = {
+  components: Floor[];
+};
 
 export async function getBuildings() {
   try {
     // 👇️ const response: Response
-    const response = await fetch('http://localhost:8080/buildings', {
-      method: 'GET',
+    const response = await fetch("http://localhost:8080/buildings", {
+      method: "GET",
       headers: {
-        Accept: 'application/json',
+        Accept: "application/json",
       },
     });
 
@@ -55,18 +51,50 @@ export async function getBuildings() {
     // 👇️ const result: GetUsersResponse
     const result = (await response.json()) as GetBuildingsResponse;
 
-    console.log('result is: ', JSON.stringify(result));
+    console.log("result is: ", JSON.stringify(result));
 
     return result;
   } catch (error) {
     if (error instanceof Error) {
-      console.log('error message: ', error.message);
+      console.error("error message: ", error.message);
       return error.message;
     } else {
-      console.log('unexpected error: ', error);
-      return 'An unexpected error occurred';
+      console.error("unexpected error: ", error);
+      return "An unexpected error occurred";
     }
   }
 }
 
-getBuildings();
+export async function getBuilding(id: string | null) {
+  if (id === null) return;
+
+  try {
+    console.log("Start getting building with id: ", id);
+    // 👇️ const response: Response
+    const response = await fetch(`http://localhost:8080/buildings/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+
+    const result = (await response.json()) as GetBuildingsResponse;
+
+    console.log(result);
+    return result;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error message: ", error.message);
+      return error.message;
+    } else {
+      console.error("unexpected error: ", error);
+      return "An unexpected error occurred";
+    }
+  }
+}
+
+// getBuildings();

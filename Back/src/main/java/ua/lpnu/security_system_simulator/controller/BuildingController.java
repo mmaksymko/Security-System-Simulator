@@ -41,8 +41,9 @@ public class BuildingController {
     public ResponseEntity<BuildingLevel> getBuilding(@PathVariable("id") String id) {
         try {
             var result = repository.findById(id);
+
             return result.isPresent()
-                    ? new ResponseEntity<>(result.get(), HttpStatus.OK)
+                    ? new ResponseEntity<BuildingLevel>(result.get(), HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
