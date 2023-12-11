@@ -21,7 +21,7 @@ public class EventDeserializer extends JsonDeserializer<Event> {
         var eventType = Arrays.stream(EventType.values()).filter(type -> type.toString().equals(node.get("eventType").asText())).findFirst().orElseThrow( () -> new IOException("Bad enum value"));
         var dangerLevel = Arrays.stream(DangerLevel.values()).filter(type -> type.toString().equals(node.get("dangerLevel").asText())).findFirst().orElseThrow( () -> new IOException("Bad enum value"));
         String happenedAtStr = node.get("happenedAt").asText();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSUTC");
         try {
             Date happenedAt = formatter.parse(happenedAtStr);
             return new EventFactory().createEvent(eventType,(EventTarget) ctxt.getCurrentValue(), dangerLevel, happenedAt);

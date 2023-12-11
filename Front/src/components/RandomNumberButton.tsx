@@ -27,7 +27,6 @@ const RandomNumberButton: React.FC<RandomNumberButtonProps> = ({
         color: "#fff",
         cursor: "pointer",
         padding: "8px 24px",
-        marginLeft: "10px",
       }}
     >
       Get random number

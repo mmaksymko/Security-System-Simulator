@@ -29,7 +29,6 @@ public class FloorController {
                       ? new ResponseEntity<>(result.get().getComponents(), HttpStatus.OK)
                       : new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e){
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -47,7 +46,6 @@ public class FloorController {
                     ? new ResponseEntity<>((BuildingLevel) optionalBuildingLevel.get(), HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -96,7 +94,7 @@ public class FloorController {
         }
     }
 
-    @PutMapping("floors/{floorId}")
+    @PutMapping("/floors/{floorId}")
     public ResponseEntity<BuildingLevel> updateFloor(@PathVariable("floorId") String floorId, @RequestBody BuildingLevel buildingLevel) {
         try {
             if (!validateFloor(buildingLevel)) {
@@ -118,7 +116,7 @@ public class FloorController {
         }
     }
 
-    @PutMapping("buildings/{buildingId}/floors/{floorId}")
+    @PutMapping("/buildings/{buildingId}/floors/{floorId}")
     public ResponseEntity<BuildingLevel> updateFloor(@PathVariable("buildingId") String buildingId, @PathVariable("floorId") String floorId, @RequestBody BuildingLevel buildingLevel) {
         try {
             if(!validateFloor(buildingLevel)){
@@ -144,7 +142,7 @@ public class FloorController {
         }
     }
 
-    @DeleteMapping("floors/{floorId}")
+    @DeleteMapping("/floors/{floorId}")
     public ResponseEntity<BuildingLevel> deleteFloor(@PathVariable("floorId") String floorId) {
         try {
             for (var building : repository.findAll()){
@@ -160,7 +158,7 @@ public class FloorController {
         }
     }
 
-    @DeleteMapping("buildings/{buildingId}/floors/{floorId}")
+    @DeleteMapping("/buildings/{buildingId}/floors/{floorId}")
     public ResponseEntity<BuildingLevel> updateFloor(@PathVariable("buildingId") String buildingId, @PathVariable("floorId") String floorId){
         try {
             var building = repository.findById(buildingId);

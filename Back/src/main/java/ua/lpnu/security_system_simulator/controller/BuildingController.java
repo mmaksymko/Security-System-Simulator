@@ -1,11 +1,9 @@
 package ua.lpnu.security_system_simulator.controller;
 
-import netscape.javascript.JSObject;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +13,6 @@ import ua.lpnu.security_system_simulator.model.building.builder.building.OfficeB
 import ua.lpnu.security_system_simulator.repository.BuildingRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @CrossOrigin
@@ -34,6 +31,7 @@ public class BuildingController {
                     ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
                     : new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
         } catch (Exception e){
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
