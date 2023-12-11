@@ -5,7 +5,7 @@ import { useBuildingContext } from "../../BuildingContext";
 import RandomNumberButton from "../RandomNumberButton";
 import SubmitButton from "../SubmitButton";
 import InputFieldText from "../InputField/InputFieldText";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface EditPopupProps {
   onClose: () => void;
@@ -14,6 +14,8 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
   const {
     buildingType,
     setBuildingType,
+    buildingId,
+    setBuildingId,
     buildingName,
     setBuildingName,
     numFloors,
@@ -22,11 +24,32 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
     setNumRoomsPerFloor,
   } = useBuildingContext();
   const [activeType, setActiveType] = useState("");
+  const [buildingData, setBuildingData] = useState({
+    buildingName: "",
+    numFloors: 0,
+    numRoomsPerFloor: 0,
+  });
+  useEffect(() => {
+    const fetchBuildingData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/buildings/${buildingId}`
+        );
+        const data = await response.json();
+        console.log("DATA: ", data);
 
-  const handleBuildingTypeClick = (type: string) => {
-    setActiveType(type);
-    setBuildingType(type);
-  };
+        setBuildingData({
+          buildingName: data.name,
+          numFloors: data.components.length,
+          numRoomsPerFloor: data.components[0].components.length,
+        });
+      } catch (error) {
+        console.error("Error fetching building data:", error);
+      }
+    };
+
+    fetchBuildingData();
+  }, []);
 
   const handleNumFloorsChange = (value: number) => {
     setNumFloors(value);
@@ -51,72 +74,11 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
         />
         <div className={styles.propertiesContainer}>
           <div className={styles.propertiesContainer}>
-            <div className={styles.buildingPropertyContainer}>
-              <h2 className={styles.h2}>Choose new type of the building</h2>
-              <div className={styles.buildingTypeButtons}>
-                <div className={styles.firstRowButtons}>
-                  <BuildingTypeButton
-                    onClick={() => handleBuildingTypeClick("office")}
-                    active={activeType === "office"}
-                  >
-                    <img
-                      src="../public/office-building_1f3e2.png"
-                      width={"30px"}
-                      height={"30px"}
-                    ></img>
-                    <p
-                      style={{
-                        margin: "0px",
-                        alignSelf: "center",
-                      }}
-                    >
-                      Office building
-                    </p>
-                  </BuildingTypeButton>
-                  <BuildingTypeButton
-                    onClick={() => handleBuildingTypeClick("residential")}
-                    active={activeType === "residential"}
-                  >
-                    <img
-                      src="../public/house_1f3e0.png"
-                      width={"30px"}
-                      height={"30px"}
-                    ></img>
-                    <p
-                      style={{
-                        margin: "0px",
-                        alignSelf: "center",
-                      }}
-                    >
-                      Residential building
-                    </p>
-                  </BuildingTypeButton>
-                </div>
-                <BuildingTypeButton
-                  onClick={() => handleBuildingTypeClick("custom")}
-                  active={activeType === "custom"}
-                >
-                  <img
-                    src="../public/wrench.png"
-                    width={"30px"}
-                    height={"30px"}
-                  ></img>
-                  <p
-                    style={{
-                      margin: "0px",
-                      alignSelf: "center",
-                    }}
-                  >
-                    Custom building
-                  </p>
-                </BuildingTypeButton>
-              </div>
-            </div>
             <div className={styles.duildingPropertyContainer}>
               <h2 className={styles.h2}>Choose new name for the building</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputFieldText
-                  value={buildingName}
+                  value={buildingData.buildingName}
                   onChange={(value) => handleNameChange(value)}
                 />
               </div>
@@ -125,35 +87,33 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
               <h2 className={styles.h2}>Choose new number of the floors</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputField
-                  value={numFloors}
+                  value={buildingData.numFloors}
                   onChange={(value) => handleNumFloorsChange(value)}
                 />
                 <RandomNumberButton
                   onGenerate={handleNumFloorsChange}
                   min={1}
-                  max={333}
+                  max={102}
                 />
               </div>
             </div>
           </div>
-          {(buildingType === "office" || buildingType === "residential") && (
-            <div className={styles.buildingPropertyContainer}>
-              <h2 className={styles.h2}>
-                Choose new number of the rooms per floor
-              </h2>
-              <div className={styles.buildingPropertyButtons}>
-                <InputField
-                  value={numRoomsPerFloor}
-                  onChange={(value) => handleNumRoomsPerFloorChange(value)}
-                />
-                <RandomNumberButton
-                  onGenerate={handleNumRoomsPerFloorChange}
-                  min={1}
-                  max={33}
-                />
-              </div>
+          <div className={styles.buildingPropertyContainer}>
+            <h2 className={styles.h2}>
+              Choose new number of the rooms per floor
+            </h2>
+            <div className={styles.buildingPropertyButtons}>
+              <InputField
+                value={buildingData.numRoomsPerFloor}
+                onChange={(value) => handleNumRoomsPerFloorChange(value)}
+              />
+              <RandomNumberButton
+                onGenerate={handleNumRoomsPerFloorChange}
+                min={1}
+                max={33}
+              />
             </div>
-          )}
+          </div>
         </div>
         <SubmitButton onClick={onClose} />
       </div>
