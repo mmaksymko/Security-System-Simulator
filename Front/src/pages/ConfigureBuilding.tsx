@@ -146,7 +146,9 @@ function ConfigureBuilding() {
             </div>
           </div>
 
-          {(buildingType === "office" || buildingType === "residential") && (
+          {(buildingType === "office" ||
+            buildingType === "residential" ||
+            buildingType === "") && (
             <div className={styles.buildingPropertyContainer}>
               <h2 className={styles.h2}>
                 Choose number of the rooms per floor
@@ -165,11 +167,17 @@ function ConfigureBuilding() {
             </div>
           )}
         </div>
-
-        <Link to="/simulation">
-          <GenerateBuildingButton
-          onClick={() => handleGenerateBuildingClick()}/>
-        </Link>
+        {(buildingType === "office" || buildingType === "residential") && (
+          <Link to="/simulation">
+            <GenerateBuildingButton 
+             onClick={() => handleGenerateBuildingClick()}/>
+          </Link>
+        )}
+        {buildingType === "custom" && (
+          <Link to="/customBuilding">
+            <GenerateBuildingButton />
+          </Link>
+        )}
       </div>
     </div>
   );
