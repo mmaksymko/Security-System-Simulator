@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+// LogTable.jsx
+import React from "react";
 import styles from "./LogTable.module.css";
 
 interface LogEntry {
@@ -8,8 +9,12 @@ interface LogEntry {
   time: string;
 }
 
-function LogTable() {
-  const [logData, setLogData] = useState<LogEntry[]>([]);
+interface LogTableProps {
+  logData: LogEntry[];
+  setLogData: React.Dispatch<React.SetStateAction<LogEntry[]>>;
+}
+
+function LogTable({ logData, setLogData }: LogTableProps) {
   return (
     <div className={styles.logTableContainer}>
       <table className={styles.logTable}>
