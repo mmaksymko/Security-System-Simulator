@@ -7,6 +7,7 @@ import RandomNumberButton from "../components/RandomNumberButton";
 import InputField from "../components/InputField/InputField";
 import InputFieldText from "../components/InputField/InputFieldText";
 import { useBuildingContext } from "../BuildingContext";
+import ContinueSimulationButton from "../components/ContinueSimulationButton";
 
 function ConfigureBuilding() {
   const {
@@ -36,6 +37,21 @@ function ConfigureBuilding() {
 
   const handleNumRoomsPerFloorChange = (value: number) => {
     setNumRoomsPerFloor(value);
+  };
+
+  const handleGenerateBuildingClick = async () => {
+    await fetch(`http://localhost:8080/buildings/${buildingType}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({floors: numFloors, rooms: numRoomsPerFloor})
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    });
   };
 
   return (
@@ -151,7 +167,8 @@ function ConfigureBuilding() {
         </div>
 
         <Link to="/simulation">
-          <GenerateBuildingButton />
+          <GenerateBuildingButton
+          onClick={() => handleGenerateBuildingClick()}/>
         </Link>
       </div>
     </div>
