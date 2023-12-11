@@ -1,10 +1,10 @@
 import ChangeFloorButton from "../ChangeFloorButton/ChangeFloorButton";
-import SimulationLogic from "../Rooms/SimulationLogic";
 import styles from "./Simulation.module.css";
 import { useState, useEffect } from "react";
 import StartSimulationButton from "../StartSimulationButton";
 import ContinueSimulationButton from "../ContinueSimulationButton";
 import { useBuildingContext } from "../../BuildingContext";
+import SimulationLogic from "../Rooms/SimulationLogic";
 
 interface Building {
   id: number;

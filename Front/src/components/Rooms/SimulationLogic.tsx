@@ -1,366 +1,56 @@
+import { useEffect, useState } from "react";
 import Bedroom from "./Bedroom";
 import "./RoomsStyle.scss";
+import {
+  Room,
+  GetBuildingsResponse,
+  getBuilding,
+  getBuildings,
+} from "../FetchAPI/customBuildFetchGET";
 
 const SimulationLogic = () => {
-  const jSonObj = {
-    components: [
-      {
-        roomType: "APARTMENT_ROOM",
-        roomNumber: 1,
-        roomWidht: 1,
-        roomHeight: 4,
-        windows: 2,
-        doors: 2,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "FIRE",
-          },
-          {
-            coverageArea: 15,
-            type: "GAS_LEAK",
-          },
-        ],
-        logs: [
-          {
-            events: [
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-            ],
-          },
-        ],
-        components: [],
-      },
-      {
-        roomType: "OFFICE_ROOM",
-        roomNumber: 2,
-        roomWidht: 1,
-        roomHeight: 2,
-        windows: 4,
-        doors: 5,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "OPENED_DOOR",
-          },
-          {
-            coverageArea: 15,
-            type: "OPENED_WINDOW",
-          },
-        ],
-        logs: [
-          {
-            events: [
-              {
-                eventType: "OPENED_WINDOW",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "MOTION",
-                dangerLevel: "CONSIDERABLE",
-              },
-            ],
-          },
-        ],
-        components: [],
-      },
-      {
-        roomType: "OFFICE_ROOM",
-        roomNumber: 2,
-        roomWidht: 1,
-        roomHeight: 2,
-        windows: 4,
-        doors: 5,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "OPENED_DOOR",
-          },
-          {
-            coverageArea: 15,
-            type: "OPENED_WINDOW",
-          },
-        ],
-        logs: {
-          events: [
-            {
-              eventType: "OPENED_WINDOW",
-              dangerLevel: "CONSIDERABLE",
-            },
-            {
-              eventType: "MOTION",
-              dangerLevel: "CONSIDERABLE",
-            },
-          ],
-        },
-      },
-      {
-        roomType: "APARTMENT_ROOM",
-        roomNumber: 1,
-        roomWidht: 1,
-        roomHeight: 4,
-        windows: 4,
-        doors: 5,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "FIRE",
-          },
-          {
-            coverageArea: 15,
-            type: "GAS_LEAK",
-          },
-        ],
-        logs: [
-          {
-            events: [
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-            ],
-          },
-        ],
-        components: [],
-      },
-      {
-        roomType: "OFFICE_ROOM",
-        roomNumber: 2,
-        roomWidht: 1,
-        roomHeight: 2,
-        windows: 4,
-        doors: 5,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "OPENED_DOOR",
-          },
-          {
-            coverageArea: 15,
-            type: "OPENED_WINDOW",
-          },
-        ],
-        logs: {
-          events: [
-            {
-              eventType: "OPENED_WINDOW",
-              dangerLevel: "CONSIDERABLE",
-            },
-            {
-              eventType: "MOTION",
-              dangerLevel: "CONSIDERABLE",
-            },
-          ],
-        },
-      },
-      {
-        roomType: "APARTMENT_ROOM",
-        roomNumber: 1,
-        roomWidht: 1,
-        roomHeight: 4,
-        windows: 2,
-        doors: 2,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "FIRE",
-          },
-          {
-            coverageArea: 15,
-            type: "GAS_LEAK",
-          },
-        ],
-        logs: [
-          {
-            events: [
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-            ],
-          },
-        ],
-        components: [],
-      },
-      {
-        roomType: "OFFICE_ROOM",
-        roomNumber: 2,
-        roomWidht: 1,
-        roomHeight: 2,
-        windows: 4,
-        doors: 5,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "OPENED_DOOR",
-          },
-          {
-            coverageArea: 15,
-            type: "OPENED_WINDOW",
-          },
-        ],
-        logs: [
-          {
-            events: [
-              {
-                eventType: "OPENED_WINDOW",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "MOTION",
-                dangerLevel: "CONSIDERABLE",
-              },
-            ],
-          },
-        ],
-        components: [],
-      },
-      {
-        roomType: "OFFICE_ROOM",
-        roomNumber: 2,
-        roomWidht: 1,
-        roomHeight: 2,
-        windows: 4,
-        doors: 5,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "OPENED_DOOR",
-          },
-          {
-            coverageArea: 15,
-            type: "OPENED_WINDOW",
-          },
-        ],
-        logs: {
-          events: [
-            {
-              eventType: "OPENED_WINDOW",
-              dangerLevel: "CONSIDERABLE",
-            },
-            {
-              eventType: "MOTION",
-              dangerLevel: "CONSIDERABLE",
-            },
-          ],
-        },
-      },
-      {
-        roomType: "APARTMENT_ROOM",
-        roomNumber: 1,
-        roomWidht: 1,
-        roomHeight: 4,
-        windows: 4,
-        doors: 5,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "FIRE",
-          },
-          {
-            coverageArea: 15,
-            type: "GAS_LEAK",
-          },
-        ],
-        logs: [
-          {
-            events: [
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-              {
-                eventType: "FIRE",
-                dangerLevel: "CONSIDERABLE",
-              },
-            ],
-          },
-        ],
-        components: [],
-      },
-      {
-        roomType: "OFFICE_ROOM",
-        roomNumber: 2,
-        roomWidht: 1,
-        roomHeight: 2,
-        windows: 4,
-        doors: 5,
-        sensors: [
-          {
-            coverageArea: 10,
-            type: "OPENED_DOOR",
-          },
-          {
-            coverageArea: 15,
-            type: "OPENED_WINDOW",
-          },
-        ],
-        logs: {
-          events: [
-            {
-              eventType: "OPENED_WINDOW",
-              dangerLevel: "CONSIDERABLE",
-            },
-            {
-              eventType: "MOTION",
-              dangerLevel: "CONSIDERABLE",
-            },
-          ],
-        },
-      },
-    ],
-    name: "Floor 1",
-  };
+  const [jsonData, setJsonData] = useState<GetBuildingsResponse>();
+  useEffect(() => {
+    const fetchData = async () => {
+      const buildingId = localStorage.getItem("buildingId");
+      try {
+        const result: GetBuildingsResponse | string | undefined =
+          await getBuilding(buildingId);
 
-  const numOfRooms = jSonObj.components.length;
+        if (typeof result !== "string" && typeof result !== "undefined") {
+          setJsonData(result);
+        } else {
+          console.error("Error: Received unexpected string response");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const generateBedrooms = () => {
+    if (!jsonData) {
+      return null;
+    }
+   
+    const numOfRooms = jsonData.components[0].components.length;
     const bedrooms = [];
 
     for (let i = 0; i < numOfRooms; i++) {
       bedrooms.push(
         <Bedroom
           key={i}
-          roomType={jSonObj.components[i].roomType}
-          width={jSonObj.components[i].roomWidht}
-          height={jSonObj.components[i].roomHeight}
+          roomType={jsonData.components[0].components[i].roomType}
+          width={jsonData.components[0].components[i].width}
+          height={jsonData.components[0].components[i].lenght}
           label={
-            jSonObj.components[i].roomType + jSonObj.components[i].roomNumber
+            jsonData.components[0].components[i].roomType + " " +
+            jsonData.components[0].components[i].roomNumber
           }
         />
       );
-      // windows={jSonObj.components[i].windows} />);
-      // doors={jSonObj.components[i].doors} />
     }
 
     return bedrooms;

@@ -89,13 +89,16 @@ public class Room implements BuildingComponent, EventTarget {
         }
         this.width = width;
     }
+    public int getWidth() {
+        return width;
+    }
     public void setLength(int length) throws IllegalArgumentException {
         if (length <= 0){
             throw new IllegalArgumentException("Invalid area");
         }
         this.length = length;
     }
-
+    public int getLength() { return length; }
     @JsonIgnore
     public int getArea() {
         return width * length;
