@@ -44,6 +44,9 @@ public class EventStatistics {
         }
         BuildingLevel building = repository.findById(id).get();
         List<List<Event>> events = logManager.getAllLogs(building);
-
+        result = events.stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.groupingBy(Event::getDangerLevel, Collectors.counting()));
+        return result;
     }
 }
