@@ -1,11 +1,9 @@
 package ua.lpnu.security_system_simulator.controller;
 
-import netscape.javascript.JSObject;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +13,6 @@ import ua.lpnu.security_system_simulator.model.building.builder.building.OfficeB
 import ua.lpnu.security_system_simulator.repository.BuildingRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @CrossOrigin
@@ -106,7 +103,7 @@ public class BuildingController {
             builder.seNumberOfFloors(Integer.parseInt(json.get("floors").toString()));
             builder.setNumberOfRoomsPerFloor(Integer.parseInt(json.get("rooms").toString()));
             BuildingLevel result = builder.build();
-            repository.save(result)
+            repository.save(result);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
