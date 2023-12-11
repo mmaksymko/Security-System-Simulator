@@ -147,6 +147,10 @@ public class Room implements BuildingComponent, EventTarget {
         this.logs = logs;
     }
 
+    public void removeLogsFromIndex(int lowBoundary) {
+        logs.subList(lowBoundary, logs.size()).clear();
+    }
+
     public void removeSensor(Sensor sensor){
         sensors.remove(sensor);
     }

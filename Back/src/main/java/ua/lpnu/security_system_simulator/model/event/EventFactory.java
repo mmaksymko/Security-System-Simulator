@@ -18,6 +18,7 @@ public class EventFactory {
 
         return switch(eventType) {
             case OPENED_WINDOW, OPENED_DOOR -> new OpenableEvent(eventType, eventTarget, dangerLevel, happenedAt);
+            case SIMULATION_START -> new SimulationEvent(eventType, eventTarget, dangerLevel, happenedAt);
             default -> new RoomEvent(eventType, eventTarget, dangerLevel, happenedAt);
         };
     }
