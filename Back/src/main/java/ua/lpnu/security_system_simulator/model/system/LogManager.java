@@ -22,7 +22,7 @@ public class LogManager {
                .forEach(Room::createNewLog);
     }
 
-    public void startLog(BuildingLevel building){
+    public void startLog(BuildingLevel building) throws InterruptedException {
         Room firstRoom = getRooms(building)
                 .sorted(Comparator.comparingInt(Room::getRoomNumber))
                 .toList()

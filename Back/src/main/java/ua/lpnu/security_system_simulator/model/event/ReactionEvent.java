@@ -2,17 +2,17 @@ package ua.lpnu.security_system_simulator.model.event;
 
 import java.util.Date;
 
-public class SimulationEvent extends Event{
+public class ReactionEvent extends Event{
 
-    SimulationEvent(){
+    ReactionEvent(){
         super();
     }
 
-    SimulationEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt) throws InterruptedException {
-        super(eventType, location, dangerLevel,happenedAt);
+    ReactionEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt) throws InterruptedException {
+        super(eventType, location, dangerLevel, happenedAt);
     }
 
-    SimulationEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt, boolean result) {
+    ReactionEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt, boolean result) {
         super(eventType, location, dangerLevel, happenedAt, result);
     }
 
