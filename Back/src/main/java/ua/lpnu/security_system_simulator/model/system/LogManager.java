@@ -50,10 +50,6 @@ public class LogManager {
             if (!toInsert.isEmpty()) {
                 resultList.add(toInsert.stream().map(EventLog::getEvents).flatMap(List::stream).toList());
             }
-            else {
-                final var finalI = i;
-                getRooms(building).forEach(room -> room.removeLog(finalI));
-            }
         }
         return resultList;
     }
