@@ -9,6 +9,7 @@ type Sensor = {
     eventType: string;
     happenedAt: string;
     dangerLevel: string;
+    result: boolean;
   };
   
   type Log = {
@@ -37,7 +38,7 @@ type Sensor = {
     data: DataType[];  
   }
 
-async function getBuildings() {
+export async function getBuildings() {
   try {
     // 👇️ const response: Response
     const response = await fetch('http://localhost:8080/buildings', {
