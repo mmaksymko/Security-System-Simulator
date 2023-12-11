@@ -8,10 +8,21 @@ public class SimulationEvent extends Event{
         super();
     }
 
-    public SimulationEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt){
+    SimulationEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt) throws InterruptedException {
         super(eventType, location, dangerLevel,happenedAt);
     }
 
+    SimulationEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt, boolean result) {
+        super(eventType, location, dangerLevel, happenedAt, result);
+    }
+
     @Override
-    public void start() {}
+    public boolean calculateResult() {
+        return true;
+    }
+
+    @Override
+    public Event start() throws InterruptedException, UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
 }

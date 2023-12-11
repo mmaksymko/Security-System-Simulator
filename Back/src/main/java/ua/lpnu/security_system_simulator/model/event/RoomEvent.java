@@ -11,18 +11,31 @@ public class RoomEvent extends Event {
         super();
     }
 
-    RoomEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt) {
+    RoomEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt) throws InterruptedException {
         super(eventType, location, dangerLevel, happenedAt);
     }
 
+    public RoomEvent(EventType eventType, EventTarget location, DangerLevel dangerLevel, Date happenedAt, boolean result) {
+        super(eventType, location, dangerLevel, happenedAt, result);
+    }
+
     @Override
-    public void start() {
-        if (getLocation() instanceof Room room) {
-            var sensors = room.getAllSensorsOfType(getEventType());
-            if (random.nextDouble(0, 1) < (double) getCoverageArea() / room.getArea()) {
-                sensors.get(random.nextInt(0, sensors.size())).triggerEvent();
-            }
+    public boolean calculateResult() throws InterruptedException {
+        boolean result = getLocation() instanceof Room;
+        if (result) {
+            Room room = (Room) getLocation();
+            result = random.nextDouble(0, 1) < (double) getCoverageArea() / room.getArea();
         }
+        return result;
+    }
+
+    @Override
+    public Event start() throws InterruptedException {
+        if(getResult()){
+            var sensors = ((Room) getLocation()).getAllSensorsOfType(getEventType());
+            return sensors.get(random.nextInt(0, sensors.size())).triggerEvent(this);
+        }
+        return null;
     }
 
     public int getCoverageArea() {
