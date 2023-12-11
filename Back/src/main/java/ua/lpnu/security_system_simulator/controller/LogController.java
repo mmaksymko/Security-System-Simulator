@@ -1,12 +1,9 @@
-
 package ua.lpnu.security_system_simulator.controller;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.system.LogManager;
 import ua.lpnu.security_system_simulator.model.event.Event;
 import ua.lpnu.security_system_simulator.repository.BuildingRepository;
@@ -56,7 +53,7 @@ public class LogController {
 
 
     @PostMapping("buildings/{id}/logs/")
-    public ResponseEntity<BuildingLevel> rollbackToLog(@PathVariable("id") String id, @RequestBody Integer index) {
+    public ResponseEntity<List<Event>> rollbackToLog(@PathVariable("id") String id, @RequestBody Integer index) {
         try {
             var optionalBuilding = repository.findById(id);
             if (optionalBuilding.isEmpty()) {
@@ -66,11 +63,10 @@ public class LogController {
             var result = repository.save(building);
             repository.deleteById(building.getId());
             repository.save(building);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(logManager.getLogSinceStart(building, index), HttpStatus.OK);
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
    }
-
 }
