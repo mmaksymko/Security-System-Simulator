@@ -105,7 +105,7 @@ public class BuildingController {
             builder.seNumberOfFloors(Integer.parseInt(json.get("floors").toString()));
             builder.setNumberOfRoomsPerFloor(Integer.parseInt(json.get("rooms").toString()));
             BuildingLevel result = builder.build();
-            repository.save(result)
+            repository.save(result);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
