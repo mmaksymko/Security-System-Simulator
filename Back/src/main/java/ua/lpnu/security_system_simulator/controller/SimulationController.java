@@ -142,20 +142,35 @@ public class SimulationController {
                isPaused = false;
                building = optionalBuilding.get();
                logManager.createNewLog(building);
-               logManager.startLog(building);
+               try {
+                   logManager.startLog(building);
+               } catch (InterruptedException e) {
+                   throw new RuntimeException(e);
+               }
                var rooms = StreamSupport.stream(building.breadthFirstSearch().spliterator(), false).filter(component -> component instanceof Room).map(component -> (Room) component)
                        .toList();
-               return Flux.interval(Duration.ofMillis(random.nextInt(0, 250))).parallel(5) // specify the number of threads
-                       .runOn(Schedulers.parallel()).flatMap(tick -> isPaused ? Flux.empty() : Flux.just(
-                               eventFactory.createEvent(EventType.values()[random.nextInt(2, EventType.values().length)],
+               return Flux.interval(Duration.ofMillis(random.nextInt(0, 250)))
+                       .parallel(4)
+                       .runOn(Schedulers.parallel()).flatMap(tick -> {
+                           try {
+                               var event = eventFactory.createEvent(EventType.values()[random.nextInt(1, 6)],
                                        rooms.get(random.nextInt(0, rooms.size())),
-                                       DangerLevel.values()[random.nextInt(1, DangerLevel.values().length)])))
+                                       DangerLevel.values()[random.nextInt(1, DangerLevel.values().length)]);
+                               var triggeredEvent = event.start();
+                               var result = triggeredEvent == null ? Flux.just(event) : Flux.just(event, triggeredEvent).parallel(2);
+                               return isPaused ? Flux.empty() : result;
+                           } catch (InterruptedException e) {
+                               return Flux.error(new RuntimeException(e));
+                           }
+                       })
                        .sequential()
                        .takeUntil(event -> isStopped);
 //                       .unti;
 //                       .doOnCancel(this::stop)
 //                       .doOnTerminate(this::stop);
            });
+//       } catch (RuntimeException e){
+//
        } catch (Exception e) {
             return Flux.empty();
        }
