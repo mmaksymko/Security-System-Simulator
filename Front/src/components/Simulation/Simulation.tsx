@@ -42,8 +42,9 @@ function Simulation() {
 
   const handleStartClick = () => {
     setSimulationState("continue");
+    console.log("building id is: " + buildingId);
     const newEventSource = new EventSource(
-      "http://localhost:8080/simulation/${buildingId}"
+      `http://localhost:8080/simulation/${buildingId}`
     );
 
     newEventSource.onmessage = function (event) {
