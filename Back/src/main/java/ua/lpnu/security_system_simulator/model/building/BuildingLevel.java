@@ -3,16 +3,16 @@ package ua.lpnu.security_system_simulator.model.building;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import ua.lpnu.security_system_simulator.config.BuildingLevelDeserializer;
+import ua.lpnu.security_system_simulator.model.event.*;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.StreamSupport;
 
 @JsonDeserialize(using = BuildingLevelDeserializer.class)
 @Document(collection="buildings")
@@ -20,6 +20,7 @@ public class BuildingLevel implements BuildingComponent {
     @Id
     private String id;
     private List<BuildingComponent> components;
+    @Indexed(unique=true)
     private String name;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt;
@@ -80,7 +81,7 @@ public class BuildingLevel implements BuildingComponent {
         this.createdAt = createdAt;
     }
 
-    private void setComponents(List<BuildingComponent> components) {
+    public void setComponents(List<BuildingComponent> components) {
         this.components = components;
     }
 

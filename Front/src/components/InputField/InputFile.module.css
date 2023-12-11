@@ -1,0 +1,17 @@
+input {
+    border: 1px solid #959595;
+    border-radius: 8px;
+    background-color: #F4F4F4;
+    color: #959595;
+    font-weight: 300;
+    text-align: center;
+    padding: 12px 0px;
+    width: 160px;
+    font-size: 16px;
+}
+
+input:focus {
+    border-color: #2A80E6;
+    outline: none;
+    box-shadow: 0 0 5px rgba(42, 128, 230, 0.5);
+  }
