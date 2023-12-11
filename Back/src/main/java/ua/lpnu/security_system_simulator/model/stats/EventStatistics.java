@@ -3,7 +3,10 @@ package ua.lpnu.security_system_simulator.model.stats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Component;
+import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
+import ua.lpnu.security_system_simulator.model.building.BuildingIterator;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
+import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.event.DangerLevel;
 import ua.lpnu.security_system_simulator.model.event.Event;
 import ua.lpnu.security_system_simulator.model.event.EventType;
@@ -33,6 +36,7 @@ public class EventStatistics {
         List<List<Event>> events = logManager.getAllLogs(building);
         result = events.stream()
                 .flatMap(Collection::stream)
+                .filter(e -> !e.getEventType().toString().contains("REACTION") && !e.getEventType().toString().contains("SIMULATION_START"))
                 .collect(Collectors.groupingBy(Event::getEventType, Collectors.counting()));
         return result;
     }
@@ -47,6 +51,26 @@ public class EventStatistics {
         result = events.stream()
                 .flatMap(Collection::stream)
                 .collect(Collectors.groupingBy(Event::getDangerLevel, Collectors.counting()));
+        return result;
+    }
+    // поверх - кількість івентів (за всі симіляції)
+    public Map<String, Long> eventsPerFloor(String id) throws Exception{
+        Map<String, Long> result = new HashMap<>();
+        if(repository.findById(id).isEmpty()){
+            throw new Exception("Building does not exist");
+        }
+        BuildingLevel building = repository.findById(id).get();
+        BuildingIterator iterator = new BuildingIterator(building, true);
+        iterator.next();
+        while (iterator.hasNext()){
+            BuildingComponent currentBuildingLevel = iterator.next();
+            if(currentBuildingLevel instanceof Room){
+                break;
+            }
+            BuildingLevel currentFloor = (BuildingLevel)currentBuildingLevel;
+            List<List<Event>> events = logManager.getAllLogs(currentFloor);
+            result.put(currentFloor.getName(), (long) events.size());
+        }
         return result;
     }
 }
