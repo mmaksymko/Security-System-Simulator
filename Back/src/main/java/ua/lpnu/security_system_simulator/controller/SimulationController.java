@@ -109,7 +109,8 @@ import java.time.Duration;
 import java.util.Random;
 import java.util.stream.StreamSupport;
 
-@CrossOrigin(origins = "http://127.0.0.1:5500/", methods = {RequestMethod.GET, RequestMethod.POST})
+//@CrossOrigin(origins = "http://127.0.0.1:5500/", methods = {RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin
 @RestController
 public class SimulationController {
     private final BuildingRepository repo;

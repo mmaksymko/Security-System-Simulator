@@ -11,6 +11,7 @@ import ua.lpnu.security_system_simulator.repository.BuildingRepository;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class LogController {
     private final BuildingRepository repository;
     private final LogManager logManager;
