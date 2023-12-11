@@ -4,14 +4,13 @@ import styles from "./CustomBuilding.module.css";
 import ComboBox from "../components/ComboBox/ComboBox";
 import Switch from "../components/Switch/Switch";
 import GenerateBuildingButton from "../components/GenerateBuildingButton";
-import ContinueButton from "../components/ContinueButton/ContinueButton"
+import ContinueButton from "../components/ContinueButton/ContinueButton";
 import RandomNumberButton from "../components/RandomNumberButton";
 import InputCustomField from "../components/InputField/InputCustomField";
 import { useBuildingContext } from "../BuildingContext";
 
 function CustomBuilding() {
   const {
-
     numRoomsPerFloor,
 
     setNumRoomsPerFloor,
@@ -28,11 +27,9 @@ function CustomBuilding() {
   const [selectedFloor, setSelectedFloor] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null); // Declare selectedType state
 
-
   const handleNumRoomsPerFloorChange = (value: number) => {
     setNumRoomsPerFloor(value);
   };
-
 
   const handleRoomNumberChange = (value: number) => {
     setRoomNumber(value);
@@ -69,16 +66,21 @@ function CustomBuilding() {
         <div className={styles.propertiesContainer}>
           <div className={styles.buildingPropertyContainer}>
             <div className={styles.buildingPropertyButtons}>
-            <h2 className={styles.h2}>Choose floor number</h2>
-            <ComboBox options={['1', '2', '3']} onSelect={() => { }} style={{ width: '75px' }} value={selectedFloor} placeholder="1" />
+              <h2 className={styles.h2}>Choose floor number</h2>
+              <ComboBox
+                options={["1", "2", "3"]}
+                onSelect={() => {}}
+                style={{ width: "75px" }}
+                value={selectedFloor}
+                placeholder="1"
+              />
             </div>
-            <div/>
             <div className={styles.buildingPropertyContainer}>
               <h2 className={styles.h2}>Choose number of rooms on the floor</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputCustomField
                   value={numRoomsPerFloor}
-                  onChange={(value) => handleNumRoomsPerFloorChange(value)} 
+                  onChange={(value) => handleNumRoomsPerFloorChange(value)}
                   placeholder="Enter a number"
                 />
                 <RandomNumberButton
@@ -91,26 +93,50 @@ function CustomBuilding() {
             <div className={styles.buildingPropertyContainer}>
               <h2 className={styles.h2}>Choose type of room</h2>
               <div className={styles.buildingPropertyButtons}>
-              <InputCustomField value={roomNumber} 
-              onChange={(value) => handleRoomNumberChange(value)}   placeholder="Room number" />
-              <ComboBox options={["Apartment room", "Apartment bathroom", "Office room", "Office restroom", "Kitchen"]} onSelect={() => { }} value={selectedType} placeholder="Room type"  />
+                <InputCustomField
+                  value={roomNumber}
+                  onChange={(value) => handleRoomNumberChange(value)}
+                  placeholder="Room number"
+                />
+                <ComboBox
+                  options={[
+                    "Apartment room",
+                    "Apartment bathroom",
+                    "Office room",
+                    "Office restroom",
+                    "Kitchen",
+                  ]}
+                  onSelect={() => {}}
+                  value={selectedType}
+                  placeholder="Room type"
+                />
               </div>
             </div>
             <div className={styles.buildingPropertyContainer}>
               <h2 className={styles.h2}>Other settings</h2>
               <div className={styles.buildingPropertyButtons}>
-              <InputCustomField value={roomWidth} 
-              onChange={(value) => handleRoomWidthChange(value)} placeholder="Width" />
-              <InputCustomField value={roomLength} 
-              onChange={(value) => handleRoomLengthChange(value)} placeholder="Height" />
-                </div>
-                <div className={styles.buildingPropertyButtons}>
-                <InputCustomField value={numDoors} 
-                onChange={(value) => handleNumDoorsChange(value)} 
-                placeholder="Number of doors"/>
-                <InputCustomField value={numWindows} 
-                onChange={(value) => handleNumWindowsChange(value)}
-                placeholder="Number of windows" />
+                <InputCustomField
+                  value={roomWidth}
+                  onChange={(value) => handleRoomWidthChange(value)}
+                  placeholder="Width"
+                />
+                <InputCustomField
+                  value={roomLength}
+                  onChange={(value) => handleRoomLengthChange(value)}
+                  placeholder="Height"
+                />
+              </div>
+              <div className={styles.buildingPropertyButtons}>
+                <InputCustomField
+                  value={numDoors}
+                  onChange={(value) => handleNumDoorsChange(value)}
+                  placeholder="Number of doors"
+                />
+                <InputCustomField
+                  value={numWindows}
+                  onChange={(value) => handleNumWindowsChange(value)}
+                  placeholder="Number of windows"
+                />
               </div>
             </div>
 
@@ -120,7 +146,10 @@ function CustomBuilding() {
             </div>
             <div className={styles.buildingPropertyButtons}>
               <h2 className={styles.h2}>Add sensors</h2>
-              <Switch onToggle={handleSwitchToggleForContinue}   defaultOn={false} />
+              <Switch
+                onToggle={handleSwitchToggleForContinue}
+                defaultOn={false}
+              />
             </div>
           </div>
         </div>
