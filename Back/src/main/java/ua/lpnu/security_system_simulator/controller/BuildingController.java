@@ -101,7 +101,11 @@ public class BuildingController {
             BuildingLevel result = build(new ApartmentBuildingBuilder(), new JSONObject(httpEntity.getBody()));
             repository.save(result);
             return new ResponseEntity<>(result, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (DuplicateKeyException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (JSONException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -116,7 +120,11 @@ public class BuildingController {
             BuildingLevel result = builder.build();
             repository.save(result);
             return new ResponseEntity<>(result, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (DuplicateKeyException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (JSONException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
