@@ -179,21 +179,25 @@ public class SimulationController {
 //    }
 
     @GetMapping("/simulation/pause")
-    public void pause() {
+    public ResponseEntity<Object> pause() {
         isPaused = true;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/simulation/resume")
-    public void resume() {
+    public ResponseEntity<Object> resume() {
         isPaused = false;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/simulation/save")
-    public void save() {
-        if (logManager!=null){
+    public ResponseEntity<Object> save() {
+        if (logManager != null) {
             logManager.createNewLog(building);
             repo.save(building);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }
