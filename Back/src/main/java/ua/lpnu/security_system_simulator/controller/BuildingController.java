@@ -98,11 +98,7 @@ public class BuildingController {
     @PostMapping("/buildings/residential")
     public  ResponseEntity<BuildingLevel> generateApartmentBuilding(HttpEntity<String> httpEntity){
         try {
-            JSONObject json = new JSONObject(httpEntity.getBody());
-            ApartmentBuildingBuilder builder = new ApartmentBuildingBuilder();
-            builder.seNumberOfFloors(Integer.parseInt(json.get("floors").toString()));
-            builder.setNumberOfRoomsPerFloor(Integer.parseInt(json.get("rooms").toString()));
-            BuildingLevel result = builder.build();
+            BuildingLevel result = build(new ApartmentBuildingBuilder(), new JSONObject(httpEntity.getBody()));
             repository.save(result);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }catch (Exception e){
@@ -125,7 +121,13 @@ public class BuildingController {
         }
     }
 
+    private BuildingLevel build(BuildingBuilder builder, JSONObject json) throws Exception {
+        builder.seNumberOfFloors(Integer.parseInt(json.get("floors").toString()));
+        builder.setNumberOfRoomsPerFloor(Integer.parseInt(json.get("rooms").toString()));
         builder.setName(json.get("name").toString());
+        return builder.build();
+    }
+
     private boolean validateBuilding(BuildingLevel building) {
         if (building.getNumberOfComponents() >= 200){
             return false;
