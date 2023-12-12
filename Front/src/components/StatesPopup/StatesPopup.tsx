@@ -26,9 +26,9 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
     const fetchBuildingData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/buildings/${buildingId}/logs`
+          `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}/logs`
         );
-        console.log("building ID: ", buildingId);
+        console.log("building ID: ", localStorage.getItem("buildingId"));
         const data = await response.json();
         const logEntries = data.map((logEntry: any, index: number) =>
           index.toString()
@@ -44,10 +44,8 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
     fetchBuildingData();
   }, []);
   const handleSelect = (selectedOption: string) => {
-    const selectedIndex = logOptions.indexOf(selectedOption);
-
     setSelectedLogId(
-      selectedIndex !== -1 ? selectedIndex.toString() : undefined
+      (logOptions.indexOf(selectedOption) - 1).toString()
     );
   };
   const handleSubmitClick = async () => {
@@ -55,7 +53,7 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
     try {
       if (selectedLogId !== undefined && selectedLogId !== "0") {
         const response = await fetch(
-          `http://localhost:8080/buildings/${buildingId}/logs/${selectedLogId}`,
+          `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}/logs/${selectedLogId}`,
           {
             method: "POST",
           }

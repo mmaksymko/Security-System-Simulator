@@ -4,43 +4,43 @@ const buildingId = 123; // Замінити це на реальний id буд
 const index = 0; // Замінити це на реальний індекс логу
 
 type Sensor = {
-    coverageArea: string;
-    type: string; 
-  };
-  
-  type Event = {
-    eventType: string;
-    happenedAt: string;
-    dangerLevel: string;
-    result: boolean;
-  };
-  
-  type Log = {
-    events: Event[];
-  };
-  
-  type Component = {
-    roomType: string;
-    roomNumber: number;
-    windows: number;
-    doors: number;
-    name: string;
-    sensors: Sensor[];
-    logs: Log[];
-  };
-  
-  type BuildingComponent = {
-    components: Component[];
-  };
-  
-  type DataType = {
-    buildingComponent: BuildingComponent;
-  };
+  coverageArea: string;
+  type: string;
+};
 
-  type GetBuildingsLogIndexResponse = {
-    data: Log[];  
-  }
-  const apiUrl = 'http://localhost:8080/buildings/${buildingId}/logs/${index}';
+type Event = {
+  eventType: string;
+  happenedAt: string;
+  dangerLevel: string;
+  result: boolean;
+};
+
+type Log = {
+  events: Event[];
+};
+
+type Component = {
+  roomType: string;
+  roomNumber: number;
+  windows: number;
+  doors: number;
+  name: string;
+  sensors: Sensor[];
+  logs: Log[];
+};
+
+type BuildingComponent = {
+  components: Component[];
+};
+
+type DataType = {
+  buildingComponent: BuildingComponent;
+};
+
+type GetBuildingsLogIndexResponse = {
+  data: Log[];
+}
+const apiUrl = 'http://localhost:8080/buildings/${localStorage.getItem("buildingId")}/logs/${index}';
 export async function getBuildingsLogs() {
   try {
     // 👇️ const response: Response

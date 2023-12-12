@@ -3,31 +3,31 @@ import fetch from 'node-fetch';
 const buildingId = 123; // Замінити це на реальний id будівлі
 
 type Sensor = {
-    coverageArea: string;
-    type: string; 
-  };
+  coverageArea: string;
+  type: string;
+};
 
- 
-  type Log = {
-    events: Event[];
-  };
-  
-  type Component = {
-    roomType: string;
-    roomNumber: number;
-    windows: number;
-    doors: number;
-    name: string;
-    sensors: Sensor[];
-    logs: Log[];
-  };
+
+type Log = {
+  events: Event[];
+};
+
+type Component = {
+  roomType: string;
+  roomNumber: number;
+  windows: number;
+  doors: number;
+  name: string;
+  sensors: Sensor[];
+  logs: Log[];
+};
 
 type BuildingComponent = {
-    components: Component[];
-  };
+  components: Component[];
+};
 type DataType = {
-    buildingComponent: BuildingComponent;
-  };
+  buildingComponent: BuildingComponent;
+};
 
 const buildingData: DataType = {
   buildingComponent: {
@@ -58,7 +58,7 @@ const buildingData: DataType = {
   }
 };
 
-const apiUrl = `http://localhost:8080/buildings/${buildingId}`;
+const apiUrl = `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}`;
 
 const requestOptions = {
   method: 'PUT',
