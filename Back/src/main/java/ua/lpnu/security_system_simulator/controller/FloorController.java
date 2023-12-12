@@ -1,5 +1,10 @@
 package ua.lpnu.security_system_simulator.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +19,7 @@ import java.util.stream.StreamSupport;
 
 @RestController
 @CrossOrigin
+@Tag(name="Floors")
 public class FloorController {
     BuildingRepository repository;
 
@@ -22,6 +28,26 @@ public class FloorController {
         this.repository = repository;
     }
 
+    @Operation(
+            description = "Get all specific floor of a specific building by it's id.",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
+                            content = @Content
+                    )
+            },
+            parameters = @Parameter(name = "id", description = "building's id", example="657724992d41152fbd659220")
+    )
     @GetMapping("/buildings/{id}/floors")
     public ResponseEntity<List<BuildingComponent>> getAllFloors(@PathVariable("id") String id){
         try {
@@ -34,6 +60,26 @@ public class FloorController {
         }
     }
 
+    @Operation(
+            description = "Get a specific floor by it's id.",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
+                            content = @Content
+                    )
+            },
+            parameters = @Parameter(name = "floorId", description = "floor's id", example="657724992d41152fbd659220")
+    )
     @GetMapping("/floors/{floorId}")
     public ResponseEntity<BuildingLevel> getFloor(@PathVariable("floorId") String floorId) {
         try {
@@ -51,7 +97,29 @@ public class FloorController {
         }
     }
 
-
+    @Operation(
+            description = "Get a specific floor by it's id and building's id.",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
+                            content = @Content
+                    )
+            },
+            parameters = {
+                    @Parameter(name = "buildingId", description = "building's id", example="657724992d41152fbd659219"),
+                    @Parameter(name = "floorId", description = "floor's id", example="657724992d41152fbd659220")
+            }
+    )
     @GetMapping("/buildings/{id}/floors/{floorId}")
     public ResponseEntity<BuildingLevel> getFloor(@PathVariable("id") String id, @PathVariable("floorId") String floorId){
         try {
@@ -68,6 +136,36 @@ public class FloorController {
         }
     }
 
+    @Operation(
+            description = "Add a floor to the building.",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "406",
+                            description = "Not Acceptable",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "Conflict",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
+                            content = @Content
+                    )
+            },
+            parameters = @Parameter(name = "id", description = "building's id", example="657724992d41152fbd659220")
+    )
     @PostMapping("/buildings/{id}/")
     public ResponseEntity<BuildingLevel> addFloor(@RequestBody BuildingLevel buildingLevel, @PathVariable("id") String id) {
         try {
@@ -77,7 +175,7 @@ public class FloorController {
 
             var optionalBuilding = repository.findById(id);
             if(optionalBuilding.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
             var building = optionalBuilding.get();
@@ -95,6 +193,35 @@ public class FloorController {
         }
     }
 
+    @Operation(
+            description = "Update a specific floor by it's id and building's id.",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content",
+                            content = @Content
+                    ),  @ApiResponse(
+                        responseCode = "406",
+                        description = "Not Acceptable",
+                        content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "Conflict",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
+                            content = @Content
+                    )
+            },
+            parameters = @Parameter(name = "floorId", description = "floor's id", example="657724992d41152fbd659220")
+    )
     @PutMapping("/floors/{floorId}")
     public ResponseEntity<BuildingLevel> updateFloor(@PathVariable("floorId") String floorId, @RequestBody BuildingLevel buildingLevel) {
         try {
@@ -116,7 +243,38 @@ public class FloorController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Operation(
+            description = "Update a specific floor by it's id and building's id.",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content",
+                            content = @Content
+                    ),  @ApiResponse(
+                        responseCode = "406",
+                        description = "Not Acceptable",
+                        content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "Conflict",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
+                            content = @Content
+                    )
+            },
+            parameters = {
+                    @Parameter(name = "buildingId", description = "building's id", example="657724992d41152fbd659219"),
+                    @Parameter(name = "floorId", description = "floor's id", example="657724992d41152fbd659220")
+            }
+    )
     @PutMapping("/buildings/{buildingId}/floors/{floorId}")
     public ResponseEntity<BuildingLevel> updateFloor(@PathVariable("buildingId") String buildingId, @PathVariable("floorId") String floorId, @RequestBody BuildingLevel buildingLevel) {
         try {
@@ -143,6 +301,26 @@ public class FloorController {
         }
     }
 
+    @Operation(
+            description = "Delete a specific floor by it's id.",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
+                            content = @Content
+                    )
+            },
+            parameters = @Parameter(name = "floorId", description = "floor's id", example="657724992d41152fbd659220")
+    )
     @DeleteMapping("/floors/{floorId}")
     public ResponseEntity<BuildingLevel> deleteFloor(@PathVariable("floorId") String floorId) {
         try {
@@ -159,6 +337,29 @@ public class FloorController {
         }
     }
 
+    @Operation(
+            description = "Delete a specific floor by it's id and building's id.",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
+                            content = @Content
+                    )
+            },
+            parameters = {
+                    @Parameter(name = "buildingId", description = "building's id", example="657724992d41152fbd659219"),
+                    @Parameter(name = "floorId", description = "floor's id", example="657724992d41152fbd659220")
+            }
+    )
     @DeleteMapping("/buildings/{buildingId}/floors/{floorId}")
     public ResponseEntity<BuildingLevel> updateFloor(@PathVariable("buildingId") String buildingId, @PathVariable("floorId") String floorId){
         try {
@@ -169,7 +370,7 @@ public class FloorController {
                     return deleteFloor(building.get(), floor.get());
                 }
             }
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
