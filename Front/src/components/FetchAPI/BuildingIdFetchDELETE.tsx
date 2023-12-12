@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 const buildingId = 123; // Замінити це на реальний id будівлі
 
-const apiUrl = `http://localhost:8080/buildings/${buildingId}`;
+const apiUrl = `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}`;
 
 const requestOptions = {
   method: 'DELETE',

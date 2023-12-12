@@ -107,7 +107,7 @@ const Simulation: React.FC<SimulationProps> = ({
     const savingLogData = async () => {
       try {
         const response = await fetch(`http://localhost:8080/simulation/save`);
-        console.log("saving state...");
+        console.log(response);
       } catch (error) {
         console.error("Error fetching building data:", error);
       }
