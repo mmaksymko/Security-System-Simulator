@@ -12,6 +12,9 @@ import { useBuildingContext } from "../BuildingContext";
 function CustomBuilding() {
   const { numFloors, setNumFloors, numRoomsPerFloor, setNumRoomsPerFloor } =
     useBuildingContext();
+  const floorOptions = Array.from({ length: numFloors }, (_, index) =>
+    (index + 1).toString()
+  );
 
   const [roomNumber, setRoomNumber] = useState(0);
   const [roomWidth, setRoomWidth] = useState(0);
@@ -73,8 +76,8 @@ function CustomBuilding() {
             <div className={styles.buildingPropertyButtons}>
               <h2 className={styles.h2}>Choose floor number</h2>
               <ComboBox
-                options={["1", "2", "3"]}
-                onSelect={() => {}}
+                options={floorOptions}
+                onSelect={(selectedValue) => setSelectedFloor(selectedValue)}
                 style={{ width: "75px" }}
                 value={selectedFloor}
                 placeholder="1"
