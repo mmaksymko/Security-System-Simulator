@@ -129,8 +129,8 @@ public class BuildingController {
                 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             }
 
-            repository.save(buildingLevel);
-            return new ResponseEntity<>(buildingLevel, HttpStatus.OK);
+            BuildingLevel newBuilding = repository.save(buildingLevel);
+            return new ResponseEntity<>(newBuilding, HttpStatus.OK);
         } catch (DuplicateKeyException e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e){

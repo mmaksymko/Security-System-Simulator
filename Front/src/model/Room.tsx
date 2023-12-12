@@ -8,7 +8,7 @@ enum RoomType {
     KITCHEN
 }
 class Room implements BuildingComponent{
-    roomType: RoomType;
+    roomType: string;
     roomNumber: number;
     windows: number;
     doors: number;
@@ -16,7 +16,7 @@ class Room implements BuildingComponent{
     width: number;
     sensors: Sensor[];
     logs: string[];
-    constructor(roomType: RoomType, 
+    constructor(roomType: string, 
                 roomNumber: number, 
                 windows: number, 
                 doors: number, 

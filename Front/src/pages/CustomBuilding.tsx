@@ -12,13 +12,7 @@ import AddCustomRoomButton from "../components/AddCustomRoomButton";
 import { Room } from "../model/Room";
 import { BuildingLevel } from "../model/BuildingLevel";
 
-enum RoomType {
-  APARTMENT_ROOM,
-  APARTMENT_BATHROOM,
-  OFFICE_ROOM,
-  OFFICE_RESTROOM,
-  KITCHEN
-}
+
 let rooms: Room[];
 let building: BuildingLevel;
 rooms = [];
@@ -93,33 +87,30 @@ function CustomBuilding() {
     console.log(numRoomsPerFloor)
     if(rooms.length === numRoomsPerFloor){
       console.log("floor config completed");
-    let floors : BuildingLevel[] = [];
-    let n = + localStorage["custom_floors"];
-    let i = 0
-    while(i < n){
-      console.log(i)
-      floors.push(new BuildingLevel("Floor" + (i + 1).toString(), rooms));
-      i++;
-    }
-    console.log(numFloors)
-    building = new BuildingLevel(localStorage.getItem("custom_name"), []);
-    console.log(building);
-    console.log(rooms);
-    console.log(floors)
+      let floors : BuildingLevel[] = [];
+      let n = + localStorage["custom_floors"];
+      let i = 0
+      while(i < n){
+        console.log(i)
+        floors.push(new BuildingLevel("Floor" + (i + 1).toString(), rooms));
+        i++;
+      }
+      building = new BuildingLevel(localStorage.getItem("custom_name"), floors);
+      localStorage.setItem("custom_building", JSON.stringify(building));
       return;
     }
-    let roomType: RoomType = RoomType.KITCHEN;
+    let roomType: string = "KITCHEN";
     if(selectedType === "Apartment room"){
-      roomType = RoomType.APARTMENT_ROOM;
+      roomType = "APARTMENT_ROOM";
     }
     else if(selectedType === "Apartment bathroom"){
-      roomType = RoomType.APARTMENT_BATHROOM;
+      roomType = "APARTMENT_BATHROOM";
     }
     else if(selectedType === "Office room"){
-      roomType = RoomType.OFFICE_ROOM;
+      roomType = "OFFICE_ROOM";
     }
     else if(selectedType === "Office restroom"){
-      roomType = RoomType.OFFICE_RESTROOM;
+      roomType = "OFFICE_RESTROOM";
     }
     let newRoom = new Room(roomType, roomNumber, numWindows, numDoors, roomLength, roomWidth,  []);
     rooms.push(newRoom);
@@ -225,13 +216,13 @@ function CustomBuilding() {
           </div>
         </div>
         {isSwitch2Enabled ? (
-          // <Link to="/AddSensors">
-            <ContinueButton onClick={handleContinueClick}/>
-          // </Link>
+          <Link to="/AddSensors">
+            <ContinueButton />
+          </Link>
         ) : (
-          // <Link to="/simulation">
+          <Link to="/simulation">
             <GenerateBuildingButton disabled={!isButtonActive} />
-          // </Link>
+          </Link>
         )}
       </div>
     </div>

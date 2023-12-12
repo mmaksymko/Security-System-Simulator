@@ -15,11 +15,11 @@ enum EventType {
 }
 class Sensor {
     coverageArea: number;
-    type: EventType;
-    constructor(coverageArea: number, type: EventType) {
+    type: string;
+    constructor(coverageArea: number, type: string) {
         this.coverageArea = coverageArea;
         this.type = type;
     }
 }
 
-export { Sensor };
+export { Sensor, EventType };
