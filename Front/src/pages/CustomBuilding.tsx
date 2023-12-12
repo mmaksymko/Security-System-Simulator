@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./CustomBuilding.module.css";
 import ComboBox from "../components/ComboBox/ComboBox";
 import Switch from "../components/Switch/Switch";
@@ -10,24 +10,29 @@ import InputCustomField from "../components/InputField/InputCustomField";
 import { useBuildingContext } from "../BuildingContext";
 
 function CustomBuilding() {
-  const {
-    numRoomsPerFloor,
-
-    setNumRoomsPerFloor,
-  } = useBuildingContext();
+  const { numFloors, setNumFloors, numRoomsPerFloor, setNumRoomsPerFloor } =
+    useBuildingContext();
 
   const [roomNumber, setRoomNumber] = useState(0);
   const [roomWidth, setRoomWidth] = useState(0);
   const [roomLength, setRoomLength] = useState(0);
   const [numDoors, setNumDoors] = useState(0);
   const [numWindows, setNumWindows] = useState(0);
+  const [isRoomsValid, setRoomsValid] = useState(Boolean);
+  const [isButtonActive, setButtonActive] = useState(false);
 
   const [isSwitch1Enabled, setSwitch1Enabled] = useState(false);
   const [isSwitch2Enabled, setSwitch2Enabled] = useState(false);
   const [selectedFloor, setSelectedFloor] = useState<string | null>(null);
-  const [selectedType, setSelectedType] = useState<string | null>(null); // Declare selectedType state
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+
+  useEffect(() => {
+    setButtonActive(isRoomsValid);
+  }, [isRoomsValid]);
 
   const handleNumRoomsPerFloorChange = (value: number) => {
+    if (value >= 1 && value <= 20) setRoomsValid(true);
+    else setRoomsValid(false);
     setNumRoomsPerFloor(value);
   };
 
@@ -79,6 +84,7 @@ function CustomBuilding() {
               <h2 className={styles.h2}>Choose number of rooms on the floor</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputCustomField
+                  isValid={isRoomsValid}
                   value={numRoomsPerFloor}
                   onChange={(value) => handleNumRoomsPerFloorChange(value)}
                   placeholder="Enter a number"
@@ -159,7 +165,7 @@ function CustomBuilding() {
           </Link>
         ) : (
           <Link to="/simulation">
-            <GenerateBuildingButton />
+            <GenerateBuildingButton disabled={!isButtonActive} />
           </Link>
         )}
       </div>

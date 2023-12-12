@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./ConfigureBuilding.module.css";
 import BuildingTypeButton from "../components/BuildingTypeButton/BuildingTypeButton";
 import GenerateBuildingButton from "../components/GenerateBuildingButton";
@@ -22,6 +22,10 @@ function ConfigureBuilding() {
   } = useBuildingContext();
 
   const [activeType, setActiveType] = useState("");
+  const [isNameValid, setNameValid] = useState(Boolean);
+  const [isRoomsValid, setRoomsValid] = useState(Boolean);
+  const [isFloorsValid, setFloorsValid] = useState(Boolean);
+  const [isButtonActive, setButtonActive] = useState(false);
 
   const handleBuildingTypeClick = (type: string) => {
     setActiveType(type);
@@ -29,30 +33,54 @@ function ConfigureBuilding() {
   };
 
   const handleNameChange = (value: string) => {
+    if (value != "") {
+      setNameValid(true);
+    } else {
+      setNameValid(false);
+    }
     setBuildingName(value);
   };
   const handleNumFloorsChange = (value: number) => {
+    if (value >= 1 && value <= 200) {
+      setFloorsValid(true);
+    } else {
+      setFloorsValid(false);
+    }
     setNumFloors(value);
   };
 
   const handleNumRoomsPerFloorChange = (value: number) => {
+    if (activeType === "office") {
+      if (value >= 5 && value <= 20 && value % 5 === 0) setRoomsValid(true);
+      else setRoomsValid(false);
+    } else if (activeType === "residential") {
+      if (value >= 4 && value <= 16 && value % 4 === 0) setRoomsValid(true);
+      else setRoomsValid(false);
+    }
     setNumRoomsPerFloor(value);
   };
+  useEffect(() => {
+    if (activeType === "office" || activeType === "residential") {
+      setButtonActive(isNameValid && isFloorsValid && isRoomsValid);
+    } else if (activeType === "custom") {
+      setButtonActive(isNameValid && isFloorsValid);
+    }
+  }, [isNameValid, isFloorsValid, isRoomsValid, activeType]);
 
   const handleGenerateBuildingClick = async () => {
     console.log(buildingType);
     await fetch(`http://localhost:8080/buildings/${buildingType}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({floors: numFloors, rooms: numRoomsPerFloor})
+      body: JSON.stringify({ floors: numFloors, rooms: numRoomsPerFloor }),
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   return (
@@ -126,6 +154,7 @@ function ConfigureBuilding() {
               <h2 className={styles.h2}>Choose a name for the building</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputFieldText
+                  isValid={isNameValid}
                   value={buildingName}
                   onChange={(value) => handleNameChange(value)}
                 />
@@ -135,6 +164,7 @@ function ConfigureBuilding() {
               <h2 className={styles.h2}>Choose number of the floors</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputField
+                  isValid={isFloorsValid}
                   value={numFloors}
                   onChange={(value) => handleNumFloorsChange(value)}
                 />
@@ -156,6 +186,7 @@ function ConfigureBuilding() {
               </h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputField
+                  isValid={isRoomsValid}
                   value={numRoomsPerFloor}
                   onChange={(value) => handleNumRoomsPerFloorChange(value)}
                 />
@@ -170,13 +201,15 @@ function ConfigureBuilding() {
         </div>
         {(buildingType === "office" || buildingType === "residential") && (
           <Link to="/simulation">
-            <GenerateBuildingButton 
-             onClick={() => handleGenerateBuildingClick()}/>
+            <GenerateBuildingButton
+              onClick={() => handleGenerateBuildingClick()}
+              disabled={!isButtonActive}
+            />
           </Link>
         )}
         {buildingType === "custom" && (
           <Link to="/customBuilding">
-            <GenerateBuildingButton />
+            <GenerateBuildingButton disabled={!isButtonActive} />
           </Link>
         )}
       </div>

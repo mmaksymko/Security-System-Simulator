@@ -23,6 +23,7 @@ interface SidebarProps {
   onStatsButtonClick: () => void;
   logData: LogEntry[];
   setLogData: React.Dispatch<React.SetStateAction<LogEntry[]>>;
+  onClearLogData: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -82,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </BuildingInfoItem>
         </div>
         <EditBtn onClick={onEditButtonClick} />
-        <StatsBtn onClick={onStatsButtonClick}/>
+        <StatsBtn onClick={onStatsButtonClick} />
       </div>
       <Log logData={logData} />
     </div>

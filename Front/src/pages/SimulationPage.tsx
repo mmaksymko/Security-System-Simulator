@@ -48,6 +48,11 @@ const SimulationPage: React.FC = () => {
     setChartPopupVisibility(false);
   };
 
+  const onClearLogData = () => {
+    setLogData([]);
+    console.log("CLEARING table data");
+  };
+
   return (
     <div className={styles.container}>
       <Sidebar
@@ -60,6 +65,7 @@ const SimulationPage: React.FC = () => {
         onStatsButtonClick={handleStatsButtonClick}
         logData={logData}
         setLogData={setLogData}
+        onClearLogData={onClearLogData}
       />
       <Simulation logData={logData} onLogDataUpdate={handleLogDataUpdate} />
       {isEditPopupVisible && <EditPopup onClose={handleCloseEditPopup} />}

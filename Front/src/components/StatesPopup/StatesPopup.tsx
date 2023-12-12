@@ -4,10 +4,19 @@ import SubmitButton from "../SubmitButton";
 import { useState, useEffect } from "react";
 import ComboBox from "../ComboBox/ComboBox";
 
+interface LogEntry {
+  dangerLevel: string;
+  eventType: string;
+  location: string;
+  happenedAt: string;
+  result: boolean;
+}
+
 interface EditPopupProps {
   onClose: () => void;
+  onClearLogData: () => void;
 }
-const StatesPopup: React.FC<EditPopupProps> = ({ onClose }) => {
+const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
   const [logOptions, setLogOptions] = useState<string[]>([]);
   const [selectedLogId, setSelectedLogId] = useState<string | undefined>();
   const { buildingName, setBuildingName, buildingId, setBuildingId } =
@@ -43,8 +52,8 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose }) => {
   };
   const handleSubmitClick = async () => {
     console.log("sending post request with a chosen log id");
-    if (selectedLogId !== undefined && selectedLogId !== "0") {
-      try {
+    try {
+      if (selectedLogId !== undefined && selectedLogId !== "0") {
         const response = await fetch(
           `http://localhost:8080/buildings/${buildingId}/logs/${selectedLogId}`,
           {
@@ -57,13 +66,17 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose }) => {
         } else {
           console.error("POST request failed");
         }
-      } catch (error) {
-        console.error("Error sending POST request:", error);
+      } else {
+        console.error("Invalid selected log ID");
       }
-    } else {
-      console.error("Invalid selected log ID");
+    } catch (error) {
+      console.error("Error sending POST request:", error);
     }
+    console.log("finished posting data. start claring previous log data");
+    onClearLogData();
+    onClose();
   };
+
   return (
     <div className={styles.background} onClick={onClose}>
       <div className={styles.container} onClick={(e) => e.stopPropagation()}>
