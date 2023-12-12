@@ -46,7 +46,7 @@ const SimulationLogic: React.FC<SimulationLogicProps> = ({ logData }) => {
         } else {
           console.error("Error: Received unexpected string response");
         }
-      } catch (error) {
+} catch (error) {
         console.error("Error fetching data:", error);
       }
     };
@@ -76,14 +76,14 @@ const SimulationLogic: React.FC<SimulationLogicProps> = ({ logData }) => {
 
     const numOfRooms = jsonData.components[j].components.length;
     const bedrooms = [];
-
+    let lastEvents = logData.reverse().slice(1,100);
     for (let i = 0; i < numOfRooms; i++) {
      let emojiList = [];
-     for (let j =0; j<logData.length;j++)
-     {
-        if(logData[j].location===jsonData.components[j].components[i].roomNumber.toString())
+     for (let k =0; k<lastEvents.length;k++){
+         
+        if(lastEvents[k].location.toString()===jsonData.components[j]?.components[i].roomNumber?.toString())
         {
-          emojiList.push(eventSmileyMap[logData[j].eventType]);
+          emojiList.push(eventSmileyMap[lastEvents[k].eventType.toUpperCase()]);
         }
       }
       bedrooms.push(
