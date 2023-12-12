@@ -129,14 +129,11 @@ public class LogController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             var building = logManager.rollbackToIndex(optionalBuilding.get(), index);
-//            var result = repository.save(building);
-            repository.save(building);
-            repository.deleteById(building.getId());
-            repository.save(building);
+            var res = repository.save(building);
 
-            var result = logManager.getLogSinceStart(building, index);
-            result.sort((log1,log2) -> log1.getHappenedAt().compareTo(log2.getHappenedAt())*-1);
-            return new ResponseEntity<>(result.stream().limit(100).toList(), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    logManager.getLogSinceStart(building, index).stream().sorted((log1,log2) -> log1.getHappenedAt().compareTo(log2.getHappenedAt())*-1).limit(100).toList(),
+                    HttpStatus.OK);
         } catch (IndexOutOfBoundsException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e){

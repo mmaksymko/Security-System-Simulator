@@ -155,7 +155,7 @@ public class Room implements BuildingComponent, EventTarget {
     }
 
     public void rollback(int index) {
-        logs.subList(index+1, logs.size()).clear();
+        logs.subList(index+2, logs.size()).clear();
     }
 
     public void removeSensor(Sensor sensor){
