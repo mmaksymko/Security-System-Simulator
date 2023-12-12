@@ -83,6 +83,11 @@ function ConfigureBuilding() {
       });
   };
 
+  const handleGenerateCustomBuildingButton = () => {
+    localStorage.setItem("custom_name", buildingName);
+    localStorage.setItem("custom_floors", numFloors.toString());
+  }
+
   return (
     <div className={styles.background}>
       <div className={styles.container}>
@@ -209,7 +214,9 @@ function ConfigureBuilding() {
         )}
         {buildingType === "custom" && (
           <Link to="/customBuilding">
-            <GenerateBuildingButton disabled={!isButtonActive} />
+            <GenerateBuildingButton 
+              onClick={handleGenerateCustomBuildingButton}
+              disabled={!isButtonActive} />
           </Link>
         )}
       </div>

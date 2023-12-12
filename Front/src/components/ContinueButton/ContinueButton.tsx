@@ -1,4 +1,14 @@
-function ContinueButton() {
+import React, { ReactNode, MouseEvent } from "react";
+
+interface ContinueButtonProps {
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+}
+
+const ContinueButton: React.FC<ContinueButtonProps> = ({
+  onClick = () => {},
+  disabled = false,
+}) => {
     return (
       <button
         style={{
