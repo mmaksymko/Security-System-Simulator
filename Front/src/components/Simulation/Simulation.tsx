@@ -58,9 +58,9 @@ const Simulation: React.FC<SimulationProps> = ({
 
   const handleStartClick = () => {
     setSimulationState("continue");
-    console.log("building id is: " + buildingId);
+    console.log("building id is: " + localStorage.getItem("buildingId"));
     const newEventSource = new EventSource(
-      `http://localhost:8080/simulation/${buildingId}`
+      `http://localhost:8080/simulation/${localStorage.getItem("buildingId")}`
     );
 
     newEventSource.onmessage = function (event) {

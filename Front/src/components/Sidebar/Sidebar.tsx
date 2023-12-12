@@ -46,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     const fetchBuildingData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/buildings/${buildingId}`
+          `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}`
         );
         const data = await response.json();
         console.log("DATA: ", data);

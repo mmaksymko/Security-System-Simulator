@@ -57,6 +57,7 @@ const [chartData, setChartData] = useState<ChartData>({
       const response = await fetch(connection + localStorage.getItem("buildingId"))
       .then(resp => resp.json())
       .then(data => {
+        console.log(data)
         const labels : string[] = Object.keys(data);
       const values : number[] = Object.values(data);
       for(let i = 0; i < labels.length; ++i){

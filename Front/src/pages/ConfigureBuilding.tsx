@@ -47,11 +47,12 @@ function ConfigureBuilding() {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({floors: numFloors, rooms: numRoomsPerFloor})
+      body: JSON.stringify({floors: numFloors, rooms: numRoomsPerFloor, name: buildingName})
     })
     .then(response => response.json())
     .then(data => {
       console.log(data)
+      localStorage.setItem("buildingId", data.id)
     });
   };
 
