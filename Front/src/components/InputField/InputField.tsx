@@ -31,9 +31,8 @@ const InputField: React.FC<InputFieldProps> = ({
       type="number"
       value={value}
       onChange={handleInputChange}
-      onBlur={() => setTouched(true)}
       className={`${styles.input} ${
-        touched || isValid ? "" : styles.invalid
+        touched ? (isValid ? "" : styles.invalid) : ""
       } ${className}`}
       placeholder={placeholder}
       readOnly={readOnly}

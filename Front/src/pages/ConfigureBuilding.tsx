@@ -22,6 +22,7 @@ function ConfigureBuilding() {
   } = useBuildingContext();
 
   const [activeType, setActiveType] = useState("");
+  const [isNameValid, setNameValid] = useState(Boolean);
   const [isRoomsValid, setRoomsValid] = useState(Boolean);
   const [isFloorsValid, setFloorsValid] = useState(Boolean);
 
@@ -31,10 +32,15 @@ function ConfigureBuilding() {
   };
 
   const handleNameChange = (value: string) => {
+    if (value != "") {
+      setNameValid(true);
+    } else {
+      setNameValid(false);
+    }
     setBuildingName(value);
   };
   const handleNumFloorsChange = (value: number) => {
-    if (value >= 1 && value <= 102) {
+    if (value >= 1 && value <= 200) {
       setFloorsValid(true);
     } else {
       setFloorsValid(false);
@@ -43,10 +49,12 @@ function ConfigureBuilding() {
   };
 
   const handleNumRoomsPerFloorChange = (value: number) => {
-    if (value >= 1 && value <= 33) {
-      setRoomsValid(true);
-    } else {
-      setRoomsValid(false);
+    if (activeType === "office") {
+      if (value >= 5 && value <= 20 && value % 5 === 0) setRoomsValid(true);
+      else setRoomsValid(false);
+    } else if (activeType === "residential") {
+      if (value >= 4 && value <= 16 && value % 4 === 0) setRoomsValid(true);
+      else setRoomsValid(false);
     }
     setNumRoomsPerFloor(value);
   };
@@ -138,6 +146,7 @@ function ConfigureBuilding() {
               <h2 className={styles.h2}>Choose a name for the building</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputFieldText
+                  isValid={isNameValid}
                   value={buildingName}
                   onChange={(value) => handleNameChange(value)}
                 />
