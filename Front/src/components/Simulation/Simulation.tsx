@@ -5,6 +5,9 @@ import StartSimulationButton from "../StartSimulationButton";
 import ContinueSimulationButton from "../ContinueSimulationButton";
 import { useBuildingContext } from "../../BuildingContext";
 import SimulationLogic from "../Rooms/SimulationLogic";
+import SaveButton from "../SaveButton/SaveButton";
+import RestoreStateButton from "../RestoreStateButton";
+import StatesPopup from "../StatesPopup/StatesPopup";
 
 interface Building {
   id: number;
@@ -29,6 +32,8 @@ const Simulation: React.FC<SimulationProps> = ({
   onLogDataUpdate,
 }) => {
   const [simulationState, setSimulationState] = useState("start");
+  const [isEditPopupVisible, setEditPopupVisible] = useState(false);
+
   const [eventSource, setEventSource] = useState<EventSource | null>(null);
   const { buildingName, setBuildingName, buildingId, setBuildingId } =
     useBuildingContext();
@@ -99,6 +104,23 @@ const Simulation: React.FC<SimulationProps> = ({
     setSimulationState("start");
   };
 
+  const handleSaveClick = () => {
+    const savingLogData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/simulation/save`);
+        console.log("saving state...");
+      } catch (error) {
+        console.error("Error fetching building data:", error);
+      }
+    };
+
+    savingLogData();
+  };
+
+  const handleRestoreClick = () => {
+    setEditPopupVisible(true);
+  };
+
   return (
     <div className={styles.container}>
       <ChangeFloorButton buildingId={buildingId} />
@@ -111,6 +133,15 @@ const Simulation: React.FC<SimulationProps> = ({
       <div className={styles.simulation} onClick={handleStopClick}>
         <SimulationLogic />
       </div>
+      {simulationState === "stop" && (
+        <div className={styles.saveButton}>
+          <SaveButton onClick={handleSaveClick} />
+          <RestoreStateButton onClick={handleRestoreClick} />
+        </div>
+      )}
+      {isEditPopupVisible && (
+        <StatesPopup onClose={() => setEditPopupVisible(false)} />
+      )}
       {simulationState === "continue" && (
         <p className={styles.message}>
           Press on the floor map to stop simulation

@@ -61,6 +61,31 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
   const handleNumRoomsPerFloorChange = (value: number) => {
     setNumRoomsPerFloor(value);
   };
+
+  const handleSubmitClick = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/buildings/${buildingId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: buildingName,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        onClose();
+      } else {
+        console.error("Failed to update building data");
+      }
+    } catch (error) {
+      console.error("Error updating building data:", error);
+    }
+  };
   return (
     <div className={styles.background} onClick={onClose}>
       <div className={styles.container} onClick={(e) => e.stopPropagation()}>
@@ -115,7 +140,7 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
             </div>
           </div>
         </div>
-        <SubmitButton onClick={onClose} />
+        <SubmitButton onClick={handleSubmitClick} />
       </div>
     </div>
   );
