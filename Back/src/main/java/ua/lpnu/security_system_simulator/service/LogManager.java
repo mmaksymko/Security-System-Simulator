@@ -41,10 +41,10 @@ public class LogManager {
                 .toList();
 
         List<List<Event>> resultList = new ArrayList<>();
-        for (int i = 0; i!=listOfLists.get(i).size();++i) {
+        for (int i = 0; listOfLists.size()>i && i!=listOfLists.get(i).size();++i) {
             List<EventLog> toInsert = new ArrayList<>();
             for(int j = 0; j!= listOfLists.size(); ++j){
-                if (!listOfLists.get(j).get(i).getEvents().isEmpty()) {
+                if (listOfLists.get(j).size()>i && !listOfLists.get(j).get(i).getEvents().isEmpty()) {
                     toInsert.add(listOfLists.get(j).get(i));
                 }
             }
@@ -71,12 +71,16 @@ public class LogManager {
     public List<Event> getLogSinceStart(BuildingLevel building, int index){
         var logs = getAllLogs(building);
         var indices = indicesOfSimulations(building);
-        if(indices.size()<=index){
-            throw new IndexOutOfBoundsException();
-        }
+//        if(indices.size()<=index){
+//            throw new IndexOutOfBoundsException();
+//        }
+
         List<List<Event>> events = new ArrayList<>();
-        for (int i = indices.get(index); i != (index+1 == indices.size() ? logs.size() : indices.get(index+1)); ++i) {
+        for (int i = index; i>0 && logs.get(i).get(0).getEventType()!=EventType.SIMULATION_START; --i){
             events.add(logs.get(i));
+        }
+        if(events.isEmpty()){
+            events.add(logs.get(index));
         }
         return events.stream().flatMap(List::stream).toList();
     }
