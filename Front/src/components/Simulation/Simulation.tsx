@@ -109,7 +109,7 @@ const Simulation: React.FC<SimulationProps> = ({
         <ContinueSimulationButton onClick={handleContinueClick} />
       )}
       <div className={styles.simulation} onClick={handleStopClick}>
-        <SimulationLogic />
+        <SimulationLogic logData={logData} />
       </div>
       {simulationState === "continue" && (
         <p className={styles.message}>

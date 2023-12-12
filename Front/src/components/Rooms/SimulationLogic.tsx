@@ -1,20 +1,39 @@
 import { useEffect, useState } from "react";
 import Bedroom from "./Bedroom";
 import "./RoomsStyle.scss";
+import { LogEntry } from "../Log/Log";
 import {
   Room,
   GetBuildingsResponse,
   getBuilding,
   getBuildings,
 } from "../FetchAPI/customBuildFetchGET";
-
-const SimulationLogic = () => {
+interface SimulationLogicProps {
+  logData: LogEntry[];
+}
+type EmojiMap = {
+  [key in string]: string;
+};
+const eventSmileyMap:EmojiMap = {
+  "OPENED_WINDOW": "😲",
+  "OPENED_DOOR": "🚪",
+  "FIRE": "🔥",
+  "FLOODING": "💦",
+  "MOTION": "🚶‍♂️",
+  "GAS_LEAK": "💨",
+};
+const SimulationLogic: React.FC<SimulationLogicProps> = ({ logData }) => {
   const [jsonData, setJsonData] = useState<GetBuildingsResponse>();
   const [floor, setFloor] = useState<number>(() => {
     const floorNum = localStorage.getItem("floor");
     return floorNum !== null ? parseInt(floorNum, 10) : 1;
   });
+  useEffect(() => {
+    console.log("simulation logic", logData);
+  }, [logData]);
 
+
+  
   useEffect(() => {
     const fetchData = async () => {
       const buildingId = localStorage.getItem("buildingId");
@@ -42,7 +61,7 @@ const SimulationLogic = () => {
     };
 
     window.addEventListener("storage", handleStorageChange);
-
+ 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
@@ -59,6 +78,14 @@ const SimulationLogic = () => {
     const bedrooms = [];
 
     for (let i = 0; i < numOfRooms; i++) {
+     let emojiList = ["😲"];
+    //  for (let j =0; j<logData.length;j++)
+    //  {
+    //     if(logData[j].location===jsonData.components[j].components[i].roomNumber.toString())
+    //     {
+    //       emojiList.push(eventSmileyMap[logData[j].eventType]);
+    //     }
+    //  }
       bedrooms.push(
         <Bedroom
           key={i}
@@ -70,9 +97,13 @@ const SimulationLogic = () => {
             " " +
             jsonData.components[j].components[i].roomNumber
           }
+          emojies={emojiList}
+
+          
         />
       );
     }
+  
 
     return bedrooms;
   };

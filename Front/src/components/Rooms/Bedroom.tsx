@@ -6,9 +6,10 @@ import React, { useState } from "react";
   width : number
   height : number
   label : string
+  emojies: string[]
  }
 
-function Bedroom({roomType: bedType, width, height, label} : Props) {
+function Bedroom({roomType: bedType, width, height, label, emojies} : Props) {
   const style = {
     gridColumn: `span ${width}`,
     gridRow: `span ${height}`
@@ -29,10 +30,27 @@ function Bedroom({roomType: bedType, width, height, label} : Props) {
     position: "absolute" as const,
     zIndex: 2,
   };
- 
+  const generateEmojies = () => {
+    if (!emojies) {
+      return null;
+    }
+    const emojiesList = [];
+
+    for (let i = 0; i < emojies.length; i++) {
+     
+      emojiesList.push(
+        <div
+        className="Smiley" style={smileyStyle}>emojies[i]</div>
+      
+      );
+    }
+
+    return emojiesList;
+  };
   return <div className="Components Bedroom" id={`${bedType}`} style={style}onClick={handleRoomClick}>
       <div className="Door" />
       <div className="Label">{label}</div>
+      <div>{generateEmojies()}</div>
       <div className="Smiley" style={smileyStyle}>😊</div>
       </div>;
 
