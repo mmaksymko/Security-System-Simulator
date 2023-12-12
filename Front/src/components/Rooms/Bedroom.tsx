@@ -14,7 +14,6 @@ function Bedroom({roomType: bedType, width, height, label} : Props) {
     gridRow: `span ${height}`
   };
   const handleRoomClick = () => {
-    // Генеруємо нові координати смайлика при кліці на кімнату
     setEmojiPosition({
       top: Math.floor(Math.random() * height) + 1,
       left: Math.floor(Math.random() * width) + 1,
