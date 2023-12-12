@@ -66,6 +66,11 @@ public class ApartmentBuildingBuilder implements BuildingBuilder {
     }
 
     @Override
+    public void setName(String name) {
+        result.setName(name);
+    }
+
+        @Override
     public BuildingLevel build() {
         return result;
     }
