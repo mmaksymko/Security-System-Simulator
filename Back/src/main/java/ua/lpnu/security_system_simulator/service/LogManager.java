@@ -1,12 +1,13 @@
-package ua.lpnu.security_system_simulator.model.system;
+package ua.lpnu.security_system_simulator.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.event.DangerLevel;
 import ua.lpnu.security_system_simulator.model.event.Event;
 import ua.lpnu.security_system_simulator.model.event.EventFactory;
 import ua.lpnu.security_system_simulator.model.event.EventType;
+import ua.lpnu.security_system_simulator.model.system.EventLog;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-@Component
+@Service
 public class LogManager {
     public void createNewLog(BuildingLevel building) {
        getRooms(building)

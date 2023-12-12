@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.building.Room;
-import ua.lpnu.security_system_simulator.model.system.LogManager;
+import ua.lpnu.security_system_simulator.service.LogManager;
 import ua.lpnu.security_system_simulator.model.event.DangerLevel;
 import ua.lpnu.security_system_simulator.model.event.Event;
 import ua.lpnu.security_system_simulator.model.event.EventFactory;
@@ -20,7 +20,6 @@ import ua.lpnu.security_system_simulator.model.event.EventType;
 import ua.lpnu.security_system_simulator.repository.BuildingRepository;
 
 import java.time.Duration;
-import java.util.Objects;
 import java.util.Random;
 import java.util.stream.StreamSupport;
 

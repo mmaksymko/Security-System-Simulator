@@ -1,8 +1,7 @@
-package ua.lpnu.security_system_simulator.model.stats;
+package ua.lpnu.security_system_simulator.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ua.lpnu.security_system_simulator.model.building.BuildingComponent;
 import ua.lpnu.security_system_simulator.model.building.BuildingIterator;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
@@ -10,18 +9,15 @@ import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.event.DangerLevel;
 import ua.lpnu.security_system_simulator.model.event.Event;
 import ua.lpnu.security_system_simulator.model.event.EventType;
-import ua.lpnu.security_system_simulator.model.system.EventLog;
-import ua.lpnu.security_system_simulator.model.system.LogManager;
 import ua.lpnu.security_system_simulator.repository.BuildingRepository;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class EventStatistics {
-    private LogManager logManager;
-    private BuildingRepository repository;
+    private final LogManager logManager;
+    private final BuildingRepository repository;
     @Autowired
     public EventStatistics(LogManager logManager, BuildingRepository repository){
         this.logManager = logManager;

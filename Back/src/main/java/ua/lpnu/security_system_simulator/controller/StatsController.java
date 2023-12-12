@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.event.DangerLevel;
 import ua.lpnu.security_system_simulator.model.event.EventType;
-import ua.lpnu.security_system_simulator.model.stats.EventStatistics;
+import ua.lpnu.security_system_simulator.service.EventStatistics;
 import ua.lpnu.security_system_simulator.repository.BuildingRepository;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
