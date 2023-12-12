@@ -40,6 +40,7 @@ function ConfigureBuilding() {
   };
 
   const handleGenerateBuildingClick = async () => {
+    console.log(buildingType);
     await fetch(`http://localhost:8080/buildings/${buildingType}`, {
       method: 'POST',
       headers: {

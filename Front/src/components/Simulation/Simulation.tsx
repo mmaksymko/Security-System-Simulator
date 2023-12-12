@@ -1,10 +1,10 @@
 import ChangeFloorButton from "../ChangeFloorButton/ChangeFloorButton";
-import SimulationLogic from "../Rooms/SimulationLogic";
 import styles from "./Simulation.module.css";
 import { useState, useEffect } from "react";
 import StartSimulationButton from "../StartSimulationButton";
 import ContinueSimulationButton from "../ContinueSimulationButton";
 import { useBuildingContext } from "../../BuildingContext";
+import SimulationLogic from "../Rooms/SimulationLogic";
 
 interface Building {
   id: number;
@@ -101,7 +101,7 @@ const Simulation: React.FC<SimulationProps> = ({
 
   return (
     <div className={styles.container}>
-      <ChangeFloorButton />
+      <ChangeFloorButton buildingId={buildingId} />
       {simulationState === "start" && (
         <StartSimulationButton onClick={handleStartClick} />
       )}
