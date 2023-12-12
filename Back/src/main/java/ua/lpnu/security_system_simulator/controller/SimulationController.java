@@ -136,46 +136,35 @@ public class SimulationController {
     @CrossOrigin
     @GetMapping("/simulation/{id}")
     public Flux<Event> streamSseMulti(@PathVariable("id") String id) {
-       try {
-           return Mono.fromCallable(() -> repo.findById(id)).subscribeOn(Schedulers.boundedElastic()).flatMapMany(optionalBuilding -> {
-               if (optionalBuilding.isEmpty()) {
-                   return Flux.empty();
-               }
-               isPaused = false;
-               building = optionalBuilding.get();
-               logManager.createNewLog(building);
-               try {
-                   logManager.startLog(building);
-               } catch (InterruptedException e) {
-                   throw new RuntimeException(e);
-               }
-               var rooms = StreamSupport.stream(building.breadthFirstSearch().spliterator(), false).filter(component -> component instanceof Room).map(component -> (Room) component)
-                       .toList();
-               return Flux.interval(Duration.ofMillis(random.nextInt(0, 250)))
-                       .parallel(4)
-                       .runOn(Schedulers.parallel()).flatMap(tick -> {
-                           try {
-                               var event = eventFactory.createEvent(EventType.values()[random.nextInt(1, 6)],
-                                       rooms.get(random.nextInt(0, rooms.size())),
-                                       DangerLevel.values()[random.nextInt(1, DangerLevel.values().length)]);
-                               var triggeredEvent = event.start();
-                               var result = triggeredEvent == null ? Flux.just(event) : Flux.just(event, triggeredEvent).parallel(2);
-                               return isPaused ? Flux.empty() : result;
-                           } catch (InterruptedException e) {
-                               return Flux.error(new RuntimeException(e));
-                           }
-                       })
-                       .sequential()
-                       .takeUntil(event -> isStopped);
-//                       .unti;
-//                       .doOnCancel(this::stop)
-//                       .doOnTerminate(this::stop);
-           });
-//       } catch (RuntimeException e){
-//
-       } catch (Exception e) {
-            return Flux.empty();
-       }
+        try {
+            return Mono.fromCallable(() -> repo.findById(id)).subscribeOn(Schedulers.boundedElastic())
+                    .flatMapMany(optionalBuilding -> {
+                        if (optionalBuilding.isEmpty()) {return Flux.empty();}
+                        isPaused = false;
+                        building = optionalBuilding.get();
+                        logManager.createNewLog(building);
+                        try {logManager.startLog(building);} catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        var rooms = StreamSupport.stream(building.breadthFirstSearch().spliterator(), false)
+                                .filter(component -> component instanceof Room).map(component -> (Room) component)
+                                .toList();
+                        return Flux.interval(Duration.ofMillis(random.nextInt(0, 250)))
+                                .onBackpressureDrop().parallel(4)
+                                .runOn
+                        (Schedulers.parallel()).flatMap(tick -> {
+                            try {
+                                var event = eventFactory.createEvent(EventType.values()[random.nextInt(1, 6)],
+                                        rooms.get(random.nextInt(0, rooms.size())),
+                                        DangerLevel.values()[random.nextInt(1, DangerLevel.values().length)]);
+                                var triggeredEvent = event.start();
+                                var result = triggeredEvent == null ? Flux.just(event) : Flux.just(event,
+                                        triggeredEvent).parallel(2);
+                                return isPaused ? Flux.empty() : result;
+                            } catch (InterruptedException e) {return Flux.error(new RuntimeException(e));}
+                        }).sequential().takeUntil(event -> isStopped);
+                    });
+        } catch (Exception e) {return Flux.empty();}
     }
 
 
@@ -191,21 +180,25 @@ public class SimulationController {
 //    }
 
     @GetMapping("/simulation/pause")
-    public void pause() {
+    public ResponseEntity<Object> pause() {
         isPaused = true;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/simulation/resume")
-    public void resume() {
+    public ResponseEntity<Object> resume() {
         isPaused = false;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/simulation/save")
-    public void save() {
-        if (logManager!=null){
+    public ResponseEntity<Object> save() {
+        if (logManager != null) {
             logManager.createNewLog(building);
             repo.save(building);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }
