@@ -10,13 +10,11 @@ import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.event.DangerLevel;
 import ua.lpnu.security_system_simulator.model.event.Event;
 import ua.lpnu.security_system_simulator.model.event.EventType;
+import ua.lpnu.security_system_simulator.model.system.EventLog;
 import ua.lpnu.security_system_simulator.model.system.LogManager;
 import ua.lpnu.security_system_simulator.repository.BuildingRepository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -55,7 +53,7 @@ public class EventStatistics {
     }
     // поверх - кількість івентів (за всі симіляції)
     public Map<String, Long> eventsPerFloor(String id) throws Exception{
-        Map<String, Long> result = new HashMap<>();
+        Map<String, Long> result = new TreeMap<>();
         if(repository.findById(id).isEmpty()){
             throw new Exception("Building does not exist");
         }
@@ -68,9 +66,10 @@ public class EventStatistics {
                 break;
             }
             BuildingLevel currentFloor = (BuildingLevel)currentBuildingLevel;
-            List<List<Event>> events = logManager.getAllLogs(currentFloor);
+            List<Event> events = logManager.getEventsOnFloor(currentFloor);
             result.put(currentFloor.getName(), (long) events.size());
         }
+
         return result;
     }
 }

@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-//@RequestMapping("stats")
+@RequestMapping("stats")
 public class StatsController {
     BuildingRepository repository;
     EventStatistics statistics;
@@ -25,7 +25,7 @@ public class StatsController {
         this.repository = repository;
         this.statistics = statistics;
     }
-    @GetMapping("/stats/even/building/{id}")
+    @GetMapping("/even/building/{id}")
     public ResponseEntity<Map<EventType, Long>> eventTypePerBuilding(@PathVariable("id") String id){
         try {
             return new ResponseEntity<>(statistics.eventTypePerBuilding(id), HttpStatus.OK);
@@ -33,7 +33,7 @@ public class StatsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/stats/danger/building/{id}")
+    @GetMapping("/danger/building/{id}")
     public ResponseEntity<Map<DangerLevel, Long>> dangerLevelPerBuilding(@PathVariable("id") String id){
         try {
             return new ResponseEntity<>(statistics.dangerLevelPerBuilding(id), HttpStatus.OK);
@@ -41,7 +41,7 @@ public class StatsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/stats/location/events/{id}")
+    @GetMapping("/location/events/{id}")
     public ResponseEntity<Map<String, Long>> locationsWithEvents(@PathVariable("id") String id){
         try {
             return new ResponseEntity<>(statistics.eventsPerFloor(id), HttpStatus.OK);

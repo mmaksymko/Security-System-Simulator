@@ -28,6 +28,7 @@ function ChooseBuilding() {
     setSelectedBuilding(selectedBuilding);
     setBuildingName(selectedBuilding.name);
     setBuildingId(parseInt(selectedBuilding.id, 10));
+    localStorage.setItem("building_id", selectedBuilding.id);
   };
 
   useEffect(() => {
