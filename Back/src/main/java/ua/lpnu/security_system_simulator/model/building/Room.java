@@ -139,7 +139,7 @@ public class Room implements BuildingComponent, EventTarget {
     public EventLog getLastLog() {
         if (logs.isEmpty())
             logs.add(new EventLog());
-        return logs.get(logs.size() - 1);
+        return logs.getLast();
     }
 
     public void createNewLog() {

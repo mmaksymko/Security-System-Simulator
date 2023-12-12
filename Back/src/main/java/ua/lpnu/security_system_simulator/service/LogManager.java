@@ -27,7 +27,7 @@ public class LogManager {
         Room firstRoom = getRooms(building)
                 .sorted(Comparator.comparingInt(Room::getRoomNumber))
                 .toList()
-                .get(0);
+                .getFirst();
         if (firstRoom!=null) {
             new EventFactory().createEvent(EventType.SIMULATION_START, firstRoom, DangerLevel.LOW);
         } else {
@@ -60,8 +60,8 @@ public class LogManager {
 
         List<List<Event>> events = new ArrayList<>();
 
-        for(int i = index; i>=0 && !logs.get(i).isEmpty() && ((logs.get(i).get(0).getEventType() != EventType.SIMULATION_START)
-                || (events.isEmpty() && logs.get(i).get(0).getEventType() == EventType.SIMULATION_START)); --i){
+        for(int i = index; i>=0 && !logs.get(i).isEmpty() && ((logs.get(i).getFirst().getEventType() != EventType.SIMULATION_START)
+                || (events.isEmpty() && logs.get(i).getFirst().getEventType() == EventType.SIMULATION_START)); --i){
             events.add(logs.get(i));
         }
 
@@ -109,7 +109,7 @@ public class LogManager {
         var logs = getAllLogs(building);
         var indices = new ArrayList<Integer>();
         for (int i = 0; i!=logs.size(); ++i) {
-            if (!logs.get(i).isEmpty() && logs.get(i).get(0).getEventType() == EventType.SIMULATION_START) {
+            if (!logs.get(i).isEmpty() && logs.get(i).getFirst().getEventType() == EventType.SIMULATION_START) {
                 indices.add(i);
             }
         }
