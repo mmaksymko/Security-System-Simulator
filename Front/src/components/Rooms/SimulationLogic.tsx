@@ -29,7 +29,7 @@ const SimulationLogic: React.FC<SimulationLogicProps> = ({ logData }) => {
     return floorNum !== null ? parseInt(floorNum, 10) : 1;
   });
   useEffect(() => {
-    console.log("simulation logic", logData);
+  //  console.log("simulation logic", logData);
   }, [logData]);
 
 
@@ -78,14 +78,14 @@ const SimulationLogic: React.FC<SimulationLogicProps> = ({ logData }) => {
     const bedrooms = [];
 
     for (let i = 0; i < numOfRooms; i++) {
-     let emojiList = ["😲"];
-    //  for (let j =0; j<logData.length;j++)
-    //  {
-    //     if(logData[j].location===jsonData.components[j].components[i].roomNumber.toString())
-    //     {
-    //       emojiList.push(eventSmileyMap[logData[j].eventType]);
-    //     }
-    //  }
+     let emojiList = [];
+     for (let j =0; j<logData.length;j++)
+     {
+        if(logData[j].location===jsonData.components[j].components[i].roomNumber.toString())
+        {
+          emojiList.push(eventSmileyMap[logData[j].eventType]);
+        }
+      }
       bedrooms.push(
         <Bedroom
           key={i}
