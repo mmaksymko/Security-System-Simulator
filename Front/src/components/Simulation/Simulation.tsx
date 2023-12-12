@@ -103,7 +103,6 @@ const Simulation: React.FC<SimulationProps> = ({
   const resetSimulation = () => {
     setSimulationState("start");
   };
-
   const handleSaveClick = () => {
     const savingLogData = async () => {
       try {
@@ -116,7 +115,14 @@ const Simulation: React.FC<SimulationProps> = ({
 
     savingLogData();
   };
+  const handleCloseEditPopup = () => {
+    setEditPopupVisible(false);
+  };
 
+  const handleClearLogData = () => {
+    onLogDataUpdate([]);
+    console.log("SETTING DATA NULL in Simulation");
+  };
   const handleRestoreClick = () => {
     setEditPopupVisible(true);
   };
@@ -140,8 +146,12 @@ const Simulation: React.FC<SimulationProps> = ({
         </div>
       )}
       {isEditPopupVisible && (
-        <StatesPopup onClose={() => setEditPopupVisible(false)} />
+        <StatesPopup
+          onClose={handleCloseEditPopup}
+          onClearLogData={handleClearLogData}
+        />
       )}
+
       {simulationState === "continue" && (
         <p className={styles.message}>
           Press on the floor map to stop simulation

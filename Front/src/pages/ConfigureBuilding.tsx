@@ -22,6 +22,8 @@ function ConfigureBuilding() {
   } = useBuildingContext();
 
   const [activeType, setActiveType] = useState("");
+  const [isRoomsValid, setRoomsValid] = useState(Boolean);
+  const [isFloorsValid, setFloorsValid] = useState(Boolean);
 
   const handleBuildingTypeClick = (type: string) => {
     setActiveType(type);
@@ -32,27 +34,37 @@ function ConfigureBuilding() {
     setBuildingName(value);
   };
   const handleNumFloorsChange = (value: number) => {
+    if (value >= 1 && value <= 102) {
+      setFloorsValid(true);
+    } else {
+      setFloorsValid(false);
+    }
     setNumFloors(value);
   };
 
   const handleNumRoomsPerFloorChange = (value: number) => {
+    if (value >= 1 && value <= 33) {
+      setRoomsValid(true);
+    } else {
+      setRoomsValid(false);
+    }
     setNumRoomsPerFloor(value);
   };
 
   const handleGenerateBuildingClick = async () => {
     console.log(buildingType);
     await fetch(`http://localhost:8080/buildings/${buildingType}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({floors: numFloors, rooms: numRoomsPerFloor})
+      body: JSON.stringify({ floors: numFloors, rooms: numRoomsPerFloor }),
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   return (
@@ -135,6 +147,7 @@ function ConfigureBuilding() {
               <h2 className={styles.h2}>Choose number of the floors</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputField
+                  isValid={isFloorsValid}
                   value={numFloors}
                   onChange={(value) => handleNumFloorsChange(value)}
                 />
@@ -156,6 +169,7 @@ function ConfigureBuilding() {
               </h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputField
+                  isValid={isRoomsValid}
                   value={numRoomsPerFloor}
                   onChange={(value) => handleNumRoomsPerFloorChange(value)}
                 />
@@ -170,8 +184,9 @@ function ConfigureBuilding() {
         </div>
         {(buildingType === "office" || buildingType === "residential") && (
           <Link to="/simulation">
-            <GenerateBuildingButton 
-             onClick={() => handleGenerateBuildingClick()}/>
+            <GenerateBuildingButton
+              onClick={() => handleGenerateBuildingClick()}
+            />
           </Link>
         )}
         {buildingType === "custom" && (
