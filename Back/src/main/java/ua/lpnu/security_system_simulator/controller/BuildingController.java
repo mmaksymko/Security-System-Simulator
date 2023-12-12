@@ -125,6 +125,7 @@ public class BuildingController {
         }
     }
 
+        builder.setName(json.get("name").toString());
     private boolean validateBuilding(BuildingLevel building) {
         if (building.getNumberOfComponents() >= 200){
             return false;
