@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./Log.module.css";
 
-interface LogEntry {
+export interface LogEntry {
   dangerLevel: string;
   eventType: string;
   location: string;
@@ -9,9 +9,14 @@ interface LogEntry {
   result: boolean;
 }
 
-interface LogProps {
+export interface LogProps {
   logData: LogEntry[];
 }
+export let logData: LogEntry[] = [];
+
+export const addLogEntry = (entry: LogEntry) => {
+  logData = [...logData, entry];
+};
 
 const Log: React.FC<LogProps> = ({ logData }) => {
   useEffect(() => {
