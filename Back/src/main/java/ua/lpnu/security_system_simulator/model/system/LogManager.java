@@ -95,6 +95,14 @@ public class LogManager {
                 .max()
                 .orElse(0);
     }
+    public List<Event> getEventsOnFloor(BuildingLevel building){
+        return getRooms(building)
+                .map(Room::getLogs)
+                .flatMap(List::stream)
+                .map(EventLog::getEvents)
+                .flatMap(List::stream)
+                .toList();
+    }
 
     private List<Integer> indicesOfSimulations(BuildingLevel building){
         var logs = getAllLogs(building);

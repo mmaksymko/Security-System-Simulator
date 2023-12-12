@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./Sidebar.module.css";
 import BuildingInfoItem from "../BuildingInfoItem";
 import EditBtn from "../EditBuildingConfigurationButton";
+import StatsBtn from "../ViewStatisticsButton";
 import Log from "../Log/Log";
 
 interface LogEntry {
@@ -19,6 +20,7 @@ interface SidebarProps {
   numFloors: number;
   numRoomsPerFloor: number;
   onEditButtonClick: () => void;
+  onStatsButtonClick: () => void;
   logData: LogEntry[];
   setLogData: React.Dispatch<React.SetStateAction<LogEntry[]>>;
 }
@@ -30,6 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   numFloors,
   numRoomsPerFloor,
   onEditButtonClick,
+  onStatsButtonClick,
   logData,
   setLogData,
 }) => {
@@ -79,6 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </BuildingInfoItem>
         </div>
         <EditBtn onClick={onEditButtonClick} />
+        <StatsBtn onClick={onStatsButtonClick}/>
       </div>
       <Log logData={logData} />
     </div>

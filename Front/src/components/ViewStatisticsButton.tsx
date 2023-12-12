@@ -1,11 +1,11 @@
 import React from "react";
 
-interface EditBuildingConfigurationButtonProps {
+interface ViewStatisticsButtonButtonProps {
   onClick: () => void;
 }
 
-const EditBuildingConfigurationButton: React.FC<
-  EditBuildingConfigurationButtonProps
+const ViewStatisticsButton: React.FC<
+    ViewStatisticsButtonButtonProps
 > = ({ onClick }) => {
   return (
     <button
@@ -25,9 +25,9 @@ const EditBuildingConfigurationButton: React.FC<
       }}
       onClick={onClick} // Add onClick prop here
     >
-      <p>Edit</p>
+      <p>Statistics</p>
       <img
-        src="../public/edit.png"
+        src="../public/stats.png"
         width={"24px"}
         height={"24px"}
         alt="Edit icon"
@@ -36,4 +36,4 @@ const EditBuildingConfigurationButton: React.FC<
   );
 };
 
-export default EditBuildingConfigurationButton;
+export default ViewStatisticsButton;
