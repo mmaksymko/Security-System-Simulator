@@ -5,7 +5,6 @@ import ua.lpnu.security_system_simulator.model.building.BuildingIterator;
 import ua.lpnu.security_system_simulator.model.building.BuildingLevel;
 import ua.lpnu.security_system_simulator.model.building.Room;
 import ua.lpnu.security_system_simulator.model.building.builder.room.OfficeRoomBuilder;
-import ua.lpnu.security_system_simulator.model.building.builder.room.RoomBuilder;
 import ua.lpnu.security_system_simulator.model.building.builder.room.RoomDirector;
 
 public class OfficeBuildingBuilder implements BuildingBuilder {
@@ -68,6 +67,11 @@ public class OfficeBuildingBuilder implements BuildingBuilder {
                 builder.reset();
             }
         }
+    }
+
+    @Override
+    public void setName(String name) {
+        result.setName(name);
     }
 
     @Override
