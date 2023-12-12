@@ -65,7 +65,7 @@ const Simulation: React.FC<SimulationProps> = ({
     setSimulationState("continue");
     console.log("building id is: " + buildingId);
     const newEventSource = new EventSource(
-      `http://localhost:8080/simulation/${buildingId}`
+      `http://localhost:8080/simulation/${localStorage.getItem("buildingId")}`
     );
 
     newEventSource.onmessage = function (event) {
