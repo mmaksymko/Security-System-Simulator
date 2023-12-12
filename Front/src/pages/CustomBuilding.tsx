@@ -23,6 +23,7 @@ function CustomBuilding() {
   const [numWindows, setNumWindows] = useState(0);
   const [isRoomsValid, setRoomsValid] = useState(Boolean);
   const [isButtonActive, setButtonActive] = useState(false);
+  const [isRoomNumberValid, setRoomNumberValid] = useState(true);
 
   const [isSwitch1Enabled, setSwitch1Enabled] = useState(false);
   const [isSwitch2Enabled, setSwitch2Enabled] = useState(false);
@@ -30,8 +31,8 @@ function CustomBuilding() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   useEffect(() => {
-    setButtonActive(isRoomsValid);
-  }, [isRoomsValid]);
+    setButtonActive(isRoomsValid && isRoomNumberValid);
+  }, [isRoomsValid, isRoomNumberValid]);
 
   const handleNumRoomsPerFloorChange = (value: number) => {
     if (value >= 1 && value <= 20) setRoomsValid(true);
@@ -40,6 +41,8 @@ function CustomBuilding() {
   };
 
   const handleRoomNumberChange = (value: number) => {
+    const isValid = value <= numRoomsPerFloor;
+    setRoomNumberValid(isValid);
     setRoomNumber(value);
   };
 
@@ -104,6 +107,7 @@ function CustomBuilding() {
               <div className={styles.buildingPropertyButtons}>
                 <InputCustomField
                   value={roomNumber}
+                  isValid={isRoomNumberValid}
                   onChange={(value) => handleRoomNumberChange(value)}
                   placeholder="Room number"
                 />
@@ -115,6 +119,7 @@ function CustomBuilding() {
                     "Office restroom",
                     "Kitchen",
                   ]}
+                  style={{ width: "160px" }}
                   onSelect={() => {}}
                   value={selectedType}
                   placeholder="Room type"

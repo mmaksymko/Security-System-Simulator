@@ -69,7 +69,6 @@ const Simulation: React.FC<SimulationProps> = ({
     );
 
     newEventSource.onmessage = function (event) {
-      //console.log("Received message: " + event.data);
       const logEntry: LogEntry = JSON.parse(event.data);
       onLogDataUpdate([...logData, logEntry]);
     };
