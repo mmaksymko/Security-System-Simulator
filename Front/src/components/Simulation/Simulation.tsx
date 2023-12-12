@@ -1,10 +1,10 @@
 import ChangeFloorButton from "../ChangeFloorButton/ChangeFloorButton";
-import SimulationLogic from "../Rooms/SimulationLogic";
 import styles from "./Simulation.module.css";
 import { useState, useEffect } from "react";
 import StartSimulationButton from "../StartSimulationButton";
 import ContinueSimulationButton from "../ContinueSimulationButton";
 import { useBuildingContext } from "../../BuildingContext";
+import SimulationLogic from "../Rooms/SimulationLogic";
 
 interface Building {
   id: number;
@@ -14,8 +14,8 @@ interface Building {
 interface LogEntry {
   dangerLevel: string;
   eventType: string;
-  happenedAt: string;
   location: string;
+  happenedAt: string;
   result: boolean;
 }
 
@@ -71,8 +71,6 @@ const Simulation: React.FC<SimulationProps> = ({
 
     newEventSource.addEventListener("Update", function (event) {
       console.log(event.data);
-      //const logEntry: LogEntry = JSON.parse(event.data);
-      //onLogDataUpdate([...logData, logEntry]);
     });
 
     newEventSource.onerror = function (event) {
@@ -94,7 +92,7 @@ const Simulation: React.FC<SimulationProps> = ({
   };
   const handleContinueClick = () => {
     setSimulationState("continue");
-    fetch("http://localhost/8080/simulation/resume");
+    fetch("http://localhost:8080/simulation/resume");
   };
 
   const resetSimulation = () => {
@@ -103,7 +101,7 @@ const Simulation: React.FC<SimulationProps> = ({
 
   return (
     <div className={styles.container}>
-      <ChangeFloorButton />
+      <ChangeFloorButton buildingId={buildingId} />
       {simulationState === "start" && (
         <StartSimulationButton onClick={handleStartClick} />
       )}
