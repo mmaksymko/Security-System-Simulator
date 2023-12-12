@@ -37,10 +37,12 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
     const fetchBuildingData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}`
+          `http://localhost:8080/buildings/${localStorage.getItem(
+            "buildingId"
+          )}`
         );
         const data = await response.json();
-        console.log("DATA: ", data);
+        //console.log("DATA: ", data);
         setBuildingData({
           buildingName: data.name,
           numFloors: data.components.length,
