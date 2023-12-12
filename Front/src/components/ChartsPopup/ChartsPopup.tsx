@@ -54,7 +54,7 @@ const [chartData, setChartData] = useState<ChartData>({
         else{
             connection = "http://localhost:8080/stats/location/events/"
         }
-      const response = await fetch(connection + localStorage.getItem("building_id"))
+      const response = await fetch(connection + localStorage.getItem("buildingId"))
       .then(resp => resp.json())
       .then(data => {
         const labels : string[] = Object.keys(data);
