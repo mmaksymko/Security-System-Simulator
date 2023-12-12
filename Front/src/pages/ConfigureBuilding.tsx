@@ -60,8 +60,12 @@ function ConfigureBuilding() {
     setNumRoomsPerFloor(value);
   };
   useEffect(() => {
-    setButtonActive(isNameValid && isFloorsValid && isRoomsValid);
-  }, [isNameValid, isFloorsValid, isRoomsValid]);
+    if (activeType === "office" || activeType === "residential") {
+      setButtonActive(isNameValid && isFloorsValid && isRoomsValid);
+    } else if (activeType === "custom") {
+      setButtonActive(isNameValid && isFloorsValid);
+    }
+  }, [isNameValid, isFloorsValid, isRoomsValid, activeType]);
 
   const handleGenerateBuildingClick = async () => {
     console.log(buildingType);
@@ -205,7 +209,7 @@ function ConfigureBuilding() {
         )}
         {buildingType === "custom" && (
           <Link to="/customBuilding">
-            <GenerateBuildingButton />
+            <GenerateBuildingButton disabled={!isButtonActive} />
           </Link>
         )}
       </div>
