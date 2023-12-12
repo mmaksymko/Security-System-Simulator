@@ -27,8 +27,6 @@ const SimulationPage: React.FC = () => {
   const [logData, setLogData] = useState<LogEntry[]>([]);
 
   const handleLogDataUpdate = (newLogData: LogEntry[]) => {
-    console.log("Updating logData in SimulationPage:", newLogData);
-
     setLogData((prevLogData) => [...prevLogData, ...newLogData]);
   };
 
@@ -49,8 +47,9 @@ const SimulationPage: React.FC = () => {
   };
 
   const onClearLogData = () => {
+    console.log("Before clearing log data");
     setLogData([]);
-    console.log("CLEARING table data");
+    console.log("AFTER clearing log data");
   };
 
   return (

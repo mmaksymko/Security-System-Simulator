@@ -14,10 +14,6 @@ interface LogProps {
 }
 
 const Log: React.FC<LogProps> = ({ logData }) => {
-  useEffect(() => {
-    console.log("Log component received logData:", logData);
-  }, [logData]);
-
   const formatTime = (timestamp: string) => {
     const date = new Date(timestamp);
     return date.toLocaleString();
