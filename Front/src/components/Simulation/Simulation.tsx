@@ -101,7 +101,7 @@ const Simulation: React.FC<SimulationProps> = ({
 
   return (
     <div className={styles.container}>
-      <ChangeFloorButton />
+      <ChangeFloorButton buildingId={buildingId} />
       {simulationState === "start" && (
         <StartSimulationButton onClick={handleStartClick} />
       )}

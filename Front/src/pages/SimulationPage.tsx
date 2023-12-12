@@ -14,8 +14,13 @@ interface LogEntry {
 }
 
 const SimulationPage: React.FC = () => {
-  const { buildingType, buildingName, numFloors, numRoomsPerFloor } =
-    useBuildingContext();
+  const {
+    buildingType,
+    buildingId,
+    buildingName,
+    numFloors,
+    numRoomsPerFloor,
+  } = useBuildingContext();
   const [isEditPopupVisible, setEditPopupVisibility] = useState(false);
   const [logData, setLogData] = useState<LogEntry[]>([]);
 
@@ -37,6 +42,7 @@ const SimulationPage: React.FC = () => {
     <div className={styles.container}>
       <Sidebar
         buildingType={buildingType}
+        buildingId={buildingId}
         buildingName={buildingName}
         numFloors={numFloors}
         numRoomsPerFloor={numRoomsPerFloor}

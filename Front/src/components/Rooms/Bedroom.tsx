@@ -11,7 +11,7 @@ import React, { useState } from "react";
 function Bedroom({roomType: bedType, width, height, label} : Props) {
   const style = {
     gridColumn: `span ${width}`,
-    gridRow: `span ${height}`,
+    gridRow: `span ${height}`
   };
   const handleRoomClick = () => {
     // Генеруємо нові координати смайлика при кліці на кімнату

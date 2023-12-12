@@ -70,10 +70,6 @@ public abstract class Event {
         return eventType;
     }
 
-    public void setLocation(EventTarget location) {
-        this.location = location;
-    }
-
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
     }
