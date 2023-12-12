@@ -8,6 +8,14 @@ import ContinueButton from "../components/ContinueButton/ContinueButton";
 import RandomNumberButton from "../components/RandomNumberButton";
 import InputCustomField from "../components/InputField/InputCustomField";
 import { useBuildingContext } from "../BuildingContext";
+import AddCustomRoomButton from "../components/AddCustomRoomButton";
+import { Room } from "../model/Room";
+import { BuildingLevel } from "../model/BuildingLevel";
+
+
+let rooms: Room[];
+let building: BuildingLevel;
+rooms = [];
 
 function CustomBuilding() {
   const { numFloors, setNumFloors, numRoomsPerFloor, setNumRoomsPerFloor } =
@@ -33,6 +41,9 @@ function CustomBuilding() {
   const [isSwitch2Enabled, setSwitch2Enabled] = useState(false);
   const [selectedFloor, setSelectedFloor] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
+
+
+  
 
   useEffect(() => {
     setButtonActive(
@@ -96,6 +107,44 @@ function CustomBuilding() {
     setSwitch2Enabled(!isSwitch2Enabled);
   };
 
+  // const handleContinueClick = () => {
+  //   console.log("dkjsd")
+    
+  // };
+  const handleAddButtonClick = () => {
+    console.log(rooms.length)
+    console.log(numRoomsPerFloor)
+    if(rooms.length === numRoomsPerFloor){
+      console.log("floor config completed");
+      let floors : BuildingLevel[] = [];
+      let n = + localStorage["custom_floors"];
+      let i = 0
+      while(i < n){
+        console.log(i)
+        floors.push(new BuildingLevel("Floor" + (i + 1).toString(), rooms));
+        i++;
+      }
+      building = new BuildingLevel(localStorage.getItem("custom_name"), floors);
+      localStorage.setItem("custom_building", JSON.stringify(building));
+      return;
+    }
+    let roomType: string = "KITCHEN";
+    if(selectedType === "Apartment room"){
+      roomType = "APARTMENT_ROOM";
+    }
+    else if(selectedType === "Apartment bathroom"){
+      roomType = "APARTMENT_BATHROOM";
+    }
+    else if(selectedType === "Office room"){
+      roomType = "OFFICE_ROOM";
+    }
+    else if(selectedType === "Office restroom"){
+      roomType = "OFFICE_RESTROOM";
+    }
+    let newRoom = new Room(roomType, roomNumber, numWindows, numDoors, roomLength, roomWidth,  []);
+    rooms.push(newRoom);
+  }
+
   return (
     <div className={styles.background}>
       <div className={styles.container}>
@@ -103,14 +152,14 @@ function CustomBuilding() {
         <div className={styles.propertiesContainer}>
           <div className={styles.buildingPropertyContainer}>
             <div className={styles.buildingPropertyButtons}>
-              <h2 className={styles.h2}>Choose floor number</h2>
+              {/* <h2 className={styles.h2}>Choose floor number</h2>
               <ComboBox
                 options={floorOptions}
                 onSelect={(selectedValue) => setSelectedFloor(selectedValue)}
                 style={{ width: "75px" }}
                 value={selectedFloor}
                 placeholder="1"
-              />
+              /> */}
             </div>
             <div className={styles.buildingPropertyContainer}>
               <h2 className={styles.h2}>Choose number of rooms on the floor</h2>
@@ -183,11 +232,15 @@ function CustomBuilding() {
                 />
               </div>
             </div>
+            <AddCustomRoomButton 
+            disabled={!isButtonActive}
+            onClick={handleAddButtonClick}
+            />
 
-            <div className={styles.buildingPropertyButtons}>
+            {/* <div className={styles.buildingPropertyButtons}>
               <h2 className={styles.h2}>Apply settings for all floors</h2>
               <Switch onToggle={handleSwitchToggle} />
-            </div>
+            </div> */}
             <div className={styles.buildingPropertyButtons}>
               <h2 className={styles.h2}>Add sensors</h2>
               <Switch

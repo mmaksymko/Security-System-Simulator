@@ -25,6 +25,7 @@
 - Spring WebFlux
 - OpenAPI 3
 - JUnit
+- Chart.js
 ---
 #### [Колись буде посилання, але не сьогодні](https://trandafyl-testing.onrender.com/)
 
