@@ -233,8 +233,8 @@ public class BuildingController {
     @PostMapping("/buildings/residential")
     public  ResponseEntity<BuildingLevel> generateApartmentBuilding(HttpEntity<String> httpEntity){
         try {
-            BuildingLevel result = build(new ApartmentBuildingBuilder(), new JSONObject(httpEntity.getBody()));
-            repository.save(result);
+            BuildingLevel building = build(new ApartmentBuildingBuilder(), new JSONObject(httpEntity.getBody()));
+            var result = repository.save(building);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (DuplicateKeyException e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -273,8 +273,8 @@ public class BuildingController {
     @PostMapping("/buildings/office")
     public  ResponseEntity<BuildingLevel> generateOfficeBuilding(HttpEntity<String> httpEntity){
         try {
-            BuildingLevel result = build(new OfficeBuildingBuilder(), new JSONObject(httpEntity.getBody()));
-            repository.save(result);
+            BuildingLevel building = build(new OfficeBuildingBuilder(), new JSONObject(httpEntity.getBody()));
+            var result = repository.save(building);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (DuplicateKeyException e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
