@@ -63,6 +63,8 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
 
         if (response.ok) {
           console.log("POST request successful");
+          onClearLogData();
+          onClose();
         } else {
           console.error("POST request failed");
         }
@@ -73,8 +75,6 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
       console.error("Error sending POST request:", error);
     }
     console.log("finished posting data. start claring previous log data");
-    onClearLogData();
-    onClose();
   };
 
   return (

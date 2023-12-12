@@ -54,10 +54,11 @@ public class BuildingController {
     @GetMapping("/buildings")
     public ResponseEntity<List<BuildingLevel>> getAllBuildings(){
         try {
-            return repository.count()==0
+           return repository.count()==0
                     ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                    : new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+                    : new ResponseEntity<>(repository.idAndName(), HttpStatus.OK);
         } catch (Exception e){
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -86,9 +87,11 @@ public class BuildingController {
     public ResponseEntity<BuildingLevel> getBuilding(@PathVariable("id") String id) {
         try {
             var result = repository.findById(id);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", result);
 
             return result.isPresent()
-                    ? new ResponseEntity<BuildingLevel>(result.get(), HttpStatus.OK)
+                    ? new ResponseEntity<>(result.get(), HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
