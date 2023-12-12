@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./ConfigureBuilding.module.css";
 import BuildingTypeButton from "../components/BuildingTypeButton/BuildingTypeButton";
 import GenerateBuildingButton from "../components/GenerateBuildingButton";
@@ -25,6 +25,7 @@ function ConfigureBuilding() {
   const [isNameValid, setNameValid] = useState(Boolean);
   const [isRoomsValid, setRoomsValid] = useState(Boolean);
   const [isFloorsValid, setFloorsValid] = useState(Boolean);
+  const [isButtonActive, setButtonActive] = useState(false);
 
   const handleBuildingTypeClick = (type: string) => {
     setActiveType(type);
@@ -58,6 +59,9 @@ function ConfigureBuilding() {
     }
     setNumRoomsPerFloor(value);
   };
+  useEffect(() => {
+    setButtonActive(isNameValid && isFloorsValid && isRoomsValid);
+  }, [isNameValid, isFloorsValid, isRoomsValid]);
 
   const handleGenerateBuildingClick = async () => {
     console.log(buildingType);
@@ -195,6 +199,7 @@ function ConfigureBuilding() {
           <Link to="/simulation">
             <GenerateBuildingButton
               onClick={() => handleGenerateBuildingClick()}
+              disabled={!isButtonActive}
             />
           </Link>
         )}
