@@ -24,6 +24,10 @@ function CustomBuilding() {
   const [isRoomsValid, setRoomsValid] = useState(Boolean);
   const [isButtonActive, setButtonActive] = useState(false);
   const [isRoomNumberValid, setRoomNumberValid] = useState(true);
+  const [isWidthValid, setWidthValid] = useState(true);
+  const [isHeightValid, setHeightValid] = useState(true);
+  const [isWindowsValid, setWindowsValid] = useState(true);
+  const [isDoorsValid, setDoorsValid] = useState(true);
 
   const [isSwitch1Enabled, setSwitch1Enabled] = useState(false);
   const [isSwitch2Enabled, setSwitch2Enabled] = useState(false);
@@ -31,8 +35,22 @@ function CustomBuilding() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   useEffect(() => {
-    setButtonActive(isRoomsValid && isRoomNumberValid);
-  }, [isRoomsValid, isRoomNumberValid]);
+    setButtonActive(
+      isRoomsValid &&
+        isRoomNumberValid &&
+        isWidthValid &&
+        isHeightValid &&
+        isDoorsValid &&
+        isWindowsValid
+    );
+  }, [
+    isRoomsValid,
+    isRoomNumberValid,
+    isWidthValid,
+    isHeightValid,
+    isDoorsValid,
+    isWindowsValid,
+  ]);
 
   const handleNumRoomsPerFloorChange = (value: number) => {
     if (value >= 1 && value <= 20) setRoomsValid(true);
@@ -47,18 +65,26 @@ function CustomBuilding() {
   };
 
   const handleRoomWidthChange = (value: number) => {
+    const isValid = value >= 1 && value <= 16;
+    setWidthValid(isValid);
     setRoomWidth(value);
   };
 
   const handleRoomLengthChange = (value: number) => {
+    const isValid = value >= 1 && value <= 4;
+    setHeightValid(isValid);
     setRoomLength(value);
   };
 
   const handleNumDoorsChange = (value: number) => {
+    const isValid = value >= 1;
+    setDoorsValid(isValid);
     setNumDoors(value);
   };
 
   const handleNumWindowsChange = (value: number) => {
+    const isValid = value >= 1;
+    setWindowsValid(isValid);
     setNumWindows(value);
   };
 
@@ -130,11 +156,13 @@ function CustomBuilding() {
               <h2 className={styles.h2}>Other settings</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputCustomField
+                  isValid={isWidthValid}
                   value={roomWidth}
                   onChange={(value) => handleRoomWidthChange(value)}
                   placeholder="Width"
                 />
                 <InputCustomField
+                  isValid={isHeightValid}
                   value={roomLength}
                   onChange={(value) => handleRoomLengthChange(value)}
                   placeholder="Height"
@@ -142,11 +170,13 @@ function CustomBuilding() {
               </div>
               <div className={styles.buildingPropertyButtons}>
                 <InputCustomField
+                  isValid={isDoorsValid}
                   value={numDoors}
                   onChange={(value) => handleNumDoorsChange(value)}
                   placeholder="Number of doors"
                 />
                 <InputCustomField
+                  isValid={isWindowsValid}
                   value={numWindows}
                   onChange={(value) => handleNumWindowsChange(value)}
                   placeholder="Number of windows"
