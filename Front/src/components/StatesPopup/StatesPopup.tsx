@@ -41,11 +41,33 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose }) => {
       selectedIndex !== -1 ? selectedIndex.toString() : undefined
     );
   };
-  const handleSubmitClick = async () => {};
+  const handleSubmitClick = async () => {
+    console.log("sending post request with a chosen log id");
+    if (selectedLogId !== undefined && selectedLogId !== "0") {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/buildings/${buildingId}/logs/${selectedLogId}`,
+          {
+            method: "POST",
+          }
+        );
+
+        if (response.ok) {
+          console.log("POST request successful");
+        } else {
+          console.error("POST request failed");
+        }
+      } catch (error) {
+        console.error("Error sending POST request:", error);
+      }
+    } else {
+      console.error("Invalid selected log ID");
+    }
+  };
   return (
     <div className={styles.background} onClick={onClose}>
       <div className={styles.container} onClick={(e) => e.stopPropagation()}>
-        <h1>Restore state of simulation</h1>
+        <h1 className={styles.title}>Restore state of simulation</h1>
         <img
           src="../public/close.png"
           height={"24px"}
