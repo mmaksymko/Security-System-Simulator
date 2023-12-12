@@ -17,12 +17,14 @@
 - Можливість додавання доходів, витрат, кредитів, депозитів
 - Випадкові цитати про гроші від API Ninjas
 #### Технології, бібліотеки, фреймворки
-- Spring Framework
+- Spring Boot 3
 - React
 - TypeScript
 - HTML/CSS
 - MongoDB
 - Spring WebFlux
+- OpenAPI 3
+- JUnit
 ---
 #### [Колись буде посилання, але не сьогодні](https://trandafyl-testing.onrender.com/)
 
