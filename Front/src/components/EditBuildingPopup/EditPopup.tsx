@@ -24,6 +24,9 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
     setNumRoomsPerFloor,
   } = useBuildingContext();
   const [activeType, setActiveType] = useState("");
+  const [isFloorsValid, setFloorsValid] = useState(true);
+  const [isRoomsValid, setRoomsValid] = useState(true);
+  const [isNameValid, setNameValid] = useState(true);
   const [buildingData, setBuildingData] = useState({
     buildingName: "",
     numFloors: 0,
@@ -52,13 +55,19 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
   }, []);
 
   const handleNumFloorsChange = (value: number) => {
+    const isValid = value >= 1 && value <= 200;
+    setFloorsValid(isValid);
     setNumFloors(value);
   };
   const handleNameChange = (value: string) => {
+    const isValid = value != "";
+    setNameValid(isValid);
     setBuildingName(value);
   };
 
   const handleNumRoomsPerFloorChange = (value: number) => {
+    const isValid = value >= 1 && value <= 20;
+    setRoomsValid(isValid);
     setNumRoomsPerFloor(value);
   };
 
