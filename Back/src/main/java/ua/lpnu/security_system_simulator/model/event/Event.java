@@ -86,6 +86,14 @@ public abstract class Event {
         return result;
     }
 
+    public void setLocation(EventTarget location) {
+        this.location = location;
+    }
+
+    public boolean isResult() {
+        return result;
+    }
+
     public void setResult(boolean result) {
         this.result = result;
     }
