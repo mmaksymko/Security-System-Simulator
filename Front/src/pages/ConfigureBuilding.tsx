@@ -8,6 +8,7 @@ import InputField from "../components/InputField/InputField";
 import InputFieldText from "../components/InputField/InputFieldText";
 import { useBuildingContext } from "../BuildingContext";
 import ContinueSimulationButton from "../components/ContinueSimulationButton";
+import { BuildingComponent, BuildingLevel } from "../model/BuildingLevel";
 
 function ConfigureBuilding() {
   const {
@@ -68,19 +69,23 @@ function ConfigureBuilding() {
   }, [isNameValid, isFloorsValid, isRoomsValid, activeType]);
 
   const handleGenerateBuildingClick = async () => {
-    // console.log(buildingType);
+    console.log(buildingType);
+    console.log(JSON.stringify({ floors: numFloors, rooms: numRoomsPerFloor, name: buildingName }),);
+
     await fetch(`http://localhost:8080/buildings/${buildingType}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ floors: numFloors, rooms: numRoomsPerFloor }),
+      body: JSON.stringify({ floors: numFloors, rooms: numRoomsPerFloor, name: buildingName }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-      });
+      .then(result => result.json().then(res => localStorage.setItem("buildingId", res.id)))
+      .catch(error => console.error(error))
+
+    window.location.reload()
+    console.log("buildingId")
+    console.log(localStorage.getItem("buildingId"))
   };
 
   const handleGenerateCustomBuildingButton = () => {
@@ -214,7 +219,7 @@ function ConfigureBuilding() {
         )}
         {buildingType === "custom" && (
           <Link to="/customBuilding">
-            <GenerateBuildingButton 
+            <GenerateBuildingButton
               onClick={handleGenerateCustomBuildingButton}
               disabled={!isButtonActive} />
           </Link>
