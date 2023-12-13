@@ -18,6 +18,7 @@ import java.util.stream.StreamSupport;
 @Document(collection="buildings")
 public class BuildingLevel implements BuildingComponent {
     @Id
+
     private String id;
     private List<BuildingComponent> components;
     @Indexed(unique=true)

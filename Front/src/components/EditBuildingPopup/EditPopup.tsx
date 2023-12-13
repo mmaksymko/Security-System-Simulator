@@ -1,6 +1,5 @@
 import styles from "./EditPopup.module.css";
 import InputField from "../InputField/InputField";
-import BuildingTypeButton from "../BuildingTypeButton/BuildingTypeButton";
 import { useBuildingContext } from "../../BuildingContext";
 import RandomNumberButton from "../RandomNumberButton";
 import SubmitButton from "../SubmitButton";
@@ -34,6 +33,11 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose, onLogDataUpdate, onClear
     setNumRoomsPerFloor,
   } = useBuildingContext();
   const [activeType, setActiveType] = useState("");
+  const [isFloorsValid, setFloorsValid] = useState(true);
+  const [isRoomsValid, setRoomsValid] = useState(true);
+  const [isNameValid, setNameValid] = useState(true);
+  const [isButtonActive, setButtonActive] = useState(false);
+
   const [buildingData, setBuildingData] = useState({
     buildingName: "",
     numFloors: 0,
@@ -43,10 +47,12 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose, onLogDataUpdate, onClear
     const fetchBuildingData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}`
+          `http://localhost:8080/buildings/${localStorage.getItem(
+            "buildingId"
+          )}`
         );
         const data = await response.json();
-        // console.log("DATA: ", data);
+
         setBuildingData({
           buildingName: data.name,
           numFloors: data.components.length,
@@ -60,14 +66,24 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose, onLogDataUpdate, onClear
     fetchBuildingData();
   }, []);
 
+  useEffect(() => {
+    setButtonActive(isNameValid && isFloorsValid && isRoomsValid);
+  }, [isNameValid, isFloorsValid, isRoomsValid]);
+
   const handleNumFloorsChange = (value: number) => {
+    const isValid = value >= 1 && value <= 200;
+    setFloorsValid(isValid);
     setNumFloors(value);
   };
   const handleNameChange = (value: string) => {
+    const isValid = value != "";
+    setNameValid(isValid);
     setBuildingName(value);
   };
 
   const handleNumRoomsPerFloorChange = (value: number) => {
+    const isValid = value >= 1 && value <= 20;
+    setRoomsValid(isValid);
     setNumRoomsPerFloor(value);
   };
 
@@ -112,6 +128,7 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose, onLogDataUpdate, onClear
               <h2 className={styles.h2}>Choose new name for the building</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputFieldText
+                  isValid={isNameValid}
                   value={buildingData.buildingName}
                   onChange={(value) => handleNameChange(value)}
                 />
@@ -121,6 +138,7 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose, onLogDataUpdate, onClear
               <h2 className={styles.h2}>Choose new number of the floors</h2>
               <div className={styles.buildingPropertyButtons}>
                 <InputField
+                  isValid={isFloorsValid}
                   value={buildingData.numFloors}
                   onChange={(value) => handleNumFloorsChange(value)}
                 />
@@ -138,6 +156,7 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose, onLogDataUpdate, onClear
             </h2>
             <div className={styles.buildingPropertyButtons}>
               <InputField
+                isValid={isRoomsValid}
                 value={buildingData.numRoomsPerFloor}
                 onChange={(value) => handleNumRoomsPerFloorChange(value)}
               />
@@ -149,7 +168,7 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose, onLogDataUpdate, onClear
             </div>
           </div>
         </div>
-        <SubmitButton onClick={handleSubmitClick} />
+        <SubmitButton onClick={handleSubmitClick} disabled={!isButtonActive} />
       </div>
     </div>
   );

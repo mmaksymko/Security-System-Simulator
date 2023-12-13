@@ -14,10 +14,11 @@ const ChangeFloorButton: React.FC<ChangeFloorBtnProps> = ({ buildingId }) => {
     const fetchBuildingData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}`
+          `http://localhost:8080/buildings/${localStorage.getItem(
+            "buildingId"
+          )}`
         );
         const data = await response.json();
-        // console.log("DATA: ", data);
 
         setBuildingData({
           numFloors: data.components.length,
@@ -31,7 +32,7 @@ const ChangeFloorButton: React.FC<ChangeFloorBtnProps> = ({ buildingId }) => {
   }, [buildingId]);
   const handleUpClick = () => {
     if (floor + 1 <= buildingData.numFloors) {
-      // console.log(buildingData.numFloors);
+
       setFloor((prevFloor) => {
         localStorage.setItem("floor", prevFloor.toString());
 

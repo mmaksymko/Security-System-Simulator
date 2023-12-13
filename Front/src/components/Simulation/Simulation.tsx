@@ -69,13 +69,12 @@ const Simulation: React.FC<SimulationProps> = ({
 
   const handleStartClick = () => {
     setSimulationState("continue");
-    // console.log("building id is: " + buildingId);
     const newEventSource = new EventSource(
       `http://localhost:8080/simulation/${localStorage.getItem("buildingId")}`
     );
 
     newEventSource.onmessage = function (event) {
-      //      console.log("Received message: " + event.data);
+
       const logEntry: LogEntry = JSON.parse(event.data);
       logs = [...logs.slice(logs.length - 999, logs.length), logEntry];
       logsToDisplay.push(logEntry)
