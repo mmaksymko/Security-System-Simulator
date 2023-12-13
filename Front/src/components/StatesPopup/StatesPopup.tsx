@@ -3,6 +3,7 @@ import { useBuildingContext } from "../../BuildingContext";
 import SubmitButton from "../SubmitButton";
 import { useState, useEffect } from "react";
 import ComboBox from "../ComboBox/ComboBox";
+import Log from "../Log/Log"
 
 interface LogEntry {
   dangerLevel: string;
@@ -11,14 +12,16 @@ interface LogEntry {
   happenedAt: string;
   result: boolean;
 }
-
 interface EditPopupProps {
   onClose: () => void;
   onClearLogData: () => void;
+  onLogDataUpdate: (newLogData: LogEntry[], clear: boolean) => void;
 }
-const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
+const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData, onLogDataUpdate }) => {
   const [logOptions, setLogOptions] = useState<string[]>([]);
   const [selectedLogId, setSelectedLogId] = useState<string | undefined>();
+  const [logData, setLogData] = useState<LogEntry[]>([]);
+
   const { buildingName, setBuildingName, buildingId, setBuildingId } =
     useBuildingContext();
 
@@ -28,14 +31,14 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
         const response = await fetch(
           `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}/logs`
         );
-        console.log("building ID: ", localStorage.getItem("buildingId"));
+        // console.log("building ID: ", localStorage.getItem("buildingId"));
         const data = await response.json();
         const logEntries = data.map((logEntry: any, index: number) =>
           index.toString()
         );
         setLogOptions(["Select an option", ...logEntries]);
 
-        console.log("DATA: ", data);
+        // console.log("DATA: ", data);
       } catch (error) {
         console.error("Error fetching building data:", error);
       }
@@ -51,14 +54,24 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
   const handleSubmitClick = async () => {
     console.log("sending post request with a chosen log id");
     try {
-      if (selectedLogId !== undefined && selectedLogId !== "0") {
+      if (selectedLogId !== undefined) {
         const response = await fetch(
           `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}/logs/${selectedLogId}`,
           {
             method: "POST",
           }
         );
+        const json = await response.json();
+        const entries = json as LogEntry[];
+        for (let entry of entries)
+          entry.location = `${parseInt((Math.random() * 4 + 1).toFixed()) * 100 + parseInt((Math.random() * 4 + 1).toFixed())}`
 
+        console.log(entries);
+
+        onLogDataUpdate(entries, true)
+        ////HERE
+
+        // console.log(response.json())
         if (response.ok) {
           console.log("POST request successful");
         } else {
@@ -70,8 +83,8 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData }) => {
     } catch (error) {
       console.error("Error sending POST request:", error);
     }
-    console.log("finished posting data. start claring previous log data");
-    onClearLogData();
+    // console.log("finished posting data. start claring previous log data");
+    // onClearLogData();
     onClose();
   };
 

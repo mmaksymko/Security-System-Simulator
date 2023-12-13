@@ -26,10 +26,9 @@ const SimulationPage: React.FC = () => {
   const [isChartPopupVisible, setChartPopupVisibility] = useState(false);
   const [logData, setLogData] = useState<LogEntry[]>([]);
 
-  const handleLogDataUpdate = (newLogData: LogEntry[]) => {
-    console.log("Updating logData in SimulationPage:", newLogData);
-
-    setLogData((prevLogData) => [...prevLogData, ...newLogData]);
+  const handleLogDataUpdate = (newLogData: LogEntry[], clear: boolean) => {
+    //    console.log("Updating logData in SimulationPage:", newLogData);
+    return clear ? setLogData(newLogData) : setLogData((prevLogData) => [...prevLogData.slice(prevLogData.length - 999, prevLogData.length), ...newLogData]);
   };
 
   const handleEditButtonClick = () => {
@@ -49,8 +48,9 @@ const SimulationPage: React.FC = () => {
   };
 
   const onClearLogData = () => {
+    console.log(1)
     setLogData([]);
-    console.log("CLEARING table data");
+    //    console.log("CLEARING table data");
   };
 
   return (
@@ -67,8 +67,8 @@ const SimulationPage: React.FC = () => {
         setLogData={setLogData}
         onClearLogData={onClearLogData}
       />
-      <Simulation logData={logData} onLogDataUpdate={handleLogDataUpdate} />
-      {isEditPopupVisible && <EditPopup onClose={handleCloseEditPopup} />}
+      <Simulation logData={logData} logs={logData} logsToDisplay={logData} onLogDataUpdate={handleLogDataUpdate} />
+      {isEditPopupVisible && <EditPopup onLogDataUpdate={handleLogDataUpdate} onClearLogData={onClearLogData} onClose={handleCloseEditPopup} />}
       {isChartPopupVisible && <ChartPopup onClose={handleCloseChartPopup} />}
     </div>
   );

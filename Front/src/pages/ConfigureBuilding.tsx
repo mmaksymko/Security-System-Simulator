@@ -68,7 +68,7 @@ function ConfigureBuilding() {
   }, [isNameValid, isFloorsValid, isRoomsValid, activeType]);
 
   const handleGenerateBuildingClick = async () => {
-    console.log(buildingType);
+    // console.log(buildingType);
     await fetch(`http://localhost:8080/buildings/${buildingType}`, {
       method: "POST",
       headers: {
@@ -79,7 +79,7 @@ function ConfigureBuilding() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
       });
   };
 
@@ -180,24 +180,24 @@ function ConfigureBuilding() {
           {(buildingType === "office" ||
             buildingType === "residential" ||
             buildingType === "") && (
-            <div className={styles.buildingPropertyContainer}>
-              <h2 className={styles.h2}>
-                Choose number of the rooms per floor
-              </h2>
-              <div className={styles.buildingPropertyButtons}>
-                <InputField
-                  isValid={isRoomsValid}
-                  value={numRoomsPerFloor}
-                  onChange={(value) => handleNumRoomsPerFloorChange(value)}
-                />
-                <RandomNumberButton
-                  onGenerate={handleNumRoomsPerFloorChange}
-                  min={1}
-                  max={33}
-                />
+              <div className={styles.buildingPropertyContainer}>
+                <h2 className={styles.h2}>
+                  Choose number of the rooms per floor
+                </h2>
+                <div className={styles.buildingPropertyButtons}>
+                  <InputField
+                    isValid={isRoomsValid}
+                    value={numRoomsPerFloor}
+                    onChange={(value) => handleNumRoomsPerFloorChange(value)}
+                  />
+                  <RandomNumberButton
+                    onGenerate={handleNumRoomsPerFloorChange}
+                    min={1}
+                    max={33}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
         {(buildingType === "office" || buildingType === "residential") && (
           <Link to="/simulation">
