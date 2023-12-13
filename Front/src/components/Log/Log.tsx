@@ -15,7 +15,7 @@ interface LogProps {
 
 const Log: React.FC<LogProps> = ({ logData }) => {
   useEffect(() => {
-    console.log("Log component received logData:", logData);
+    //    console.log("Log component received logData:", logData);
   }, [logData]);
 
   const formatTime = (timestamp: string) => {
@@ -24,8 +24,8 @@ const Log: React.FC<LogProps> = ({ logData }) => {
   };
 
   const formatBoolean = (value: boolean) => (value ? "Yes" : "No");
-  const convertToLowerCase = (inputString: string) => {
-    return inputString.toLowerCase();
+  const formatEnum = (inputString: string) => {
+    return inputString.split('_').map(word => word.charAt(0) + word.slice(1).toLowerCase()).join(' ');
   };
   const reversedLogData = [...logData].reverse();
 
@@ -46,8 +46,8 @@ const Log: React.FC<LogProps> = ({ logData }) => {
           <tbody>
             {reversedLogData.map((logEntry, index) => (
               <tr key={index}>
-                <td>{convertToLowerCase(logEntry.dangerLevel)}</td>
-                <td>{convertToLowerCase(logEntry.eventType)}</td>
+                <td>{formatEnum(logEntry.dangerLevel)}</td>
+                <td>{formatEnum(logEntry.eventType)}</td>
                 <td>{logEntry.location}</td>
                 <td>{formatTime(logEntry.happenedAt)}</td>
                 <td>{formatBoolean(logEntry.result)}</td>
