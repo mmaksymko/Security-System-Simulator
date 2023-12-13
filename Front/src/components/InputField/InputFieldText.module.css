@@ -1,0 +1,31 @@
+input {
+    border: 1px solid #959595;
+    border-radius: 8px;
+    background-color: #F4F4F4;
+    color: #959595;
+    text-align: center;
+    padding: 12px 0px;
+    width: 220px;
+    font-size: 16px;
+}
+
+input:focus {
+    border-color: #2A80E6;
+    outline: none;
+    box-shadow: 0 0 5px rgba(42, 128, 230, 0.5);
+  }
+  .invalid {
+    border-color: red;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }
+  input:focus .invalid {
+    border-color: red;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }
+  input.invalid {
+    border-color: red;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }

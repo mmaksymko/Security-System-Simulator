@@ -1,0 +1,85 @@
+.logContainer {
+    height: 100%;
+    overflow: hidden;
+}
+.title {
+    font-size: 36px;
+    text-align: left;
+}
+.logTableContainer {
+    max-height: 400px;
+    min-height: 300px;
+    max-width: 403px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+}
+.logTableContainer::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .logTableContainer::-webkit-scrollbar-track {
+    background-color: white;
+  }
+  
+  .logTableContainer::-webkit-scrollbar-thumb {
+    background-color: #2A80E6;
+    border-radius: 4px;
+  }
+.logTable {
+    background-color: white;
+    height: 100%;
+    max-width: 403px;
+    border-collapse: collapse;
+}
+.columnDanger {
+    width: 100px;
+    border-right: 1px solid #ddd;
+}
+.columnType {
+    width: 40px;
+    border-right: 1px solid #ddd;
+
+}
+.columnLocation {
+    width: 40px;
+    border-right: 1px solid #ddd;
+
+}
+.columnTime {
+    width: 190px;
+    border-right: 1px solid #ddd;
+}
+.columnTime {
+    width: 190px;
+}
+
+.logTable th,
+.logTable td {
+    color: black;
+    font-size: 14px;
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+.logTable tr > :last-child {
+    border-right: none;
+}
+.logTable td {
+    font-weight: 300;
+    font-size: 12px;
+    padding: 0!important;
+    text-align: center!important;
+}
+
+.logTable th {
+  background-color: white;
+}
+.logTable thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: white;
+  }
