@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +32,6 @@ public class SimulationController {
     private final EventFactory eventFactory;
     private final LogManager logManager;
     private final Random random;
-    private boolean isPaused;
-    private boolean isStopped;
-    private BuildingLevel building;
 
     @Autowired
     public SimulationController(BuildingRepository repo, EventFactory eventFactory, LogManager logManager) {
@@ -41,8 +39,6 @@ public class SimulationController {
         this.eventFactory = eventFactory;
         this.logManager = logManager;
         this.random = new Random();
-        this.isPaused = false;
-        this.isStopped = false;
     }
 
     @Operation(description = "Start simulation of security system.", responses = {@ApiResponse(description = "Success"
@@ -53,11 +49,16 @@ public class SimulationController {
         try {
             return Mono.fromCallable(() -> repo.findById(id)).subscribeOn(Schedulers.boundedElastic())
                     .flatMapMany(optionalBuilding -> {
-                        if (optionalBuilding.isEmpty()) {return Flux.empty();}
-                        isPaused = false;
-                        building = optionalBuilding.get();
+                        if (optionalBuilding.isEmpty()) {
+                            return Flux.empty();
+                        }
+
+                        BuildingLevel building = optionalBuilding.get();
                         logManager.createNewLog(building);
-                        try {logManager.startLog(building);} catch (InterruptedException e) {
+
+                        try {
+                            logManager.startLog(building);
+                        } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
                         var rooms = StreamSupport.stream(building.breadthFirstSearch().spliterator(), false)
@@ -72,56 +73,29 @@ public class SimulationController {
                                         rooms.get(random.nextInt(0, rooms.size())),
                                         DangerLevel.values()[random.nextInt(1, DangerLevel.values().length)]);
                                 var triggeredEvent = event.start();
-                                var result = triggeredEvent == null ? Flux.just(event) : Flux.just(event,
+                                return triggeredEvent == null ? Flux.just(event) : Flux.just(event,
                                         triggeredEvent).parallel(2);
-                                return isPaused ? Flux.empty() : result;
                             } catch (InterruptedException e) {return Flux.error(new RuntimeException(e));}
-                        }).sequential().takeUntil(event -> isStopped);
+                        }).sequential();
                     });
         } catch (Exception e) {return Flux.empty();}
-    }
-
-    @Operation(description = "Stops simulation of security system", responses = {@ApiResponse(description = "Success"
-            , responseCode = "200"), @ApiResponse(description = "Not Found", responseCode = "404")})
-    @GetMapping("/simulation/stop")
-    public ResponseEntity<Void> stop() {
-        if (building != null) {
-            building = repo.findById(building.getId()).get();
-            repo.save(building);
-            logManager.createNewLog(building);
-            building = null;
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        isStopped = true;
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @Operation(description = "Pauses paused simulation of security system.", responses = {@ApiResponse(description =
-            "Success", responseCode = "200")})
-    @GetMapping("/simulation/pause")
-    public ResponseEntity<Object> pause() {
-        isPaused = true;
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Operation(description = "Continues paused simulation of security system.", responses =
-            {@ApiResponse(description = "Success", responseCode = "200")})
-    @GetMapping("/simulation/resume")
-    public ResponseEntity<Object> resume() {
-        isPaused = false;
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(description = "Saves simulation of security system to the database.", responses =
             {@ApiResponse(description = "Success", responseCode = "200"), @ApiResponse(description = "Not Found",
                     responseCode = "404")})
-    @GetMapping("/simulation/save")
-    public ResponseEntity<Object> save() {
-        if (logManager != null) {
-            logManager.createNewLog(building);
-            repo.save(building);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PostMapping("/simulation/{id}/save")
+    public ResponseEntity<BuildingLevel> save(@PathVariable("id") String id, @RequestBody String events) {
+        try {
+            var optional =repo.findById(id);
+            if (optional.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            var result = logManager.saveLog(optional.get(), new JSONArray(events));
+            repo.save(result);
+            return new ResponseEntity<>(result,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 }

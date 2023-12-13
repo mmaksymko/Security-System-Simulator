@@ -16,7 +16,7 @@ public class EventDeserializer extends JsonDeserializer<Event> {
     @Override
     public Event deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException {
         var ctxt = jsonParser.getParsingContext();
-        while(!((ctxt = ctxt.getParent()).getCurrentValue() instanceof EventTarget));
+        while(ctxt.getParent()!=null && !((ctxt = ctxt.getParent()).getCurrentValue() instanceof EventTarget));
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         var eventType = Arrays.stream(EventType.values()).filter(type -> type.toString().equals(node.get("eventType").asText())).findFirst().orElseThrow( () -> new IOException("Bad enum value"));
         var target = (EventTarget) ctxt.getCurrentValue();
