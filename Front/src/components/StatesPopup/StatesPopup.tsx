@@ -63,16 +63,17 @@ const StatesPopup: React.FC<EditPopupProps> = ({ onClose, onClearLogData, onLogD
         );
         const json = await response.json();
         const entries = json as LogEntry[];
-        for (let entry of entries)
-          entry.location = `${parseInt((Math.random() * 4 + 1).toFixed()) * 100 + parseInt((Math.random() * 4 + 1).toFixed())}`
+        // for (let entry of entries)
+        //   entry.location = `${parseInt((Math.random() * 4 + 1).toFixed()) * 100 + parseInt((Math.random() * 4 + 1).toFixed())}`
 
         console.log(entries);
 
         onLogDataUpdate(entries, true)
+        onLogDataUpdate(entries, false)
+
 
         if (response.ok) {
           console.log("POST request successful");
-          onClearLogData();
           onClose();
         } else {
           console.error("POST request failed");
