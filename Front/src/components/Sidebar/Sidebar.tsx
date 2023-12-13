@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           `http://localhost:8080/buildings/${localStorage.getItem("buildingId")}`
         );
         const data = await response.json();
-        console.log("DATA: ", data);
+        // console.log("DATA: ", data);
 
         setBuildingData({
           buildingName: data.name,

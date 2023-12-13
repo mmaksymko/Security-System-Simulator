@@ -58,7 +58,7 @@ export async function getBuildingsLogs() {
     // 👇️ const result: GetUsersResponse
     const result = (await response.json()) as GetBuildingsLogIndexResponse;
 
-    console.log('result is: ', JSON.stringify(result));
+    // console.log('result is: ', JSON.stringify(result));
 
     return result;
   } catch (error) {

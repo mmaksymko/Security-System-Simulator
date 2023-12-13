@@ -9,6 +9,7 @@ import SaveButton from "../SaveButton/SaveButton";
 import RestoreStateButton from "../RestoreStateButton";
 import StatesPopup from "../StatesPopup/StatesPopup";
 
+
 interface Building {
   id: number;
   name: string;
@@ -23,16 +24,21 @@ interface LogEntry {
 }
 
 interface SimulationProps {
+  logs: LogEntry[];
   logData: LogEntry[];
-  onLogDataUpdate: (newLogData: LogEntry[]) => void;
+  logsToDisplay: LogEntry[];
+  onLogDataUpdate: (newLogData: LogEntry[], clear: boolean) => void;
 }
 
 const Simulation: React.FC<SimulationProps> = ({
   logData,
+  logs = [],
+  logsToDisplay = [],
   onLogDataUpdate,
 }) => {
   const [simulationState, setSimulationState] = useState("start");
   const [isEditPopupVisible, setEditPopupVisible] = useState(false);
+  const [setLogData] = useState<LogEntry[]>([]);
 
   const [eventSource, setEventSource] = useState<EventSource | null>(null);
   const { buildingName, setBuildingName, buildingId, setBuildingId } =
@@ -43,7 +49,7 @@ const Simulation: React.FC<SimulationProps> = ({
       try {
         const response = await fetch("http://localhost:8080/buildings");
         const buildings: Building[] = await response.json();
-        console.log("Buildings:", buildings);
+        //        console.log("Buildings:", buildings);
 
         const selectedBuilding = buildings.find(
           (building) => building.name === buildingName
@@ -51,7 +57,7 @@ const Simulation: React.FC<SimulationProps> = ({
 
         if (selectedBuilding) {
           setBuildingId(selectedBuilding.id);
-          console.log("Selected Building:", selectedBuilding);
+          // console.log("Selected Building:", selectedBuilding);
         }
       } catch (error) {
         console.error("Error fetching buildings:", error);
@@ -63,14 +69,16 @@ const Simulation: React.FC<SimulationProps> = ({
 
   const handleStartClick = () => {
     setSimulationState("continue");
-    console.log("building id is: " + buildingId);
     const newEventSource = new EventSource(
       `http://localhost:8080/simulation/${localStorage.getItem("buildingId")}`
     );
 
     newEventSource.onmessage = function (event) {
+
       const logEntry: LogEntry = JSON.parse(event.data);
-      onLogDataUpdate([...logData, logEntry]);
+      logs = [...logs.slice(logs.length - 999, logs.length), logEntry];
+      logsToDisplay.push(logEntry)
+      onLogDataUpdate(logsToDisplay, false)
     };
 
     newEventSource.addEventListener("Update", function (event) {
@@ -83,7 +91,7 @@ const Simulation: React.FC<SimulationProps> = ({
     };
 
     newEventSource.addEventListener("complete", (e) => {
-      console.log(e.data);
+      //     console.log(e.data);
       newEventSource.close();
     });
 
@@ -92,21 +100,25 @@ const Simulation: React.FC<SimulationProps> = ({
 
   const handleStopClick = () => {
     setSimulationState("stop");
-    fetch("http://localhost:8080/simulation/pause");
-  };
-  const handleContinueClick = () => {
-    setSimulationState("continue");
-    fetch("http://localhost:8080/simulation/resume");
+    eventSource?.close();
   };
 
-  const resetSimulation = () => {
-    setSimulationState("start");
-  };
   const handleSaveClick = () => {
     const savingLogData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/simulation/save`);
-        console.log(response);
+        const response = await fetch(`http://localhost:8080/simulation/${localStorage.getItem("buildingId")}/save`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(
+              logs
+            )
+          }
+        );
+        logsToDisplay = [...logs]
+        logs = [];
       } catch (error) {
         console.error("Error fetching building data:", error);
       }
@@ -119,9 +131,9 @@ const Simulation: React.FC<SimulationProps> = ({
   };
 
   const handleClearLogData = () => {
-    onLogDataUpdate([]);
-    console.log("SETTING DATA NULL in Simulation");
+    onLogDataUpdate([], true);
   };
+
   const handleRestoreClick = () => {
     setEditPopupVisible(true);
   };
@@ -133,7 +145,7 @@ const Simulation: React.FC<SimulationProps> = ({
         <StartSimulationButton onClick={handleStartClick} />
       )}
       {simulationState === "stop" && (
-        <ContinueSimulationButton onClick={handleContinueClick} />
+        <ContinueSimulationButton onClick={handleStartClick} />
       )}
       <div className={styles.simulation} onClick={handleStopClick}>
         <SimulationLogic />
@@ -148,6 +160,7 @@ const Simulation: React.FC<SimulationProps> = ({
         <StatesPopup
           onClose={handleCloseEditPopup}
           onClearLogData={handleClearLogData}
+          onLogDataUpdate={onLogDataUpdate}
         />
       )}
 

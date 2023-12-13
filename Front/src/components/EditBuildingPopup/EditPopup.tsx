@@ -6,10 +6,20 @@ import SubmitButton from "../SubmitButton";
 import InputFieldText from "../InputField/InputFieldText";
 import { useState, useEffect } from "react";
 
+interface LogEntry {
+  dangerLevel: string;
+  eventType: string;
+  location: string;
+  happenedAt: string;
+  result: boolean;
+}
+
 interface EditPopupProps {
   onClose: () => void;
+  onLogDataUpdate: (newLogData: LogEntry[], clear: boolean) => void;
+  onClearLogData: () => void;
 }
-const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
+const EditPopup: React.FC<EditPopupProps> = ({ onClose, onLogDataUpdate, onClearLogData }) => {
   const {
     buildingType,
     setBuildingType,
@@ -42,7 +52,7 @@ const EditPopup: React.FC<EditPopupProps> = ({ onClose }) => {
           )}`
         );
         const data = await response.json();
-        //console.log("DATA: ", data);
+
         setBuildingData({
           buildingName: data.name,
           numFloors: data.components.length,

@@ -26,8 +26,8 @@ export type Room = {
 };
 
 export type Floor = {
-  components: Room[]; 
-  name :  string;
+  components: Room[];
+  name: string;
 };
 
 export type GetBuildingsResponse = {
@@ -51,7 +51,7 @@ export async function getBuildings() {
     // 👇️ const result: GetUsersResponse
     const result = (await response.json()) as GetBuildingsResponse;
 
-    console.log("result is: ", JSON.stringify(result));
+    // console.log("result is: ", JSON.stringify(result));
 
     return result;
   } catch (error) {
@@ -69,7 +69,7 @@ export async function getBuilding(id: string | null) {
   if (id === null) return;
 
   try {
-    console.log("Start getting building with id: ", id);
+    // console.log("Start getting building with id: ", id);
     // 👇️ const response: Response
     const response = await fetch(`http://localhost:8080/buildings/${id}`, {
       method: "GET",
@@ -84,7 +84,7 @@ export async function getBuilding(id: string | null) {
 
     const result = (await response.json()) as GetBuildingsResponse;
 
-    console.log(result);
+    // console.log(result);
     return result;
   } catch (error) {
     if (error instanceof Error) {
