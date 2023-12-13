@@ -25,8 +25,8 @@ public class EventSerializer extends StdSerializer<Event> {
     public void serialize(Event event, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException{
         jsonGenerator.writeStartObject();
         jsonGenerator.writeStringField("eventType", event.getEventType().toString());
-        if (event.getLocation() != null)
-            jsonGenerator.writeNumberField("location", ((Room) event.getLocation()).getRoomNumber());
+      //  if (event.getLocation() != null)
+        jsonGenerator.writeNumberField("location", event.getLocation().getRoomNumber());
         jsonGenerator.writeStringField("dangerLevel", event.getDangerLevel().toString());
         jsonGenerator.writeBooleanField("result", event.getResult());
         jsonGenerator.writeStringField("happenedAt", ZonedDateTime.ofInstant(event.getHappenedAt().toInstant(), ZoneId.of("UTC")).format(DateTimeFormatter.ISO_INSTANT));

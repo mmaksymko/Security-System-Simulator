@@ -75,6 +75,7 @@ public class Room implements BuildingComponent, EventTarget {
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
+    @Override
     public int getRoomNumber() {
         return roomNumber;
     }
